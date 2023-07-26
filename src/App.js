@@ -33,7 +33,7 @@ class App extends Component {
                         <Route path="/" name="Login Page" element={<Login />} />
                         <Route path="/register" name="Register Page" element={<Register />} />
                         <Route element={<ProtectedRoute />}>
-                           <Route path="/dashboard" name="Home" element={<DefaultLayout />} />
+                           <Route path="*" name="Home" element={<DefaultLayout />} />
                            <Route exact path="/404" name="Page 404" element={<Page404 />} />
                            <Route exact path="/500" name="Page 500" element={<Page500 />} />
                         </Route>
