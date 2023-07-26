@@ -14,7 +14,7 @@
    },
    "plugins": ["prettier", "react", "react-hooks"],
    "rules": {
-      "linebreak-style": ["error", "windows"],
+      "linebreak-style": 0,
       "prettier/prettier": [
          "error",
          {
