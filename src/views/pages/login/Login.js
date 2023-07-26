@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
    CButton,
    CCard,
@@ -20,13 +20,20 @@ import AuthContext from 'src/context/AuthContext';
 //Auth login
 
 const Login = () => {
+   const navigate = useNavigate();
    const [isLoading, setIsLoading] = useState(false);
-   const { login, user, isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+   const { login, user } = useContext(AuthContext);
    const onFinish = async (values) => {
       setIsLoading(true);
       const res = await login(values);
       setIsLoading(res);
    };
+   // newtertsn ued login ruu oroh ued butsaagad dashboardru ywulah
+   useEffect(() => {
+      if (user) {
+         navigate('/dashboard');
+      }
+   }, []);
    return (
       <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
          <CContainer>

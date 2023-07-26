@@ -17,7 +17,6 @@ export const AuthContextProvider = ({ children }) => {
       }
       return null;
    });
-   const [isLoggedIn, setIsLoggedIn] = useState(false);
    const navigate = useNavigate();
    //    if (user) {
    //       console.log(user.exp * 1000);
@@ -27,8 +26,16 @@ export const AuthContextProvider = ({ children }) => {
    //       }
    //    }
    const login = async (payload) => {
-      console.log('payload', payload);
-      setIsLoggedIn(true);
+      localStorage.setItem(
+         'tokens',
+         JSON.stringify({
+            accessToken:
+               'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMxLCJpYXQiOjE2OTAzNDMzODMsImV4cCI6MTY5MDQyOTc4M30.JhwXuTrqxDCCGw2IpztfZRfU5l6sfA9-xsbMmUf0-Fo',
+            refreshToken:
+               'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMxLCJpYXQiOjE2OTAzNDMzODMsImV4cCI6MTY5MDQyOTc4M30.QUfz1_Khb6cra0QuhTYmTqIHkty5koFwkH1nVeisLdc'
+         })
+      );
+      navigate('/dashboard');
       // return await axios
       //    .post(DEV_URL + 'authentication/login', payload, {
       //       headers: {
@@ -72,8 +79,6 @@ export const AuthContextProvider = ({ children }) => {
          });
    };
 
-   return (
-      <AuthContext.Provider value={{ user, login, logout, isLoggedIn, setIsLoggedIn }}>{children}</AuthContext.Provider>
-   );
+   return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
 };
 export default AuthContext;
