@@ -21,8 +21,7 @@ import AuthContext from 'src/context/AuthContext';
 
 const Login = () => {
    const [isLoading, setIsLoading] = useState(false);
-   const { login, user } = useContext(AuthContext);
-   console.log('======>,userLogin', user);
+   const { login, user, isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
    const onFinish = async (values) => {
       setIsLoading(true);
       const res = await login(values);

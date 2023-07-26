@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import './scss/style.scss';
 import { AuthContextProvider } from './context/AuthContext';
+import { MainContextProvider } from './context/MainContext';
 
 const loading = (
    <div className="pt-3 text-center">
@@ -27,15 +28,17 @@ class App extends Component {
          <HashRouter>
             <Suspense fallback={loading}>
                <AuthContextProvider>
-                  <Routes>
-                     <Route path="/" name="Login Page" element={<Login />} />
-                     <Route path="/register" name="Register Page" element={<Register />} />
-                     <Route element={<ProtectedRoute />}>
-                        <Route exact path="/404" name="Page 404" element={<Page404 />} />
-                        <Route exact path="/500" name="Page 500" element={<Page500 />} />
-                     </Route>
-                     <Route path="*" name="Home" element={<DefaultLayout />} />
-                  </Routes>
+                  <MainContextProvider>
+                     <Routes>
+                        <Route path="/" name="Login Page" element={<Login />} />
+                        <Route path="/register" name="Register Page" element={<Register />} />
+                        <Route element={<ProtectedRoute />}>
+                           <Route path="*" name="Home" element={<DefaultLayout />} />
+                           <Route exact path="/404" name="Page 404" element={<Page404 />} />
+                           <Route exact path="/500" name="Page 500" element={<Page500 />} />
+                        </Route>
+                     </Routes>
+                  </MainContextProvider>
                </AuthContextProvider>
             </Suspense>
          </HashRouter>
