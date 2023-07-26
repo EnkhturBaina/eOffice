@@ -1,0 +1,25 @@
+{
+   "env": {
+      "browser": true,
+      "es2021": true
+   },
+   "extends": ["prettier"],
+   "overrides": [],
+   "parserOptions": {
+      "ecmaFeatures": {
+         "jsx": true
+      },
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+   },
+   "plugins": ["prettier", "react", "react-hooks"],
+   "rules": {
+      "linebreak-style": ["error", "windows"],
+      "prettier/prettier": [
+         "error",
+         {
+            "endOfLine": "auto"
+         }
+      ]
+   }
+}
