@@ -6,13 +6,41 @@ import MainContext from 'src/context/MainContext';
 
 const DefaultLayout = () => {
    const state = useContext(MainContext);
-   const menu = [
+   const menus = [
       {
          id: 0,
          className: 'icon icon-b'
       },
       {
          id: 1,
+         iconUrl: '/src/assets/images/sidebar/settings.svg'
+      },
+      {
+         id: 2,
+         iconUrl: '/src/assets/images/sidebar/settings.svg'
+      },
+      {
+         id: 3,
+         iconUrl: '/src/assets/images/sidebar/settings.svg'
+      },
+      {
+         id: 4,
+         iconUrl: '/src/assets/images/sidebar/settings.svg'
+      },
+      {
+         id: 5,
+         iconUrl: '/src/assets/images/sidebar/settings.svg'
+      },
+      {
+         id: 6,
+         iconUrl: '/src/assets/images/sidebar/settings.svg'
+      },
+      {
+         id: 7,
+         iconUrl: '/src/assets/images/sidebar/settings.svg'
+      },
+      {
+         id: 8,
          iconUrl: '/src/assets/images/sidebar/settings.svg'
       }
    ];
@@ -21,8 +49,8 @@ const DefaultLayout = () => {
          <div className="leftSide">
             <div className="top">
                <CImage align="start" rounded src={main_logo} width={47} height={32} />
-               <ul style={{ marginTop: 100 }}>
-                  {menu.map((item, index) => {
+               <ul style={{ marginTop: '50%' }}>
+                  {menus.map((item, index) => {
                      return (
                         <li
                            key={index}
@@ -50,7 +78,7 @@ const DefaultLayout = () => {
             <div className="body flex-grow-1 px-3">
                <AppContent />
             </div>
-            <AppFooter />
+            {/* <AppFooter /> */}
          </div>
       </div>
    );
