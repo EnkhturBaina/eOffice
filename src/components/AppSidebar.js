@@ -1,24 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react';
-import CIcon from '@coreui/icons-react';
+import { CImage, CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react';
 
 import { AppSidebarNav } from './AppSidebarNav';
 
-import { logoNegative } from 'src/assets/brand/logo-negative';
-import { sygnet } from 'src/assets/brand/sygnet';
+import main_logo from 'src/assets/main_logo.png';
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
 // sidebar nav config
 import navigation from '../_nav';
+import MainContext from 'src/context/MainContext';
 
 const AppSidebar = () => {
+   const state = useContext(MainContext);
+
    const dispatch = useDispatch();
    const unfoldable = useSelector((state) => state.sidebarUnfoldable);
    const sidebarShow = useSelector((state) => state.sidebarShow);
+
+   //Үндсэн Sidebar -н цэснүүдийг PARENT -р ялгаж дамжуулах
+   const filteredNav = navigation.filter((employee) => {
+      return employee.parent === state.selectedParentMenu;
+   });
 
    return (
       <CSidebar
@@ -28,14 +34,11 @@ const AppSidebar = () => {
          onVisibleChange={(visible) => {
             dispatch({ type: 'set', sidebarShow: visible });
          }}
+         className="bg-white"
       >
-         <CSidebarBrand className="d-none d-md-flex" to="/">
-            <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
-            <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} />
-         </CSidebarBrand>
          <CSidebarNav>
             <SimpleBar>
-               <AppSidebarNav items={navigation} />
+               <AppSidebarNav items={filteredNav} />
             </SimpleBar>
          </CSidebarNav>
          <CSidebarToggler

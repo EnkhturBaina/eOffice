@@ -31,6 +31,7 @@ export const AppSidebarNav = ({ items }) => {
                })}
             key={index}
             {...rest}
+            className="main-text-color"
          >
             {navLink(name, icon, badge)}
          </Component>
@@ -46,6 +47,7 @@ export const AppSidebarNav = ({ items }) => {
             toggler={navLink(name, icon)}
             visible={location.pathname.startsWith(to)}
             {...rest}
+            className="bg-white"
          >
             {item.items?.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index)))}
          </Component>
@@ -54,6 +56,7 @@ export const AppSidebarNav = ({ items }) => {
 
    return (
       <React.Fragment>
+         <div style={{ marginTop: 100 }}></div>
          {items && items.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index)))}
       </React.Fragment>
    );
