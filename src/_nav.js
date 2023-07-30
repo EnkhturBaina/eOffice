@@ -55,92 +55,85 @@ const _nav = [
       parent: 1,
       component: CNavItem,
       name: 'Ажилчид',
-      to: '/theme/colors',
+      to: '/hrm/employee',
       icon: <CIcon icon={cilUser} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Холбоо барих',
-      to: '/dashboard',
+      to: '/hrm/contact',
       icon: <CIcon icon={cilPhone} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Олон нийт',
-      to: '/dashboard',
+      to: '/hrm/public',
       icon: <CIcon icon={cilGroup} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Календарь',
-      to: '/dashboard',
+      to: '/hrm/calendar',
       icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Ажлын менежер',
-      to: '/dashboard',
+      to: '/hrm/manager',
       icon: <CIcon icon={cilContact} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Гэрээ',
-      to: '/dashboard',
+      to: '/hrm/contract',
       icon: <CIcon icon={cilFile} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Томилолт',
-      to: '/dashboard',
+      to: '/hrm/assign',
       icon: <CIcon icon={cilAirplaneMode} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Хүсэлт',
-      to: '/dashboard',
+      to: '/hrm/request',
       icon: <CIcon icon={cilLightbulb} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Цагийн бүртгэл',
-      to: '/dashboard',
+      to: '/hrm/time-register',
       icon: <CIcon icon={cilClock} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Тайлан',
-      to: '/dashboard',
+      to: '/hrm/report',
       icon: <CIcon icon={cilListFilter} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Тушаал шийдвэр',
-      to: '/dashboard',
+      to: '/hrm/command',
       icon: <CIcon icon={cilFolder} customClassName="nav-icon" />
    },
    {
       parent: 1,
       component: CNavItem,
       name: 'Ажлаас гарах',
-      to: '/dashboard',
+      to: '/hrm/leave-job',
       icon: <CIcon icon={cilUserX} customClassName="nav-icon" />
-   },
-   {
-      parent: 1,
-      component: CNavItem,
-      name: 'Хүсэлт',
-      to: '/dashboard',
-      icon: <CIcon icon={cilLightbulb} customClassName="nav-icon" />
    },
    {
       parent: 2,
