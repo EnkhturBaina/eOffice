@@ -29,19 +29,23 @@ const DefaultLayout = () => {
       },
       {
          id: 5,
-         iconUrl: '/src/assets/images/sidebar/settings.svg'
+         iconUrl: '/src/assets/images/sidebar/settings.svg',
+         isBottom: true
       },
       {
          id: 6,
-         iconUrl: '/src/assets/images/sidebar/settings.svg'
+         iconUrl: '/src/assets/images/sidebar/settings.svg',
+         isBottom: true
       },
       {
          id: 7,
-         iconUrl: '/src/assets/images/sidebar/settings.svg'
+         iconUrl: '/src/assets/images/sidebar/settings.svg',
+         isBottom: true
       },
       {
          id: 8,
-         iconUrl: '/src/assets/images/sidebar/settings.svg'
+         iconUrl: '/src/assets/images/sidebar/settings.svg',
+         isBottom: true
       }
    ];
    return (

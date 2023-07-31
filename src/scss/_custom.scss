@@ -19,19 +19,29 @@
         &:hover {
             background-color: #EFF4FA !important;
         }
-    }
-}
-.simplebar-content{
-    margin-right: 10px !important;
-    margin-left: 10px !important;
-}
-.sidebar-nav {
-    .nav-link {
         &.active {
             background-color: #EFF4FA !important;
             color: $main-color !important;
         }
     }
+    &::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #F5F5F5;
+    }
+    &::-webkit-scrollbar
+    {
+        width: 6px;
+        background-color: #F5F5F5;
+    }
+    &::-webkit-scrollbar-thumb
+    {
+        background-color: $main-color;
+    }
+}
+.simplebar-content{
+    margin-right: 10px !important;
+    margin-left: 10px !important;
 }
 .leftSide {
     position: fixed;
@@ -44,6 +54,10 @@
     padding: 24px 18px;
     background-color: $main-color;
     justify-content: space-between;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+        display: none;
+    }
     .top {
     display: flex;
     width: 100%;
@@ -51,78 +65,78 @@
     position: relative;
     gap: 60px;
     align-items: center;
-    ul {
-        position: absolute;
-        top: 50px;
-        left: 0px;
-        width: 78px;
-        padding: 0px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-        li {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        align-self: stretch;
-        .content {
-            padding: 17.5px 20px;
-            .icon {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-size: cover;
-            }
-            .icon-b {
-            background-image: url("../assets/images/sidebar/settings_white.svg");
-            &.active {
-                background-image: url("../assets/images/sidebar/settings.svg");
-            }
-            }
-            &:hover {
-            border-radius: 50%;
-            background-color: white;
-            cursor: pointer;
-            .icon-b {
-                background-image: url("../assets/images/sidebar/settings.svg");
-            }
-            }
-        }
-        }
-        li.active {
-        border-radius: 100px 0px 0px 100px;
-        background: var(--gray-white, #fff);
-        &::before,
-        &::after {
-            content: "";
-            height: 20px;
-            width: 18px;
+        ul {
             position: absolute;
-            bottom: 0;
-            background: radial-gradient(
-            circle at top left,
-            #fff0 73.5%,
-            #fff 75%
-            );
+            top: 50px;
+            left: 0px;
+            width: 78px;
+            padding: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+                li {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                align-self: stretch;
+                    .content {
+                        padding: 17.5px 20px;
+                            .icon {
+                                display: inline-block;
+                                width: 20px;
+                                height: 20px;
+                                background-size: cover;
+                            }
+                            .icon-b {
+                                background-image: url("../assets/images/sidebar/settings_white.svg");
+                            &.active {
+                                background-image: url("../assets/images/sidebar/settings.svg");
+                            }
+                            }
+                            &:hover {
+                                border-radius: 50%;
+                                background-color: white;
+                            cursor: pointer;
+                            .icon-b {
+                                background-image: url("../assets/images/sidebar/settings.svg");
+                            }
+                        }
+                    }
+                }
+            li.active {
+                border-radius: 100px 0px 0px 100px;
+                background: var(--gray-white, #fff);
+                &::before,
+                &::after {
+                    content: "";
+                    height: 20px;
+                    width: 18px;
+                    position: absolute;
+                    bottom: 0;
+                    background: radial-gradient(
+                    circle at top left,
+                    #fff0 73.5%,
+                    #fff 75%
+                    );
+                }
+                &::after {
+                    right: 0px;
+                    top: 100%;
+                    background: radial-gradient(
+                    circle at bottom left,
+                    #fff0 73.5%,
+                    #fff 75%
+                    );
+                }
+                &::before {
+                    bottom: 100%;
+                    right: 0px;
+                }
+            }
         }
-        &::after {
-            right: 0px;
-            top: 100%;
-            background: radial-gradient(
-            circle at bottom left,
-            #fff0 73.5%,
-            #fff 75%
-            );
-        }
-        &::before {
-            bottom: 100%;
-            right: 0px;
-        }
-        }
-    }
     }
     .bottom {
     }
