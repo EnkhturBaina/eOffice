@@ -16,6 +16,7 @@ const Public = React.lazy(() => import('./views/HRM/public'));
 const Report = React.lazy(() => import('./views/HRM/report'));
 const Request = React.lazy(() => import('./views/HRM/request'));
 const TimeReg = React.lazy(() => import('./views/HRM/time-register'));
+const Profile = React.lazy(() => import('./views/Profile'));
 
 const routes = [
    { path: '/', exact: true, name: 'Home' },
@@ -24,16 +25,17 @@ const routes = [
    { path: '/hrm/dashboard', name: 'Dashboard', element: Dashboard },
    { path: '/hrm/employee', name: 'Employee', element: Employee },
    { path: '/hrm/contact', name: 'Contact', element: Contact },
-   { path: '/hrm/assign', name: 'Contact', element: Assign },
-   { path: '/hrm/calendar', name: 'Contact', element: Calendar },
-   { path: '/hrm/command', name: 'Contact', element: Command },
-   { path: '/hrm/contract', name: 'Contact', element: Contract },
-   { path: '/hrm/leave-job', name: 'Contact', element: LeaveJob },
-   { path: '/hrm/manager', name: 'Contact', element: Manager },
-   { path: '/hrm/public', name: 'Contact', element: Public },
-   { path: '/hrm/report', name: 'Contact', element: Report },
-   { path: '/hrm/request', name: 'Contact', element: Request },
-   { path: '/hrm/time-register', name: 'Contact', element: TimeReg }
+   { path: '/hrm/assign', name: 'Assign', element: Assign },
+   { path: '/hrm/calendar', name: 'Calendar', element: Calendar },
+   { path: '/hrm/command', name: 'Command', element: Command },
+   { path: '/hrm/contract', name: 'Contract', element: Contract },
+   { path: '/hrm/leave-job', name: 'LeaveJob', element: LeaveJob },
+   { path: '/hrm/manager', name: 'Manager', element: Manager },
+   { path: '/hrm/public', name: 'Public', element: Public },
+   { path: '/hrm/report', name: 'Report', element: Report },
+   { path: '/hrm/request', name: 'Request', element: Request },
+   { path: '/hrm/time-register', name: 'TimeReg', element: TimeReg },
+   { path: '/profile', name: 'Profile', element: Profile }
 ];
 
 export default routes;

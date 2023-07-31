@@ -197,6 +197,13 @@ const _nav = [
       name: 'Харилцсан мэйл',
       to: '/dashboard',
       icon: <CIcon icon={cilCommentBubble} customClassName="nav-icon" />
+   },
+   {
+      parent: 99,
+      component: CNavItem,
+      name: 'Харилцсан мэйл',
+      to: '/profile',
+      icon: <CIcon icon={cilCommentBubble} customClassName="nav-icon" />
    }
 ];
 

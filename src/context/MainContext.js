@@ -7,7 +7,12 @@ const MainContext = createContext();
 export const MainContextProvider = ({ children }) => {
    const navigate = useNavigate();
    const [selectedParentMenu, setSelectedParentMenu] = useState(0);
+   const [sidebarShow, setSidebarShow] = useState(true);
 
-   return <MainContext.Provider value={{ selectedParentMenu, setSelectedParentMenu }}>{children}</MainContext.Provider>;
+   return (
+      <MainContext.Provider value={{ selectedParentMenu, setSelectedParentMenu, sidebarShow, setSidebarShow }}>
+         {children}
+      </MainContext.Provider>
+   );
 };
 export default MainContext;
