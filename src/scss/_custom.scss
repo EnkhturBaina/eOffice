@@ -1,12 +1,13 @@
-// Here you can add other styles
+// leftBar -н width 96px
 .sidebar {
     left: 96px !important
 }
+//cursor анивчаад байгааг болиулах
 .disable-caret{
     caret-color: transparent !important
 }
 .main-bg-color {
-    background-color: $main-color;
+    background-color: $main-color !important;
 }
 .main-color {
     color: $main-color;
@@ -16,6 +17,43 @@
 }
 .nav-icon {
     color: $main-text-color !important;
+}
+//Profile хуудсыг бүтэн харуулах
+.main-content-body {
+    .container-lg {
+        max-width: 100% !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+}
+.profile-avatar-edit-btn {
+    background-color: $main-color;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+}
+.profile-avatar-input {
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    left: 0;
+}
+.profile-avatar {
+    margin-top: -60px !important;
+    border: 5px solid $main-color;
+}
+.profile-menu-button{
+    &:hover {
+        background-color: $main-color !important;
+        border-color: $main-color !important;
+    }
 }
 .sidebar-nav {
     .nav-link {

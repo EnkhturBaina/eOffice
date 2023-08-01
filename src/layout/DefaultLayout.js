@@ -6,10 +6,12 @@ import avatarImg from 'src/assets/images/avatars/2.jpg';
 import MainContext from 'src/context/MainContext';
 import CIcon from '@coreui/icons-react';
 import { cilAvTimer, cilBell, cilChatBubble, cilGroup, cilSettings, freeSet } from '@coreui/icons';
+import { useNavigate } from 'react-router-dom';
 
 const DefaultLayout = () => {
    const state = useContext(MainContext);
    const [hoverItem, setHoverItem] = useState(null);
+   const navigate = useNavigate();
    const menus = [
       {
          id: 0,
@@ -140,7 +142,15 @@ const DefaultLayout = () => {
                                  />
                               ) : null}
                               {item.isProfile ? (
-                                 <CImage align="start" rounded src={avatarImg} width={20} height={20} />
+                                 <CImage
+                                    align="start"
+                                    rounded
+                                    src={avatarImg}
+                                    width={20}
+                                    height={20}
+                                    className="disable-caret"
+                                    onClick={() => navigate('/profile')}
+                                 />
                               ) : null}
                            </div>
                         </li>
@@ -155,7 +165,7 @@ const DefaultLayout = () => {
             style={{ paddingLeft: state.sidebarShow ? '22rem' : '6rem' }}
          >
             {/* <AppHeader /> */}
-            <div className="body flex-grow-1 px-3">
+            <div className="body flex-grow-1 main-content-body">
                <AppContent />
             </div>
             {/* <AppFooter /> */}
