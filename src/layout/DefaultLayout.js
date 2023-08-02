@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index';
+import { AppContent, AppSidebar } from '../components/index';
 import { CImage } from '@coreui/react';
 import main_logo from 'src/assets/main_logo.png';
 import avatarImg from 'src/assets/images/avatars/2.jpg';
@@ -164,11 +164,9 @@ const DefaultLayout = () => {
             className={`wrapper d-flex flex-column min-vh-100 ${state.sidebarShow ? 'bg-light' : 'bg-white'}`}
             style={{ paddingLeft: state.sidebarShow ? '22rem' : '6rem' }}
          >
-            {/* <AppHeader /> */}
             <div className="body flex-grow-1 main-content-body">
                <AppContent />
             </div>
-            {/* <AppFooter /> */}
          </div>
       </div>
    );

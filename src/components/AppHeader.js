@@ -1,75 +1,61 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-   CContainer,
-   CHeader,
-   CHeaderBrand,
-   CHeaderDivider,
-   CHeaderNav,
-   CHeaderToggler,
-   CNavLink,
-   CNavItem
-} from '@coreui/react';
+import { cilUser } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons';
-
-import { AppBreadcrumb } from './index';
-import { AppHeaderDropdown } from './header/index';
-import { logo } from 'src/assets/brand/logo';
+import { DatePicker, Input, Select } from 'antd';
+import React from 'react';
+import dayjs from 'dayjs';
 
 const AppHeader = () => {
-   const dispatch = useDispatch();
-   const sidebarShow = useSelector((state) => state.sidebarShow);
+   const { RangePicker } = DatePicker;
+   const { Search } = Input;
+   const dateFormat = 'YYYY/MM/DD';
+   var now = dayjs();
 
+   const handleChange = (value) => {
+      console.log(`selected ${value}`);
+   };
+   const onSearch = (value) => console.log(value);
    return (
-      <CHeader position="sticky" className="mb-4">
-         <CContainer fluid>
-            <CHeaderToggler className="ps-1" onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}>
-               <CIcon icon={cilMenu} size="lg" />
-            </CHeaderToggler>
-            <CHeaderBrand className="mx-auto d-md-none" to="/">
-               <CIcon icon={logo} height={48} alt="Logo" />
-            </CHeaderBrand>
-            <CHeaderNav className="d-none d-md-flex me-auto">
-               <CNavItem>
-                  <CNavLink to="/dashboard" component={NavLink}>
-                     Dashboard
-                  </CNavLink>
-               </CNavItem>
-               <CNavItem>
-                  <CNavLink href="#">Users</CNavLink>
-               </CNavItem>
-               <CNavItem>
-                  <CNavLink href="#">Settings</CNavLink>
-               </CNavItem>
-            </CHeaderNav>
-            <CHeaderNav>
-               <CNavItem>
-                  <CNavLink href="#">
-                     <CIcon icon={cilBell} size="lg" />
-                  </CNavLink>
-               </CNavItem>
-               <CNavItem>
-                  <CNavLink href="#">
-                     <CIcon icon={cilList} size="lg" />
-                  </CNavLink>
-               </CNavItem>
-               <CNavItem>
-                  <CNavLink href="#">
-                     <CIcon icon={cilEnvelopeOpen} size="lg" />
-                  </CNavLink>
-               </CNavItem>
-            </CHeaderNav>
-            <CHeaderNav className="ms-3">
-               <AppHeaderDropdown />
-            </CHeaderNav>
-         </CContainer>
-         <CHeaderDivider />
-         <CContainer fluid>
-            <AppBreadcrumb />
-         </CContainer>
-      </CHeader>
+      <div className="flex flex-row !px-10 !py-5 justify-between">
+         <div className="flex flex-row items-center">
+            <CIcon icon={cilUser} className="main-color !mx-2" size="xl" />
+            <span className="font-bold">Ажилчид</span>
+         </div>
+         <div className="flex flex-row">
+            <RangePicker
+               defaultValue={[dayjs(now, dateFormat), dayjs(now.add(-1, 'month'), dateFormat)]}
+               format={dateFormat}
+               className="!rounded"
+            />
+            <Search
+               className="!mx-2 pexar-rounded"
+               placeholder="Хайх"
+               allowClear
+               onSearch={onSearch}
+               style={{
+                  width: 200,
+                  borderRadius: 4
+               }}
+            />
+            <Select
+               defaultValue="lucy"
+               className="!rounded"
+               style={{
+                  width: 120
+               }}
+               onChange={handleChange}
+               dropdownRender={(menu) => (
+                  <div>
+                     <div>ASDASD1</div>
+                     <div>ASDASD2</div>
+                     <div>ASDASD3</div>
+                     <div>ASDASD4</div>
+                     <div>ASDASD5</div>
+                     <div>ASDASD6</div>
+                  </div>
+               )}
+            />
+         </div>
+      </div>
    );
 };
 

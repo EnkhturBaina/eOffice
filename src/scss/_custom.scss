@@ -31,6 +31,33 @@
         background-color: transparent !important;
     }
 }
+//antd -н ICON center болгох
+.ant-btn-icon{
+    display: inline-flex !important;
+    align-items: center !important;
+}
+.ant-picker-separator{
+    display: inline-flex !important;
+    align-items: center !important;
+}
+// antd Search -н border
+.pexar-rounded{
+    .ant-input-wrapper{
+        .ant-input-affix-wrapper{
+            border-start-start-radius: 4px !important;
+            border-end-start-radius: 4px !important;
+        }
+        .ant-input-group-addon{
+            .ant-input-search-button{
+                border-start-end-radius: 4px !important;
+                border-end-end-radius: 4px !important;
+            }
+        }
+    }
+}
+.ant-select-selector{
+    border-radius: 4px !important;
+}
 .profile-avatar-edit-btn {
     background-color: $main-color;
     width: 50px;

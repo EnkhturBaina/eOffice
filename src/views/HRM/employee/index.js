@@ -1,7 +1,12 @@
 import React from 'react';
+import { AppHeader } from 'src/components';
 
 function index() {
-   return <div>index employee</div>;
+   return (
+      <div>
+         <AppHeader />
+      </div>
+   );
 }
 
 export default index;
