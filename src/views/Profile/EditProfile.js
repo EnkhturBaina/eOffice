@@ -97,7 +97,7 @@ function EditProfile(props) {
             <CButton
                color="dark"
                variant="outline"
-               className={`!mt-5 !ml-5 text-black disable-button-hover`}
+               className={`!mt-5 !ml-3 text-black disable-button-hover`}
                onClick={() => props.setIsEdit(false)}
                size="sm"
             >

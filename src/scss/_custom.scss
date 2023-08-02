@@ -26,6 +26,11 @@
         padding-right: 0px !important;
     }
 }
+.login-history-table{
+    .ant-table{
+        background-color: transparent !important;
+    }
+}
 .profile-avatar-edit-btn {
     background-color: $main-color;
     width: 50px;

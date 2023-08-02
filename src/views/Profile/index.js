@@ -18,7 +18,7 @@ function index() {
          <div className="d-flex px-20">
             <div className="relative">
                <CImage src={avatar} rounded width={180} height={180} className="rounded-circle profile-avatar" />
-               <div className="profile-avatar-edit-btn">
+               <div className="profile-avatar-edit-btn cursor-pointer">
                   <input className="profile-avatar-input" type="file" name="pic" accept="image/*" />
                   <CIcon icon={cilCloudUpload} className="text-white" size="xl" style={{ marginTop: '25%' }} />
                </div>
@@ -28,9 +28,10 @@ function index() {
                   Зориглон Бат-Эрдэнэ{' '}
                   <CIcon
                      icon={cilPen}
-                     className="main-color ml-1"
+                     className="main-color ml-1 cursor-pointer"
                      size="xl"
                      onClick={() => {
+                        setSelectedMenu(0);
                         setIsEdit(true);
                      }}
                   />
