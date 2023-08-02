@@ -38,7 +38,7 @@ function index() {
                <p className="italic text-lg">Хүний нөөцийн мэргэжилтэн</p>
             </div>
          </div>
-         <div className="profile-container px-20 mt-10 flex flex-row">
+         <div className="profile-container px-20 !mt-5 flex flex-row">
             <div className="basis-2/12 profile-menu-container">
                <div className="d-grid">
                   <CButton
@@ -80,8 +80,8 @@ function index() {
                </div>
             </div>
             <div className="basis-10/12 ml-5 border-l border-slate-300 px-3">
-               {!isEdit && selectedMenu === 0 && <Information />}
-               {isEdit && selectedMenu === 0 && <EditProfile />}
+               {!isEdit && selectedMenu === 0 && <Information isEdit={isEdit} setIsEdit={setIsEdit} />}
+               {isEdit && selectedMenu === 0 && <EditProfile isEdit={isEdit} setIsEdit={setIsEdit} />}
                {selectedMenu === 1 && <ChangePassword />}
                {selectedMenu === 2 && <LoginHistory />}
             </div>
