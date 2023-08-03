@@ -12,7 +12,7 @@ function ChangePassword() {
          <p className="main-color font-bold">Нууц үг шинэчлэх</p>
          <div className="flex justify-start mt-1 flex-col w-2/6">
             <div className="basis-1/4">
-               <p className="text-xs mt-1">Хуучин нууц үг</p>
+               <span className="text-xs mt-1">Хуучин нууц үг</span>
                <Input.Password
                   placeholder="*************"
                   prefix={<LockOutlined className="site-form-item-icon" />}
@@ -21,7 +21,7 @@ function ChangePassword() {
                />
             </div>
             <div className="basis-1/4">
-               <p className="text-xs mt-1">Шинэ нууц үг</p>
+               <span className="text-xs mt-1">Шинэ нууц үг</span>
                <Input.Password
                   placeholder="*************"
                   prefix={<LockOutlined className="site-form-item-icon" />}
@@ -30,7 +30,7 @@ function ChangePassword() {
                />
             </div>
             <div className="basis-1/4">
-               <p className="text-xs mt-1">Шинэ нууц үгийг дахин оруулах</p>
+               <span className="text-xs mt-1">Шинэ нууц үгийг дахин оруулах</span>
                <Input.Password
                   placeholder="*************"
                   prefix={<LockOutlined className="site-form-item-icon" />}

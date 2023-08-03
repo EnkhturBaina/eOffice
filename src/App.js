@@ -1,6 +1,8 @@
 import React, { Component, Suspense } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
+import './scss/tailwind/before.css';
 import './scss/style.scss';
+import './scss/tailwind/after.css';
 import { AuthContextProvider } from './context/AuthContext';
 import { MainContextProvider } from './context/MainContext';
 
