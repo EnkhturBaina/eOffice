@@ -14,6 +14,12 @@ const AppHeader = () => {
       console.log(`selected ${value}`);
    };
    const onSearch = (value) => console.log(value);
+
+   const menuData = [
+      { id: 1, val: 'Tenplus', img: '../assets/images/avatars/1.jpg' },
+      { id: 2, val: 'Tenplus 2', img: '../assets/images/avatars/2.jpg' },
+      { id: 3, val: 'Tenplus 3', img: '../assets/images/avatars/3.jpg' }
+   ];
    return (
       <div className="flex flex-row !px-10 !py-5 justify-between">
          <div className="flex flex-row items-center">
