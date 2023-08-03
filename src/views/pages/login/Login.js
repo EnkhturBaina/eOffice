@@ -1,32 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-   CButton,
-   CCard,
-   CCardBody,
-   CCardGroup,
-   CCol,
-   CContainer,
-   CForm,
-   CFormInput,
-   CInputGroup,
-   CInputGroupText,
-   CRow
-} from '@coreui/react';
-import CIcon from '@coreui/icons-react';
-import { cilLockLocked, cilUser } from '@coreui/icons';
 import AuthContext from 'src/context/AuthContext';
+import login_logo from '../../../assets/login_logo.png';
+import { Input, Checkbox, Button } from 'antd';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import CIcon from '@coreui/icons-react';
+import { cilArrowRight } from '@coreui/icons';
+import fb from '../../../assets/images/login/fb.png';
+import google from '../../../assets/images/login/google.png';
+import linkedin from '../../../assets/images/login/linkedin.png';
 
 //Auth login
 
 const Login = () => {
    const navigate = useNavigate();
-   const [isLoading, setIsLoading] = useState(false);
    const { login, user } = useContext(AuthContext);
    const onFinish = async (values) => {
-      setIsLoading(true);
       const res = await login(values);
-      setIsLoading(res);
    };
    // newtertsn ued login ruu oroh ued butsaagad dashboardru ywulah
    useEffect(() => {
@@ -34,74 +24,80 @@ const Login = () => {
          navigate('/dashboard');
       }
    }, []);
+
+   const onChange = (e) => {
+      console.log(`checked = ${e.target.checked}`);
+   };
    return (
-      <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-         <CContainer>
-            <CRow className="justify-content-center">
-               <CCol md={8}>
-                  <CCardGroup>
-                     <CCard className="p-4">
-                        <CCardBody>
-                           <CForm>
-                              <h1>Login</h1>
-                              <p className="text-medium-emphasis">Sign In to your account</p>
-                              <CInputGroup className="mb-3">
-                                 <CInputGroupText>
-                                    <CIcon icon={cilUser} />
-                                 </CInputGroupText>
-                                 <CFormInput placeholder="Username" autoComplete="username" />
-                              </CInputGroup>
-                              <CInputGroup className="mb-4">
-                                 <CInputGroupText>
-                                    <CIcon icon={cilLockLocked} />
-                                 </CInputGroupText>
-                                 <CFormInput type="password" placeholder="Password" autoComplete="current-password" />
-                              </CInputGroup>
-                              <CRow>
-                                 <CCol xs={6}>
-                                    <CButton
-                                       onClick={() =>
-                                          onFinish({
-                                             email: 'test',
-                                             password: 'test'
-                                          })
-                                       }
-                                       loop={isLoading}
-                                       color="primary"
-                                       className="px-4"
-                                    >
-                                       Login
-                                    </CButton>
-                                 </CCol>
-                                 <CCol xs={6} className="text-right">
-                                    <CButton color="link" className="px-0">
-                                       Forgot password?
-                                    </CButton>
-                                 </CCol>
-                              </CRow>
-                           </CForm>
-                        </CCardBody>
-                     </CCard>
-                     <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
-                        <CCardBody className="text-center">
-                           <div>
-                              <h2>Sign up</h2>
-                              <p>
-                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                 incididunt ut labore et dolore magna aliqua.
-                              </p>
-                              <Link to="/register">
-                                 <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                                    Register Now!
-                                 </CButton>
-                              </Link>
-                           </div>
-                        </CCardBody>
-                     </CCard>
-                  </CCardGroup>
-               </CCol>
-            </CRow>
-         </CContainer>
+      <div className="bg-white min-vh-100 d-flex flex-column !p-10">
+         <img align="start" src={login_logo} width={160} height={72} />
+         <div className="flex flex-col items-center">
+            <span className="main-color text-2xl font-semibold text-center !p-2 !mx-10 !my-6">
+               Байгууллагын нөөцийн удирдлагын системд тавтай морил
+            </span>
+            <span className="text-xl font-semibold text-center !p-2 !mx-5 !my-4 !mt-1">Нэвтрэх</span>
+            <div className="flex mt-1 flex-col w-1/5">
+               <div className="basis-1/5">
+                  <span className="text-xs mt-1">Имэйл</span>
+                  <Input placeholder="Имэйл" className="mt-1" size="large" />
+               </div>
+               <div className="basis-1/5 !mt-2">
+                  <span className="text-xs mt-1">Нууц үг</span>
+                  <Input.Password
+                     placeholder="*************"
+                     className="mt-1"
+                     size="large"
+                     iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                  />
+               </div>
+            </div>
+            <div className="flex flex-row justify-between w-1/5 my-2">
+               <Checkbox onChange={onChange}>Намайг сана</Checkbox>
+               <div>
+                  <span className="text-xs main-color cursor-pointer">Нууц үг мартсан ?</span>
+               </div>
+            </div>
+            <Button
+               type="primary"
+               className="w-1/5 flex items-center justify-center"
+               size="large"
+               onClick={() =>
+                  onFinish({
+                     email: 'test',
+                     password: 'test'
+                  })
+               }
+            >
+               <span>Нэвтрэх</span>
+               <CIcon icon={cilArrowRight} size="lg" className="ml-2" />
+            </Button>
+            <div className="flex flex-row justify-end w-1/5 my-3 items-center">
+               <span className="text-xs">Өөр бүртгэл байхгүй ?</span>
+               <Link to="/register" className="text-xs main-color cursor-pointer ml-2">
+                  Бүртгүүлэх
+               </Link>
+            </div>
+            <div className="flex flex-row justify-evenly w-1/5 my-4 items-center">
+               <div
+                  className="border rounded items-center flex justify-center cursor-pointer"
+                  style={{ width: 50, height: 50 }}
+               >
+                  <img src={fb} width={30} height={30} />
+               </div>
+               <div
+                  className="border rounded items-center flex justify-center cursor-pointer"
+                  style={{ width: 50, height: 50 }}
+               >
+                  <img src={google} width={30} height={30} />
+               </div>
+               <div
+                  className="border rounded items-center flex justify-center cursor-pointer"
+                  style={{ width: 50, height: 50 }}
+               >
+                  <img src={linkedin} width={30} height={30} />
+               </div>
+            </div>
+         </div>
       </div>
    );
 };

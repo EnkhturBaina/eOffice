@@ -1,61 +1,80 @@
-import React from 'react';
-import {
-   CButton,
-   CCard,
-   CCardBody,
-   CCol,
-   CContainer,
-   CForm,
-   CFormInput,
-   CInputGroup,
-   CInputGroupText,
-   CRow
-} from '@coreui/react';
+import React, { useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from 'src/context/AuthContext';
+import login_logo from '../../../assets/login_logo.png';
+import { Input, Button } from 'antd';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import CIcon from '@coreui/icons-react';
-import { cilLockLocked, cilUser } from '@coreui/icons';
+import { cilArrowRight } from '@coreui/icons';
+
+//Auth login
 
 const Register = () => {
+   const navigate = useNavigate();
+   const { login, user } = useContext(AuthContext);
+   const onFinish = async (values) => {
+      const res = await login(values);
+   };
+   // newtertsn ued login ruu oroh ued butsaagad dashboardru ywulah
+   useEffect(() => {
+      if (user) {
+         navigate('/dashboard');
+      }
+   }, []);
+
    return (
-      <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-         <CContainer>
-            <CRow className="justify-content-center">
-               <CCol md={9} lg={7} xl={6}>
-                  <CCard className="mx-4">
-                     <CCardBody className="p-4">
-                        <CForm>
-                           <h1>Register</h1>
-                           <p className="text-medium-emphasis">Create your account</p>
-                           <CInputGroup className="mb-3">
-                              <CInputGroupText>
-                                 <CIcon icon={cilUser} />
-                              </CInputGroupText>
-                              <CFormInput placeholder="Username" autoComplete="username" />
-                           </CInputGroup>
-                           <CInputGroup className="mb-3">
-                              <CInputGroupText>@</CInputGroupText>
-                              <CFormInput placeholder="Email" autoComplete="email" />
-                           </CInputGroup>
-                           <CInputGroup className="mb-3">
-                              <CInputGroupText>
-                                 <CIcon icon={cilLockLocked} />
-                              </CInputGroupText>
-                              <CFormInput type="password" placeholder="Password" autoComplete="new-password" />
-                           </CInputGroup>
-                           <CInputGroup className="mb-4">
-                              <CInputGroupText>
-                                 <CIcon icon={cilLockLocked} />
-                              </CInputGroupText>
-                              <CFormInput type="password" placeholder="Repeat password" autoComplete="new-password" />
-                           </CInputGroup>
-                           <div className="d-grid">
-                              <CButton color="success">Create Account</CButton>
-                           </div>
-                        </CForm>
-                     </CCardBody>
-                  </CCard>
-               </CCol>
-            </CRow>
-         </CContainer>
+      <div className="bg-white min-vh-100 d-flex flex-column !p-10">
+         <img align="start" src={login_logo} width={160} height={72} />
+         <div className="flex flex-col items-center">
+            <span className="main-color text-2xl font-semibold text-center !p-2 !mx-10 !my-6">
+               Байгууллагын нөөцийн удирдлагын системд тавтай морил
+            </span>
+            <span className="text-xl font-semibold text-center !p-2 !mx-5 !my-4 !mt-1">Бүртгүүлэх</span>
+            <div className="flex mt-1 flex-col w-1/5">
+               <div className="flex gap-3">
+                  <div className="w-1/2">
+                     <span className="text-xs mt-1">Овог</span>
+                     <Input placeholder="Овог" className="mt-1" size="large" />
+                  </div>
+                  <div className="w-1/2">
+                     <span className="text-xs mt-1">Нэр</span>
+                     <Input placeholder="Нэр" className="mt-1" size="large" />
+                  </div>
+               </div>
+               <div className="">
+                  <span className="text-xs mt-1">Имэйл</span>
+                  <Input placeholder="Имэйл" className="mt-1" size="large" />
+               </div>
+               <div className="">
+                  <span className="text-xs mt-1">Утасны дугаар</span>
+                  <Input placeholder="00000000" className="mt-1" size="large" />
+               </div>
+               <div className="!mt-2">
+                  <span className="text-xs mt-1">Нууц үг</span>
+                  <Input.Password
+                     placeholder="*************"
+                     className="mt-1"
+                     size="large"
+                     iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                  />
+               </div>
+            </div>
+            <Button
+               type="primary"
+               className="w-1/5 flex items-center justify-center mt-3"
+               size="large"
+               onClick={() => onFinish()}
+            >
+               <span>Бүртгүүлэх</span>
+               <CIcon icon={cilArrowRight} size="lg" className="ml-2" />
+            </Button>
+            <div className="flex flex-row justify-center w-1/5 my-2 items-center mt-3">
+               <span className="text-xs">Бүртгэл байгаа.</span>
+               <Link to="/login" className="text-xs main-color cursor-pointer ml-2">
+                  Нэвтрэх
+               </Link>
+            </div>
+         </div>
       </div>
    );
 };

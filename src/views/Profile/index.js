@@ -1,4 +1,4 @@
-import { CButton, CImage } from '@coreui/react';
+import { CButton } from '@coreui/react';
 import React, { useContext, useState } from 'react';
 import header_bg from '../../assets/images/profile/header_bg.png';
 import avatar from '../../assets/images/avatars/1.jpg';
@@ -35,10 +35,10 @@ function index() {
    };
    return (
       <div>
-         <CImage src={header_bg} width={'100%'} height={150} />
+         <img src={header_bg} width={'100%'} height={150} />
          <div className="d-flex px-20">
             <div className="relative">
-               <CImage src={avatar} rounded width={180} height={180} className="rounded-circle profile-avatar" />
+               <img src={avatar} rounded width={180} height={180} className="rounded-circle profile-avatar" />
                <div className="profile-avatar-edit-btn">
                   <input className="profile-avatar-input" type="file" name="pic" accept="image/*" />
                   <CIcon
@@ -107,11 +107,8 @@ function index() {
                   <CButton
                      color="dark"
                      variant="ghost"
-                     className={`!mt-5 text-left profile-menu-button ${
-                        selectedMenu === 3 && 'main-bg-color text-white'
-                     }`}
+                     className={`!mt-5 text-left profile-menu-button`}
                      onClick={() => {
-                        setSelectedMenu(3);
                         showConfirm();
                      }}
                   >
