@@ -38,7 +38,7 @@ function index() {
          <img src={header_bg} width={'100%'} height={150} />
          <div className="d-flex px-20">
             <div className="relative">
-               <img src={avatar} rounded width={180} height={180} className="rounded-circle profile-avatar" />
+               <img src={avatar} width={180} height={180} className="rounded-circle profile-avatar" />
                <div className="profile-avatar-edit-btn">
                   <input className="profile-avatar-input" type="file" name="pic" accept="image/*" />
                   <CIcon
