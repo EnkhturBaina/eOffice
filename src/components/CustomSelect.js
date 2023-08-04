@@ -28,7 +28,7 @@ function CustomSelect() {
                         .map((fitlered, index) => (
                            <div className="flex items-center" key={index}>
                               <img src={fitlered.img} width={30} height={30} />
-                              <span className="ml-1">{fitlered.val}</span>
+                              <span className="ml-1 text-xs">{fitlered.val}</span>
                            </div>
                         ))}
                </div>
@@ -52,7 +52,7 @@ function CustomSelect() {
                               >
                                  <div className="flex flex-row items-center absolute left-0 ">
                                     <img src={el.img} width={32} height={32} />
-                                    <span className="ml-1">{el.val}</span>
+                                    <span className="ml-1 text-xs">{el.val}</span>
                                  </div>
                               </Radio>
                            );
