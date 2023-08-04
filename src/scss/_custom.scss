@@ -63,6 +63,20 @@
 .ant-btn-primary{
     background-color: $main-color !important;
 }
+.ant-modal-content{
+    border-radius: 4px !important;
+}
+.ant-btn{
+    border-radius: 4px !important;
+}
+.ant-input{
+    border-radius: 4px !important;
+}
+.modal-with-count{
+    .ant-modal-footer{
+        margin-top: 20px !important;
+    }
+}
 .profile-avatar-edit-btn {
     background-color: $main-color;
     width: 50px;
@@ -148,6 +162,12 @@
     .ant-select-selector{
         height: 35px !important;
     }
+}
+.ant-modal-mask{
+    z-index: 1050 !important;
+}
+.ant-modal-wrap{
+    z-index: 1060 !important;
 }
 .leftSide {
     position: fixed;

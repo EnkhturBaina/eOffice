@@ -1,12 +1,46 @@
-import React from 'react';
-import { Button, Select, DatePicker, Input, Table } from 'antd';
-import { PlusCircleOutlined, DownloadOutlined, PrinterOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Button, Select, DatePicker, Input, Table, Popover, Modal } from 'antd';
+import { PlusCircleOutlined, DownloadOutlined, PrinterOutlined, MoreOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
 function Tab1() {
    const { RangePicker } = DatePicker;
+   const { TextArea } = Input;
+   const { Search } = Input;
    const dateFormat = 'YYYY/MM/DD';
    var now = dayjs();
+
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [isModalOpenReason, setIsModalOpenReason] = useState(false);
+
+   const [openPopopver, setOpenPopopver] = useState({ show: false, popopverId: 0 });
+
+   const handleOpenPop = (id) => {
+      setOpenPopopver({ show: true, popopverId: id });
+   };
+
+   const handleClosePop = () => {
+      setOpenPopopver({ show: false });
+   };
+   const showModal = () => {
+      setIsModalOpen(true);
+   };
+   const handleOk = () => {
+      setIsModalOpen(false);
+   };
+   const handleCancel = () => {
+      setIsModalOpen(false);
+   };
+   const showModalReason = () => {
+      setIsModalOpenReason(true);
+   };
+   const handleOkReason = () => {
+      setIsModalOpenReason(false);
+   };
+   const handleCancelReason = () => {
+      setIsModalOpenReason(false);
+   };
+
    const employee_list = [
       {
          value: 'jack',
@@ -30,7 +64,6 @@ function Tab1() {
       console.log(`selected ${value}`);
    };
    const onSearch = (value) => console.log(value);
-   const { Search } = Input;
 
    const columns = [
       {
@@ -40,37 +73,84 @@ function Tab1() {
          key: 'col1'
       },
       {
-         title: 'Огноо',
+         title: 'Овог, нэр',
          align: 'center',
-         dataIndex: 'col2',
-         key: 'col2'
+         dataIndex: 'name',
+         key: 'name'
       },
       {
-         title: 'Хандсан төхөөрөмж',
+         title: 'Ажилчны ID',
          align: 'center',
-         dataIndex: 'device',
-         key: 'device'
+         dataIndex: 'empoyee_id',
+         key: 'empoyee_id'
       },
       {
-         title: 'IP хаяг',
+         title: 'Компанийн нэр,рд',
          align: 'center',
-         dataIndex: 'ip',
-         key: 'ip'
+         dataIndex: 'company_reg',
+         key: 'company_reg'
       },
       {
-         title: 'Үйлдэл',
+         title: 'Хэлтэс нэгж',
+         align: 'center',
+         dataIndex: 'emp_department',
+         key: 'emp_department'
+      },
+      {
+         title: 'Албан тушаал',
+         align: 'center',
+         dataIndex: 'emp_position',
+         key: 'emp_position'
+      },
+      {
+         title: 'Ажилд орсон огноо',
+         align: 'center',
+         dataIndex: 'join_date',
+         key: 'join_date'
+      },
+      {
+         title: 'Цалин',
+         align: 'center',
+         dataIndex: 'emp_salary',
+         key: 'emp_salary'
+      },
+      {
+         title: 'Төлөв',
+         align: 'center',
+         dataIndex: 'emp_status',
+         key: 'emp_status'
+      },
+      {
+         title: 'Мэдээлэл',
          align: 'center',
          key: 'action',
-         render: (_, record) => <div>asxasx</div>
+         render: (_, record) => (
+            <Popover
+               placement="left"
+               content={content}
+               trigger="click"
+               open={openPopopver.show && openPopopver.popopverId == record.key}
+               onOpenChange={() => {
+                  handleOpenPop(record.key);
+               }}
+            >
+               <MoreOutlined />
+            </Popover>
+         )
       }
    ];
    const data = [
       {
          key: '1',
          col1: '1',
-         col2: '01/05/2023',
-         device: 'Android s13',
-         ip: '101.234.12.110'
+         name: 'Түдэв Уянга',
+         empoyee_id: 'LA-0231',
+         company_reg: 'TenPlus ХХК',
+         emp_department: 'Хөгжүүлэлт',
+         emp_position: 'Маркетинг',
+         join_date: '30 Apr, 2020',
+         emp_salary: '120000000',
+         emp_status: 'Идэвхтэй'
       },
       {
          key: '2',
@@ -80,6 +160,31 @@ function Tab1() {
          ip: '101.234.12.110'
       }
    ];
+
+   const content = (
+      <div className="flex flex-col !w-36" onMouseLeave={() => handleClosePop()}>
+         <Button
+            type="text"
+            className="text-left"
+            onClick={() => {
+               showModal();
+               handleClosePop();
+            }}
+         >
+            Шилжүүлэх
+         </Button>
+         <Button
+            type="text"
+            className="text-left"
+            onClick={() => {
+               showModalReason();
+               handleClosePop();
+            }}
+         >
+            Ажлаас чөлөөлөх
+         </Button>
+      </div>
+   );
 
    return (
       <div>
@@ -119,7 +224,45 @@ function Tab1() {
             <PrinterOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
             <DownloadOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
          </div>
-         <Table columns={columns} dataSource={data} pagination={false} className="login-history-table" bordered />
+         <Table columns={columns} dataSource={data} pagination={false} className="" bordered />
+         <Modal
+            title="Шилжүүлэх"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            cancelText="Хаах"
+            okText="Илгээх"
+         >
+            <div className="!mb-4">
+               <p className="!mb-1">Компани</p>
+               <Input placeholder="Шилжүүлэх компанийн нэр" />
+            </div>
+            <div className="!mb-4">
+               <p className="!mb-1">Хэлтэс</p>
+               <Input placeholder="Шилжүүлэх хэлтэс" />
+            </div>
+            <div className="!mb-4">
+               <p className="!mb-1 text-sm">Шилжүүлсэн ажилтан</p>
+               <Input placeholder="Шилжүүлсэн ажилтаны нэр" />
+            </div>
+            <div className="!mb-4">
+               <p className="!mb-1">Шилжүүлсэн огноо</p>
+               <Input placeholder="Шилжүүлсэн огноо" />
+            </div>
+         </Modal>
+         <Modal
+            title="Ажлаас чөлөөлөх болох шалтгаан"
+            open={isModalOpenReason}
+            onOk={handleOkReason}
+            onCancel={handleCancelReason}
+            cancelText="Хаах"
+            okText="Болсон"
+            className="modal-with-count"
+         >
+            <div>
+               <TextArea rows={4} placeholder="Шалтгаанаа бичнэ үү" showCount maxLength={250} />
+            </div>
+         </Modal>
       </div>
    );
 }
