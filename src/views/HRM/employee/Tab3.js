@@ -12,6 +12,7 @@ function Tab3() {
 
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [isModalOpenReason, setIsModalOpenReason] = useState(false);
+   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
 
    const [openPopopver, setOpenPopopver] = useState({ show: false, popopverId: 0 });
 
@@ -19,6 +20,15 @@ function Tab3() {
       setOpenPopopver({ show: true, popopverId: id });
    };
 
+   const showModalCreate = () => {
+      setIsModalOpenCreate(true);
+   };
+   const handleOkCreate = () => {
+      setIsModalOpenCreate(false);
+   };
+   const handleCancelCreate = () => {
+      setIsModalOpenCreate(false);
+   };
    const handleClosePop = () => {
       setOpenPopopver({ show: false });
    };
@@ -67,73 +77,73 @@ function Tab3() {
 
    const columns = [
       {
-         title: '№',
+         title: <span className="text-gray-400">№</span>,
          align: 'center',
          dataIndex: 'col1',
          key: 'col1'
       },
       {
-         title: 'Овог, нэр',
+         title: <span className="text-gray-400">Овог, нэр</span>,
          align: 'center',
          dataIndex: 'name',
          key: 'name'
       },
       {
-         title: 'Ажилчны ID',
+         title: <span className="text-gray-400">Ажилчны ID</span>,
          align: 'center',
          dataIndex: 'empoyee_id',
          key: 'empoyee_id'
       },
       {
-         title: 'Компанийн нэр,рд',
+         title: <span className="text-gray-400">Компанийн нэр,рд</span>,
          align: 'center',
          dataIndex: 'company_reg',
          key: 'company_reg'
       },
       {
-         title: 'Хэлтэс нэгж',
+         title: <span className="text-gray-400">Хэлтэс нэгж</span>,
          align: 'center',
          dataIndex: 'emp_department',
          key: 'emp_department'
       },
       {
-         title: 'Албан тушаал',
+         title: <span className="text-gray-400">Албан тушаал</span>,
          align: 'center',
          dataIndex: 'emp_position',
          key: 'emp_position'
       },
       {
-         title: 'Ажилд орсон огноо',
+         title: <span className="text-gray-400">Ажилд орсон огноо</span>,
          align: 'center',
          dataIndex: 'join_date',
          key: 'join_date'
       },
       {
-         title: 'Үүсгэсэн огноо',
+         title: <span className="text-gray-400">Үүсгэсэн огноо</span>,
          align: 'center',
          dataIndex: 'created_date',
          key: 'created_date'
       },
       {
-         title: 'Дуусах огноо',
+         title: <span className="text-gray-400">Дуусах огноо</span>,
          align: 'center',
          dataIndex: 'end_date',
          key: 'end_date'
       },
       {
-         title: 'Шалтгаан',
+         title: <span className="text-gray-400">Шалтгаан</span>,
          align: 'center',
          dataIndex: 'reason',
          key: 'reason'
       },
       {
-         title: 'Статус',
+         title: <span className="text-gray-400">Статус</span>,
          align: 'center',
          dataIndex: 'status',
          key: 'status'
       },
       {
-         title: 'Мэдээлэл',
+         title: <span className="text-gray-400">Мэдээлэл</span>,
          align: 'center',
          key: 'action',
          render: (_, record) => (
@@ -203,8 +213,8 @@ function Tab3() {
    return (
       <div>
          <div className="flex justify-end">
-            <Button type="primary" className="flex items-center" size="middle">
-               <span className="text-sm">Ажилтан бүртгэх</span>
+            <Button type="primary" className="flex items-center" size="middle" onClick={showModalCreate}>
+               <span className="text-sm">Гарах хүсэлт</span>
                <PlusCircleOutlined />
             </Button>
          </div>
@@ -275,6 +285,19 @@ function Tab3() {
          >
             <div>
                <TextArea rows={4} placeholder="Шалтгаанаа бичнэ үү" showCount maxLength={250} />
+            </div>
+         </Modal>
+         <Modal
+            title="Гарах хүсэлт гаргах болсон шалтгаанаа бичнэ үү."
+            open={isModalOpenCreate}
+            onOk={handleOkCreate}
+            onCancel={handleCancelCreate}
+            cancelText="Хаах"
+            okText="Болсон"
+            className="modal-with-count"
+         >
+            <div>
+               <TextArea rows={8} placeholder="Шалтгаанаа бичнэ үү" showCount maxLength={500} />
             </div>
          </Modal>
       </div>

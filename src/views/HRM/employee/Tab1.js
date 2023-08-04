@@ -12,6 +12,7 @@ function Tab1() {
 
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [isModalOpenReason, setIsModalOpenReason] = useState(false);
+   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
 
    const [openPopopver, setOpenPopopver] = useState({ show: false, popopverId: 0 });
 
@@ -21,6 +22,15 @@ function Tab1() {
 
    const handleClosePop = () => {
       setOpenPopopver({ show: false });
+   };
+   const showModalCreate = () => {
+      setIsModalOpenCreate(true);
+   };
+   const handleOkCreate = () => {
+      setIsModalOpenCreate(false);
+   };
+   const handleCancelCreate = () => {
+      setIsModalOpenCreate(false);
    };
    const showModal = () => {
       setIsModalOpen(true);
@@ -67,61 +77,61 @@ function Tab1() {
 
    const columns = [
       {
-         title: '№',
+         title: <span className="text-gray-400">№</span>,
          align: 'center',
          dataIndex: 'col1',
          key: 'col1'
       },
       {
-         title: 'Овог, нэр',
+         title: <span className="text-gray-400">Овог, нэр</span>,
          align: 'center',
          dataIndex: 'name',
          key: 'name'
       },
       {
-         title: 'Ажилчны ID',
+         title: <span className="text-gray-400">Ажилчны ID</span>,
          align: 'center',
          dataIndex: 'empoyee_id',
          key: 'empoyee_id'
       },
       {
-         title: 'Компанийн нэр,рд',
+         title: <span className="text-gray-400">Компанийн нэр,рд</span>,
          align: 'center',
          dataIndex: 'company_reg',
          key: 'company_reg'
       },
       {
-         title: 'Хэлтэс нэгж',
+         title: <span className="text-gray-400">Хэлтэс нэгж</span>,
          align: 'center',
          dataIndex: 'emp_department',
          key: 'emp_department'
       },
       {
-         title: 'Албан тушаал',
+         title: <span className="text-gray-400">Албан тушаал</span>,
          align: 'center',
          dataIndex: 'emp_position',
          key: 'emp_position'
       },
       {
-         title: 'Ажилд орсон огноо',
+         title: <span className="text-gray-400">Ажилд орсон огноо</span>,
          align: 'center',
          dataIndex: 'join_date',
          key: 'join_date'
       },
       {
-         title: 'Цалин',
+         title: <span className="text-gray-400">Цалин</span>,
          align: 'center',
          dataIndex: 'emp_salary',
          key: 'emp_salary'
       },
       {
-         title: 'Төлөв',
+         title: <span className="text-gray-400">Төлөв</span>,
          align: 'center',
          dataIndex: 'emp_status',
          key: 'emp_status'
       },
       {
-         title: 'Мэдээлэл',
+         title: <span className="text-gray-400">Мэдээлэл</span>,
          align: 'center',
          key: 'action',
          render: (_, record) => (
@@ -189,7 +199,7 @@ function Tab1() {
    return (
       <div>
          <div className="flex justify-end">
-            <Button type="primary" className="flex items-center" size="middle">
+            <Button type="primary" className="flex items-center" size="middle" onClick={showModalCreate}>
                <span className="text-sm">Ажилтан бүртгэх</span>
                <PlusCircleOutlined />
             </Button>
@@ -224,7 +234,7 @@ function Tab1() {
             <PrinterOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
             <DownloadOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
          </div>
-         <Table columns={columns} dataSource={data} pagination={false} className="" bordered />
+         <Table columns={columns} dataSource={data} className="" bordered />
          <Modal
             title="Шилжүүлэх"
             open={isModalOpen}
@@ -261,6 +271,134 @@ function Tab1() {
          >
             <div>
                <TextArea rows={4} placeholder="Шалтгаанаа бичнэ үү" showCount maxLength={250} />
+            </div>
+         </Modal>
+         <Modal
+            title="Ерөнхий мэдээлэл"
+            open={isModalOpenCreate}
+            onOk={handleOkCreate}
+            onCancel={handleCancelCreate}
+            cancelText="Хаах"
+            okText="Болсон"
+            className="modal-with-count"
+            width={1000}
+         >
+            <div>
+               <div className="grid grid-cols-3 gap-x-2">
+                  <div>
+                     <div className="">
+                        <p className="!mb-1 text-sm">
+                           Эцэг /эх/-ийн нэр<span className="text-red-500"> *</span>
+                        </p>
+                        <Input placeholder="" />
+                        <span className="text-xs">Криллээр бичнэ үү</span>
+                     </div>
+                  </div>
+                  <div>
+                     <div className="">
+                        <p className="!mb-1 text-sm">
+                           Өөрийн нэр<span className="text-red-500"> *</span>
+                        </p>
+                        <Input placeholder="" />
+                        <span className="text-xs">Криллээр бичнэ үү</span>
+                     </div>
+                  </div>
+                  <div>
+                     <div className="">
+                        <p className="!mb-1 text-sm">
+                           Регистерийн дугаар<span className="text-red-500"> *</span>
+                        </p>
+                        <Input placeholder="" />
+                        <span className="text-xs">Криллээр бичнэ үү</span>
+                     </div>
+                  </div>
+                  <div>
+                     <div className="!mb-4">
+                        <p className="!mb-1 text-sm">
+                           Компанийн нэр<span className="text-red-500"> *</span>
+                        </p>
+                        <Input placeholder="" />
+                     </div>
+                  </div>
+                  <div>
+                     <div className="!mb-4">
+                        <p className="!mb-1 text-sm">Хэлтэс нэгж</p>
+                        <Input placeholder="" />
+                     </div>
+                  </div>
+                  <div>
+                     <div className="!mb-4">
+                        <p className="!mb-1 text-sm">Албан тушаал</p>
+                        <Input placeholder="" />
+                     </div>
+                  </div>
+                  <div>
+                     <div className="!mb-4">
+                        <p className="!mb-1 text-sm">Цалин</p>
+                        <Input placeholder="" />
+                     </div>
+                  </div>
+                  <div>
+                     <div className="!mb-4">
+                        <p className="!mb-1 text-sm">Гар утас</p>
+                        <Input placeholder="" />
+                     </div>
+                  </div>
+                  <div>
+                     <div className="!mb-4">
+                        <p className="!mb-1 text-sm">Цахим шуудан</p>
+                        <Input placeholder="" />
+                     </div>
+                  </div>
+                  <div>
+                     <div className="grid grid-cols-2 gap-2">
+                        <div>
+                           <div className="!mb-4">
+                              <p className="!mb-1 text-sm">Аймаг, хот</p>
+                              <Input placeholder="" />
+                           </div>
+                        </div>
+                        <div>
+                           <div className="!mb-4">
+                              <p className="!mb-1 text-sm">Сум, дүүрэг</p>
+                              <Input placeholder="" />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div>
+                     <div className="grid grid-cols-2 gap-2">
+                        <div>
+                           <div className="!mb-4">
+                              <p className="!mb-1 text-sm">Баг, хороо</p>
+                              <Input placeholder="" />
+                           </div>
+                        </div>
+                        <div>
+                           <div className="!mb-4">
+                              <p className="!mb-1 text-sm">Хороолол</p>
+                              <Input placeholder="" />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div>
+                     <div className="grid grid-cols-2 gap-2">
+                        <div>
+                           <div className="!mb-4">
+                              <p className="!mb-1 text-sm">Байшин</p>
+                              <Input placeholder="" />
+                           </div>
+                        </div>
+                        <div>
+                           <div className="!mb-4">
+                              <p className="!mb-1 text-sm">Хаалганы дугаар</p>
+                              <Input placeholder="" />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
          </Modal>
       </div>

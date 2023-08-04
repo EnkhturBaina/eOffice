@@ -67,55 +67,55 @@ function Tab4() {
 
    const columns = [
       {
-         title: '№',
+         title: <span className="text-gray-400">№</span>,
          align: 'center',
          dataIndex: 'col1',
          key: 'col1'
       },
       {
-         title: 'Овог, нэр',
+         title: <span className="text-gray-400">Овог, нэр</span>,
          align: 'center',
          dataIndex: 'name',
          key: 'name'
       },
       {
-         title: 'Компанийн нэр,рд',
+         title: <span className="text-gray-400">Компанийн нэр,рд</span>,
          align: 'center',
          dataIndex: 'company_reg',
          key: 'company_reg'
       },
       {
-         title: 'Хаанаас',
+         title: <span className="text-gray-400">Хаанаас</span>,
          align: 'center',
          dataIndex: 'emp_from',
          key: 'emp_from'
       },
       {
-         title: 'Хүсэлт илгээсэн огноо',
+         title: <span className="text-gray-400">Хүсэлт илгээсэн огноо</span>,
          align: 'center',
          dataIndex: 'request_date',
          key: 'request_date'
       },
       {
-         title: 'Үүсгэсэн огноо',
+         title: <span className="text-gray-400">Үүсгэсэн огноо</span>,
          align: 'center',
          dataIndex: 'created_date',
          key: 'created_date'
       },
       {
-         title: 'Үүсгэсэн огноо',
+         title: <span className="text-gray-400">Үүсгэсэн огноо</span>,
          align: 'center',
          dataIndex: 'end_date',
          key: 'end_date'
       },
       {
-         title: 'Төлөв',
+         title: <span className="text-gray-400">Төлөв</span>,
          align: 'center',
          dataIndex: 'emp_status',
          key: 'emp_status'
       },
       {
-         title: 'Мэдээлэл',
+         title: <span className="text-gray-400">Мэдээлэл</span>,
          align: 'center',
          key: 'action',
          render: (_, record) => (
