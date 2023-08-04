@@ -35,6 +35,7 @@ const AppSidebar = () => {
             dispatch({ type: 'set', sidebarShow: visible });
          }}
          className="bg-white"
+         style={{ borderRightWidth: 2, borderRightColor: '#eaebed' }}
       >
          <CSidebarNav>
             <SimpleBar>

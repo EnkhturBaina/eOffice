@@ -161,7 +161,7 @@ const DefaultLayout = () => {
          </div>
          {state.sidebarShow ? <AppSidebar /> : null}
          <div
-            className={`wrapper d-flex flex-column min-vh-100 ${state.sidebarShow ? 'bg-light' : 'bg-white'}`}
+            className={`wrapper d-flex flex-column min-vh-100 ${state.sidebarShow ? 'bg-slate-50' : 'bg-white'}`}
             style={{ paddingLeft: state.sidebarShow ? '22rem' : '6rem' }}
          >
             <div className="body flex-grow-1 main-content-body">

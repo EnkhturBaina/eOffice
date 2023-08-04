@@ -23,6 +23,7 @@ const AppHeader = (props) => {
                defaultValue={[dayjs(now, dateFormat), dayjs(now.add(-1, 'month'), dateFormat)]}
                format={dateFormat}
                className="!rounded"
+               style={{ height: 35 }}
             />
             <Search
                className="!mx-2 pexar-rounded"
@@ -30,12 +31,14 @@ const AppHeader = (props) => {
                allowClear
                onSearch={onSearch}
                style={{
+                  height: 35,
                   width: 200,
                   borderRadius: 4
                }}
             />
             <CustomSelect
                style={{
+                  height: 35,
                   width: 250
                }}
             />

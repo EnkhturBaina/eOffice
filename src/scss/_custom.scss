@@ -46,13 +46,13 @@
         .ant-input-affix-wrapper{
             border-start-start-radius: 4px !important;
             border-end-start-radius: 4px !important;
-            height: 34px !important;
+            height: 35px !important;
         }
         .ant-input-group-addon{
             .ant-input-search-button{
                 border-start-end-radius: 4px !important;
                 border-end-end-radius: 4px !important;
-                height: 34px !important;
+                height: 35px !important;
             }
         }
     }
@@ -96,6 +96,17 @@
     background-color: unset !important;
     color: unset !important;
 }
+.employee-stat-card{
+    .ant-card-body {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        padding: 10px !important;
+    }
+}
+.ant-progress-line {
+    margin-bottom: 0px !important;
+}
 .sidebar-nav {
     .nav-link {
         &:hover {
@@ -132,6 +143,11 @@
 }
 .ant-radio + span {
     display: contents !important;
+}
+.custom-tab-select {
+    .ant-select-selector{
+        height: 35px !important;
+    }
 }
 .leftSide {
     position: fixed;
@@ -323,7 +339,7 @@
   
   .custom-header-dropdown-header {
     padding: 5px 8px;
-    height: 34px !important;
+    height: 35px !important;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
