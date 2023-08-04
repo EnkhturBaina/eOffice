@@ -1,30 +1,22 @@
-import { cilUser } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { DatePicker, Input, Select } from 'antd';
-import React from 'react';
+import { DatePicker, Input } from 'antd';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
+import CustomSelect from './CustomSelect';
 
-const AppHeader = () => {
+const AppHeader = (props) => {
    const { RangePicker } = DatePicker;
    const { Search } = Input;
    const dateFormat = 'YYYY/MM/DD';
    var now = dayjs();
 
-   const handleChange = (value) => {
-      console.log(`selected ${value}`);
-   };
    const onSearch = (value) => console.log(value);
 
-   const menuData = [
-      { id: 1, val: 'Tenplus', img: '../assets/images/avatars/1.jpg' },
-      { id: 2, val: 'Tenplus 2', img: '../assets/images/avatars/2.jpg' },
-      { id: 3, val: 'Tenplus 3', img: '../assets/images/avatars/3.jpg' }
-   ];
    return (
       <div className="flex flex-row !px-10 !py-5 justify-between">
          <div className="flex flex-row items-center">
-            <CIcon icon={cilUser} className="main-color !mx-2" size="xl" />
-            <span className="font-bold">Ажилчид</span>
+            <CIcon icon={props.icon} className="main-color !mx-2" size="xl" />
+            <span className="font-bold">{props.title}</span>
          </div>
          <div className="flex flex-row">
             <RangePicker
@@ -42,23 +34,10 @@ const AppHeader = () => {
                   borderRadius: 4
                }}
             />
-            <Select
-               defaultValue="lucy"
-               className="!rounded"
+            <CustomSelect
                style={{
-                  width: 120
+                  width: 250
                }}
-               onChange={handleChange}
-               dropdownRender={(menu) => (
-                  <div>
-                     <div>ASDASD1</div>
-                     <div>ASDASD2</div>
-                     <div>ASDASD3</div>
-                     <div>ASDASD4</div>
-                     <div>ASDASD5</div>
-                     <div>ASDASD6</div>
-                  </div>
-               )}
             />
          </div>
       </div>
