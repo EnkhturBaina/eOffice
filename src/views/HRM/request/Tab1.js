@@ -35,11 +35,6 @@ function Tab1() {
       {
          value: 'Yiminghe',
          label: 'yiminghe'
-      },
-      {
-         value: 'disabled',
-         label: 'Disabled',
-         disabled: true
       }
    ];
    const handleChange = (value) => {
