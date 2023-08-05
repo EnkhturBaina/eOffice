@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Select, DatePicker, Input, Table, Popover, Modal } from 'antd';
+import { Button, Select, DatePicker, Input, Table, Popover, Modal, Progress, Tooltip } from 'antd';
 import { PlusCircleOutlined, DownloadOutlined, PrinterOutlined, MoreOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import DTL from './DTL';
 
 function Tab1() {
    const { RangePicker } = DatePicker;
@@ -13,6 +14,8 @@ function Tab1() {
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [isModalOpenReason, setIsModalOpenReason] = useState(false);
    const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
+
+   const [selectedUserData, setSelectedUserData] = useState(null);
 
    const [openPopopver, setOpenPopopver] = useState({ show: false, popopverId: 0 });
 
@@ -135,17 +138,22 @@ function Tab1() {
          align: 'center',
          key: 'action',
          render: (_, record) => (
-            <Popover
-               placement="left"
-               content={content}
-               trigger="click"
-               open={openPopopver.show && openPopopver.popopverId == record.key}
-               onOpenChange={() => {
-                  handleOpenPop(record.key);
-               }}
-            >
-               <MoreOutlined />
-            </Popover>
+            <div>
+               <Tooltip title="Таны анкет бөглөлтийн гүйцэтгэл">
+                  <Progress percent={30} size="small" style={{ width: 50 }} />
+               </Tooltip>
+               <Popover
+                  placement="left"
+                  content={content}
+                  trigger="click"
+                  open={openPopopver.show && openPopopver.popopverId == record.key}
+                  onOpenChange={() => {
+                     handleOpenPop(record.key);
+                  }}
+               >
+                  <MoreOutlined />
+               </Popover>
+            </div>
          )
       }
    ];
@@ -234,9 +242,29 @@ function Tab1() {
             <PrinterOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
             <DownloadOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
          </div>
-         <Table columns={columns} dataSource={data} className="" bordered />
+         <div className="flex flex-row !gap-4">
+            <Table
+               columns={columns}
+               dataSource={data}
+               className={selectedUserData ? 'basis-3/5' : 'basis-full'}
+               bordered
+               size="small"
+               onRow={(record, rowIndex) => {
+                  return {
+                     onDoubleClick: (event) => {
+                        setSelectedUserData(record);
+                     }
+                  };
+               }}
+            />
+            {selectedUserData ? (
+               <div className="basis-2/5">
+                  <DTL selectedUserData={selectedUserData} setSelectedUserData={setSelectedUserData} />
+               </div>
+            ) : null}
+         </div>
          <Modal
-            title="Шилжүүлэх"
+            title={<span className="main-color">Шилжүүлэх</span>}
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
@@ -261,7 +289,7 @@ function Tab1() {
             </div>
          </Modal>
          <Modal
-            title="Ажлаас чөлөөлөх болох шалтгаан"
+            title={<span className="main-color">Ажлаас чөлөөлөх болох шалтгаан</span>}
             open={isModalOpenReason}
             onOk={handleOkReason}
             onCancel={handleCancelReason}
@@ -274,7 +302,7 @@ function Tab1() {
             </div>
          </Modal>
          <Modal
-            title="Ерөнхий мэдээлэл"
+            title={<span className="main-color">Ерөнхий мэдээлэл</span>}
             open={isModalOpenCreate}
             onOk={handleOkCreate}
             onCancel={handleCancelCreate}
@@ -284,7 +312,7 @@ function Tab1() {
             width={1000}
          >
             <div>
-               <div className="grid grid-cols-3 gap-x-2">
+               <div className="grid grid-cols-3 gap-x-4">
                   <div>
                      <div className="">
                         <p className="!mb-1 text-sm">

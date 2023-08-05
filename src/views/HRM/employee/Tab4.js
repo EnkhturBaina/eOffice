@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Select, DatePicker, Input, Table, Popover, Modal } from 'antd';
 import { PlusCircleOutlined, DownloadOutlined, PrinterOutlined, MoreOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import DTL from './DTL';
 
 function Tab4() {
    const { RangePicker } = DatePicker;
@@ -12,6 +13,9 @@ function Tab4() {
 
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [isModalOpenReason, setIsModalOpenReason] = useState(false);
+
+   const [selectedUserData, setSelectedUserData] = useState(null);
+   const [tempUserData, setTempUserData] = useState(null);
 
    const [openPopopver, setOpenPopopver] = useState({ show: false, popopverId: 0 });
 
@@ -126,6 +130,7 @@ function Tab4() {
                open={openPopopver.show && openPopopver.popopverId == record.key}
                onOpenChange={() => {
                   handleOpenPop(record.key);
+                  setTempUserData(record);
                }}
             >
                <MoreOutlined />
@@ -155,7 +160,13 @@ function Tab4() {
    ];
 
    const content = (
-      <div className="flex flex-col !w-36" onMouseLeave={() => handleClosePop()}>
+      <div
+         className="flex flex-col !w-36"
+         onMouseLeave={() => {
+            handleClosePop();
+            setTempUserData(null);
+         }}
+      >
          <Button
             type="text"
             className="text-left"
@@ -164,7 +175,17 @@ function Tab4() {
                handleClosePop();
             }}
          >
-            Шилжүүлэх
+            Анкет цуцлах
+         </Button>
+         <Button
+            type="text"
+            className="text-left"
+            onClick={() => {
+               setSelectedUserData(tempUserData);
+               handleClosePop();
+            }}
+         >
+            Дэлгэрэнгүй
          </Button>
          <Button
             type="text"
@@ -174,7 +195,7 @@ function Tab4() {
                handleClosePop();
             }}
          >
-            Ажлаас чөлөөлөх
+            Ажилд авах
          </Button>
       </div>
    );
@@ -217,34 +238,42 @@ function Tab4() {
             <PrinterOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
             <DownloadOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
          </div>
-         <Table columns={columns} dataSource={data} pagination={false} className="" bordered />
+         <div className="flex flex-row !gap-4">
+            <Table
+               columns={columns}
+               dataSource={data}
+               className={selectedUserData ? 'basis-3/5' : 'basis-full'}
+               bordered
+               size="small"
+               onRow={(record, rowIndex) => {
+                  return {
+                     onDoubleClick: (event) => {
+                        setSelectedUserData(record);
+                     }
+                  };
+               }}
+            />
+            {selectedUserData ? (
+               <div className="basis-2/5">
+                  <DTL selectedUserData={selectedUserData} setSelectedUserData={setSelectedUserData} />
+               </div>
+            ) : null}
+         </div>
          <Modal
-            title="Шилжүүлэх"
+            title={<span className="main-color">Цуцлах болсон шалтгаанаа бичнэ үү.</span>}
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
             cancelText="Хаах"
             okText="Илгээх"
+            className="modal-with-count"
          >
-            <div className="!mb-4">
-               <p className="!mb-1">Компани</p>
-               <Input placeholder="Шилжүүлэх компанийн нэр" />
-            </div>
-            <div className="!mb-4">
-               <p className="!mb-1">Хэлтэс</p>
-               <Input placeholder="Шилжүүлэх хэлтэс" />
-            </div>
-            <div className="!mb-4">
-               <p className="!mb-1 text-sm">Шилжүүлсэн ажилтан</p>
-               <Input placeholder="Шилжүүлсэн ажилтаны нэр" />
-            </div>
-            <div className="!mb-4">
-               <p className="!mb-1">Шилжүүлсэн огноо</p>
-               <Input placeholder="Шилжүүлсэн огноо" />
+            <div>
+               <TextArea rows={4} placeholder="Шалтгаанаа бичнэ үү" showCount maxLength={250} />
             </div>
          </Modal>
          <Modal
-            title="Ажлаас чөлөөлөх болох шалтгаан"
+            title={<span className="main-color">Ажлаас чөлөөлөх болох шалтгаан</span>}
             open={isModalOpenReason}
             onOk={handleOkReason}
             onCancel={handleCancelReason}

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Select, DatePicker, Input, Table, Popover, Modal } from 'antd';
+import { Button, Select, DatePicker, Input, Table, Popover, Modal, Progress, Tooltip } from 'antd';
 import { PlusCircleOutlined, DownloadOutlined, PrinterOutlined, MoreOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import DTL from './DTL';
 
 function Tab2() {
    const { RangePicker } = DatePicker;
@@ -13,6 +14,8 @@ function Tab2() {
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [isModalOpenReason, setIsModalOpenReason] = useState(false);
    const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
+
+   const [selectedUserData, setSelectedUserData] = useState(null);
 
    const [openPopopver, setOpenPopopver] = useState({ show: false, popopverId: 0 });
 
@@ -175,7 +178,7 @@ function Tab2() {
                handleClosePop();
             }}
          >
-            Шилжүүлэх
+            Ажилд авах
          </Button>
          <Button
             type="text"
@@ -185,7 +188,7 @@ function Tab2() {
                handleClosePop();
             }}
          >
-            Ажлаас чөлөөлөх
+            Шалтгаан
          </Button>
       </div>
    );
@@ -228,34 +231,39 @@ function Tab2() {
             <PrinterOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
             <DownloadOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
          </div>
-         <Table columns={columns} dataSource={data} pagination={false} className="" bordered />
+         <div className="flex flex-row !gap-4">
+            <Table
+               columns={columns}
+               dataSource={data}
+               className={selectedUserData ? 'basis-3/5' : 'basis-full'}
+               bordered
+               size="small"
+               onRow={(record, rowIndex) => {
+                  return {
+                     onDoubleClick: (event) => {
+                        setSelectedUserData(record);
+                     }
+                  };
+               }}
+            />
+            {selectedUserData ? (
+               <div className="basis-2/5">
+                  <DTL selectedUserData={selectedUserData} setSelectedUserData={setSelectedUserData} />
+               </div>
+            ) : null}
+         </div>
          <Modal
-            title="Шилжүүлэх"
+            title={<span className="main-color">Шилжүүлэх</span>}
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
             cancelText="Хаах"
             okText="Илгээх"
          >
-            <div className="!mb-4">
-               <p className="!mb-1">Компани</p>
-               <Input placeholder="Шилжүүлэх компанийн нэр" />
-            </div>
-            <div className="!mb-4">
-               <p className="!mb-1">Хэлтэс</p>
-               <Input placeholder="Шилжүүлэх хэлтэс" />
-            </div>
-            <div className="!mb-4">
-               <p className="!mb-1 text-sm">Шилжүүлсэн ажилтан</p>
-               <Input placeholder="Шилжүүлсэн ажилтаны нэр" />
-            </div>
-            <div className="!mb-4">
-               <p className="!mb-1">Шилжүүлсэн огноо</p>
-               <Input placeholder="Шилжүүлсэн огноо" />
-            </div>
+            <div></div>
          </Modal>
          <Modal
-            title="Ажлаас чөлөөлөх болох шалтгаан"
+            title={<span className="main-color">Ажлаас чөлөөлөх болох шалтгаан</span>}
             open={isModalOpenReason}
             onOk={handleOkReason}
             onCancel={handleCancelReason}
@@ -263,12 +271,10 @@ function Tab2() {
             okText="Болсон"
             className="modal-with-count"
          >
-            <div>
-               <TextArea rows={4} placeholder="Шалтгаанаа бичнэ үү" showCount maxLength={250} />
-            </div>
+            <div></div>
          </Modal>
          <Modal
-            title="Ерөнхий мэдээлэл"
+            title={<span className="main-color">Ерөнхий мэдээлэл</span>}
             open={isModalOpenCreate}
             onOk={handleOkCreate}
             onCancel={handleCancelCreate}

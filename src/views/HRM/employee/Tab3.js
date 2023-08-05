@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Select, DatePicker, Input, Table, Popover, Modal } from 'antd';
+import { Button, Select, DatePicker, Input, Table, Popover, Modal, message } from 'antd';
 import { PlusCircleOutlined, DownloadOutlined, PrinterOutlined, MoreOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import DTL from './DTL';
 
 function Tab3() {
    const { RangePicker } = DatePicker;
@@ -9,10 +10,14 @@ function Tab3() {
    const { Search } = Input;
    const dateFormat = 'YYYY/MM/DD';
    var now = dayjs();
+   const [messageApi, contextHolder] = message.useMessage();
 
    const [isModalOpen, setIsModalOpen] = useState(false);
-   const [isModalOpenReason, setIsModalOpenReason] = useState(false);
+   const [isModalOpenReject, setIsModalOpenReject] = useState(false);
    const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
+
+   const [selectedUserData, setSelectedUserData] = useState(null);
+   const [tempUserData, setTempUserData] = useState(null);
 
    const [openPopopver, setOpenPopopver] = useState({ show: false, popopverId: 0 });
 
@@ -41,14 +46,14 @@ function Tab3() {
    const handleCancel = () => {
       setIsModalOpen(false);
    };
-   const showModalReason = () => {
-      setIsModalOpenReason(true);
+   const showModalReject = () => {
+      setIsModalOpenReject(true);
    };
-   const handleOkReason = () => {
-      setIsModalOpenReason(false);
+   const handleOkReject = () => {
+      setIsModalOpenReject(false);
    };
-   const handleCancelReason = () => {
-      setIsModalOpenReason(false);
+   const handleCancelReject = () => {
+      setIsModalOpenReject(false);
    };
 
    const employee_list = [
@@ -75,6 +80,12 @@ function Tab3() {
    };
    const onSearch = (value) => console.log(value);
 
+   const successFnc = () => {
+      messageApi.open({
+         type: 'success',
+         content: 'Та амжилттай баталгаажууллаа.'
+      });
+   };
    const columns = [
       {
          title: <span className="text-gray-400">№</span>,
@@ -154,6 +165,7 @@ function Tab3() {
                open={openPopopver.show && openPopopver.popopverId == record.key}
                onOpenChange={() => {
                   handleOpenPop(record.key);
+                  setTempUserData(record);
                }}
             >
                <MoreOutlined />
@@ -186,26 +198,43 @@ function Tab3() {
    ];
 
    const content = (
-      <div className="flex flex-col !w-36" onMouseLeave={() => handleClosePop()}>
+      <div
+         className="flex flex-col !w-36"
+         onMouseLeave={() => {
+            handleClosePop();
+            setTempUserData(null);
+         }}
+      >
+         {contextHolder}
          <Button
             type="text"
             className="text-left"
             onClick={() => {
-               showModal();
+               setSelectedUserData(tempUserData);
                handleClosePop();
             }}
          >
-            Шилжүүлэх
+            Дэлгэрэнгүй
          </Button>
          <Button
             type="text"
             className="text-left"
             onClick={() => {
-               showModalReason();
+               showModalReject();
                handleClosePop();
             }}
          >
-            Ажлаас чөлөөлөх
+            Цуцлах
+         </Button>
+         <Button
+            type="text"
+            className="text-left"
+            onClick={() => {
+               successFnc();
+               handleClosePop();
+            }}
+         >
+            Батлах
          </Button>
       </div>
    );
@@ -248,9 +277,29 @@ function Tab3() {
             <PrinterOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
             <DownloadOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
          </div>
-         <Table columns={columns} dataSource={data} pagination={false} className="" bordered />
+         <div className="flex flex-row !gap-4">
+            <Table
+               columns={columns}
+               dataSource={data}
+               className={selectedUserData ? 'basis-3/5' : 'basis-full'}
+               bordered
+               size="small"
+               onRow={(record, rowIndex) => {
+                  return {
+                     onDoubleClick: (event) => {
+                        setSelectedUserData(record);
+                     }
+                  };
+               }}
+            />
+            {selectedUserData ? (
+               <div className="basis-2/5">
+                  <DTL selectedUserData={selectedUserData} setSelectedUserData={setSelectedUserData} />
+               </div>
+            ) : null}
+         </div>
          <Modal
-            title="Шилжүүлэх"
+            title={<span className="main-color">Шилжүүлэх</span>}
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
@@ -275,12 +324,12 @@ function Tab3() {
             </div>
          </Modal>
          <Modal
-            title="Ажлаас чөлөөлөх болох шалтгаан"
-            open={isModalOpenReason}
-            onOk={handleOkReason}
-            onCancel={handleCancelReason}
+            title={<span className="main-color">Цуцлах болсон шалтгаанаа бичнэ үү.</span>}
+            open={isModalOpenReject}
+            onOk={handleOkReject}
+            onCancel={handleCancelReject}
             cancelText="Хаах"
-            okText="Болсон"
+            okText="Илгээх"
             className="modal-with-count"
          >
             <div>
@@ -288,12 +337,12 @@ function Tab3() {
             </div>
          </Modal>
          <Modal
-            title="Гарах хүсэлт гаргах болсон шалтгаанаа бичнэ үү."
+            title={<span className="main-color">Гарах хүсэлт гаргах болсон шалтгаанаа бичнэ үү.</span>}
             open={isModalOpenCreate}
             onOk={handleOkCreate}
             onCancel={handleCancelCreate}
             cancelText="Хаах"
-            okText="Болсон"
+            okText="Илгээх"
             className="modal-with-count"
          >
             <div>
