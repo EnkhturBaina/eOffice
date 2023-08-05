@@ -35,6 +35,7 @@ function Tab4() {
    const handleCancel = () => {
       setIsModalOpen(false);
    };
+
    const showModalReason = () => {
       setIsModalOpenReason(true);
    };
@@ -60,8 +61,7 @@ function Tab4() {
       },
       {
          value: 'disabled',
-         label: 'Disabled',
-         disabled: true
+         label: 'Disabled'
       }
    ];
    const handleChange = (value) => {
@@ -200,6 +200,17 @@ function Tab4() {
       </div>
    );
 
+   // rowSelection object indicates the need for row selection
+   const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      },
+      getCheckboxProps: (record) => ({
+         disabled: record.name === 'Disabled User',
+         // Column configuration not to be checked
+         name: record.name
+      })
+   };
    return (
       <div>
          <div className="flex justify-end">
@@ -252,6 +263,10 @@ function Tab4() {
                      }
                   };
                }}
+               rowSelection={{
+                  type: 'checkbox',
+                  ...rowSelection
+               }}
             />
             {selectedUserData ? (
                <div className="basis-2/5">
@@ -273,7 +288,7 @@ function Tab4() {
             </div>
          </Modal>
          <Modal
-            title={<span className="main-color">Ажлаас чөлөөлөх болох шалтгаан</span>}
+            title={null}
             open={isModalOpenReason}
             onOk={handleOkReason}
             onCancel={handleCancelReason}
@@ -282,7 +297,42 @@ function Tab4() {
             className="modal-with-count"
          >
             <div>
-               <TextArea rows={4} placeholder="Шалтгаанаа бичнэ үү" showCount maxLength={250} />
+               <div className="!mb-4">
+                  <p className="!mb-1">Компани сонгох</p>
+                  <Select
+                     defaultValue="lucy"
+                     style={{
+                        width: 450
+                     }}
+                     onChange={handleChange}
+                     options={employee_list}
+                     className="custom-tab-select !mx-2"
+                  />
+               </div>
+               <div className="!mb-4">
+                  <p className="!mb-1">Компани сонгох</p>
+                  <Select
+                     defaultValue="lucy"
+                     style={{
+                        width: 450
+                     }}
+                     onChange={handleChange}
+                     options={employee_list}
+                     className="custom-tab-select !mx-2"
+                  />
+               </div>
+               <div className="!mb-4">
+                  <p className="!mb-1">Алба хэлтэс сонгох</p>
+                  <Select
+                     defaultValue="lucy"
+                     style={{
+                        width: 450
+                     }}
+                     onChange={handleChange}
+                     options={employee_list}
+                     className="custom-tab-select !mx-2"
+                  />
+               </div>
             </div>
          </Modal>
       </div>

@@ -193,10 +193,21 @@ function Tab2() {
       </div>
    );
 
+   // rowSelection object indicates the need for row selection
+   const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      },
+      getCheckboxProps: (record) => ({
+         disabled: record.name === 'Disabled User',
+         // Column configuration not to be checked
+         name: record.name
+      })
+   };
    return (
       <div>
          <div className="flex justify-end">
-            <Button type="primary" className="flex items-center" size="middle">
+            <Button type="primary" className="flex items-center" size="middle" onClick={showModalCreate}>
                <span className="text-sm">Ажилтан бүртгэх</span>
                <PlusCircleOutlined />
             </Button>
@@ -244,6 +255,10 @@ function Tab2() {
                         setSelectedUserData(record);
                      }
                   };
+               }}
+               rowSelection={{
+                  type: 'checkbox',
+                  ...rowSelection
                }}
             />
             {selectedUserData ? (
