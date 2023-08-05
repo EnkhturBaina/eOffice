@@ -91,7 +91,7 @@ function index(props) {
       },
       {
          key: '6',
-         label: `Түүүхүүд`,
+         label: `Түүхүүд`,
          children: <History />
       },
       {

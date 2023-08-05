@@ -203,7 +203,7 @@ function Tab4() {
       },
       {
          key: '6',
-         label: `Түүүхүүд`,
+         label: `Түүхүүд`,
          children: <HistoryCV />
       }
    ];

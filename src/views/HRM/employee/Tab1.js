@@ -3,6 +3,7 @@ import { Button, Select, DatePicker, Input, Table, Popover, Modal, Progress, Too
 import { PlusCircleOutlined, DownloadOutlined, PrinterOutlined, MoreOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import DTL from './DTL';
+import avatar from '../../../assets/images/avatars/1.jpg';
 
 function Tab1() {
    const { RangePicker } = DatePicker;
@@ -80,16 +81,19 @@ function Tab1() {
 
    const columns = [
       {
-         title: <span className="text-gray-400">№</span>,
-         align: 'center',
-         dataIndex: 'col1',
-         key: 'col1'
-      },
-      {
          title: <span className="text-gray-400">Овог, нэр</span>,
          align: 'center',
          dataIndex: 'name',
-         key: 'name'
+         key: 'name',
+         render: (_, record) => (
+            <div className="flex flex-row items-center">
+               <img src={avatar} width={30} height={30} style={{ borderRadius: '50%' }} />
+               <div className="flex flex-col !ml-2">
+                  <span>{record.name}</span>
+                  <span className="text-gray-400 text-xs">{record.regnum}</span>
+               </div>
+            </div>
+         )
       },
       {
          title: <span className="text-gray-400">Ажилчны ID</span>,
@@ -160,9 +164,9 @@ function Tab1() {
    const data = [
       {
          key: '1',
-         col1: '1',
          name: 'Түдэв Уянга',
          empoyee_id: 'LA-0231',
+         regnum: 'АБ11223344',
          company_reg: 'TenPlus ХХК',
          emp_department: 'Хөгжүүлэлт',
          emp_position: 'Маркетинг',
@@ -172,7 +176,6 @@ function Tab1() {
       },
       {
          key: '2',
-         col1: '2',
          col2: '02/05/2023',
          device: 'Android s13',
          ip: '101.234.12.110'

@@ -18,6 +18,14 @@
 .nav-icon {
     color: $main-text-color !important;
 }
+.main-border-color {
+    border-color: $main-color !important;
+}
+.contact-grid-card{
+    .ant-card-head{
+        padding: 0px !important;
+    }
+}
 //Profile хуудсыг бүтэн харуулах
 .main-content-body {
     .container-lg {
