@@ -41,7 +41,7 @@ function Family() {
                <span className="text-xs">Нөхөр</span>
             </div>
             <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Төрсөн сум, дүүрэг:</span>
+               <span className="text-xs text-slate-500">Ажлын газар:</span>
                <span className="text-xs">Лхагва</span>
             </div>
             <div className="flex flex-col">
