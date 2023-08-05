@@ -306,7 +306,7 @@ function Tab2() {
                            Эцэг /эх/-ийн нэр<span className="text-red-500"> *</span>
                         </p>
                         <Input placeholder="" />
-                        <span className="text-xs">Криллээр бичнэ үү</span>
+                        <span style={{ fontSize: 10 }}>Криллээр бичнэ үү</span>
                      </div>
                   </div>
                   <div>
@@ -315,7 +315,7 @@ function Tab2() {
                            Өөрийн нэр<span className="text-red-500"> *</span>
                         </p>
                         <Input placeholder="" />
-                        <span className="text-xs">Криллээр бичнэ үү</span>
+                        <span style={{ fontSize: 10 }}>Криллээр бичнэ үү</span>
                      </div>
                   </div>
                   <div>
@@ -324,7 +324,7 @@ function Tab2() {
                            Регистерийн дугаар<span className="text-red-500"> *</span>
                         </p>
                         <Input placeholder="" />
-                        <span className="text-xs">Криллээр бичнэ үү</span>
+                        <span style={{ fontSize: 10 }}>Криллээр бичнэ үү</span>
                      </div>
                   </div>
                   <div>
