@@ -153,7 +153,7 @@ const _nav = [
       parent: 2,
       component: CNavItem,
       name: 'Компаниуд',
-      to: '/dashboard',
+      to: '/settings/companies',
       icon: <CIcon icon={cilBank} customClassName="nav-icon" />
    },
    {

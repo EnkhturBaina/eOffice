@@ -1,8 +1,5 @@
 import React from 'react';
 
-const Dashboard_MAIN = React.lazy(() => import('./views/dashboard/Dashboard'));
-const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
-
 const Employee = React.lazy(() => import('./views/HRM/employee'));
 const Contact = React.lazy(() => import('./views/HRM/contact'));
 const Assign = React.lazy(() => import('./views/HRM/assign'));
@@ -17,11 +14,10 @@ const Report = React.lazy(() => import('./views/HRM/report'));
 const Request = React.lazy(() => import('./views/HRM/request'));
 const TimeReg = React.lazy(() => import('./views/HRM/time-register'));
 const Profile = React.lazy(() => import('./views/Profile'));
+const Companies = React.lazy(() => import('./views/Settings/companies'));
 
 const routes = [
    { path: '/', exact: true, name: 'Home' },
-   { path: '/dashboard', name: 'Dashboard', element: Dashboard_MAIN },
-   { path: '/theme', name: 'Theme', element: Colors, exact: true },
    { path: '/hrm/dashboard', name: 'Dashboard', element: Dashboard },
    { path: '/hrm/employee', name: 'Employee', element: Employee },
    { path: '/hrm/contact', name: 'Contact', element: Contact },
@@ -35,7 +31,8 @@ const routes = [
    { path: '/hrm/report', name: 'Report', element: Report },
    { path: '/hrm/request', name: 'Request', element: Request },
    { path: '/hrm/time-register', name: 'TimeReg', element: TimeReg },
-   { path: '/profile', name: 'Profile', element: Profile }
+   { path: '/profile', name: 'Profile', element: Profile },
+   { path: '/settings/companies', name: 'Profile', element: Companies }
 ];
 
 export default routes;

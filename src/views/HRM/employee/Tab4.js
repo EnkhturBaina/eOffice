@@ -267,7 +267,7 @@ function Tab4() {
       <div>
          <div className="flex justify-end">
             <Button type="primary" className="flex items-center" size="middle" onClick={showModalCV}>
-               <span className="text-sm">Ажилтан бүртгэх</span>
+               <span className="text-sm">Анкет илгээх</span>
                <PlusCircleOutlined />
             </Button>
          </div>

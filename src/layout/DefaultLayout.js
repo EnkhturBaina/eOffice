@@ -16,7 +16,8 @@ const DefaultLayout = () => {
       {
          id: 0,
          className: 'icon icon-b',
-         text: 'FRM'
+         text: 'FRM',
+         disabled: true
       },
       {
          id: 1,
@@ -67,8 +68,10 @@ const DefaultLayout = () => {
                            key={index}
                            className={state.selectedParentMenu === index ? 'active' : ''}
                            onClick={() => {
-                              state.setSelectedParentMenu(item.id);
-                              item.isHideSidebar ? state.setSidebarShow(false) : state.setSidebarShow(true);
+                              if (!item.disabled) {
+                                 state.setSelectedParentMenu(item.id);
+                                 item.isHideSidebar ? state.setSidebarShow(false) : state.setSidebarShow(true);
+                              }
                            }}
                         >
                            <div

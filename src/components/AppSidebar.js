@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { CImage, CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react';
+import { CSidebar, CSidebarNav } from '@coreui/react';
 
 import { AppSidebarNav } from './AppSidebarNav';
-
-import main_logo from 'src/assets/main_logo.png';
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
