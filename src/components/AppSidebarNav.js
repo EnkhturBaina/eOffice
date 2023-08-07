@@ -3,8 +3,11 @@ import { NavLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { CBadge } from '@coreui/react';
+import { useContext } from 'react';
+import MainContext from 'src/context/MainContext';
 
 export const AppSidebarNav = ({ items }) => {
+   const state = useContext(MainContext);
    const location = useLocation();
    const navLink = (name, icon, badge) => {
       return (
@@ -32,6 +35,9 @@ export const AppSidebarNav = ({ items }) => {
             key={index}
             {...rest}
             className="main-text-color !mb-1"
+            onClick={() => {
+               item.direct_parent_link && state.setSelectedParentMenu(item.direct_parent_link);
+            }}
          >
             {navLink(name, icon, badge)}
          </Component>

@@ -14,21 +14,21 @@ const DefaultLayout = () => {
    const navigate = useNavigate();
    const menus = [
       {
-         id: 0,
+         id: 1,
          className: 'icon icon-b',
          text: 'FRM',
          disabled: true
       },
       {
-         id: 1,
+         id: 2,
          text: 'HRM'
       },
       {
-         id: 2,
+         id: 3,
          icon: cilSettings
       },
       {
-         id: 3,
+         id: 4,
          icon: freeSet.cilMediaEject
       }
    ];
@@ -66,7 +66,7 @@ const DefaultLayout = () => {
                      return (
                         <li
                            key={index}
-                           className={state.selectedParentMenu === index ? 'active' : ''}
+                           className={state.selectedParentMenu === item.id ? 'active' : ''}
                            onClick={() => {
                               if (!item.disabled) {
                                  state.setSelectedParentMenu(item.id);
