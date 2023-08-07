@@ -31,7 +31,7 @@ export const AppSidebarNav = ({ items }) => {
                })}
             key={index}
             {...rest}
-            className="main-text-color"
+            className="main-text-color !mb-1"
          >
             {navLink(name, icon, badge)}
          </Component>

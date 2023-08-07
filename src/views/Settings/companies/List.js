@@ -12,7 +12,7 @@ function List(props) {
          key: 'name',
          render: (_, record) => (
             <div className="flex flex-row items-center">
-               <img src={avatar} width={32} height={32} style={{ borderRadius: '50%' }} />
+               <img src={avatar} width={32} height={32} className="!mr-2" />
                <span>{record.name}</span>
             </div>
          )
@@ -125,7 +125,7 @@ function List(props) {
 
    return (
       <div>
-         <Table columns={columns} dataSource={data} size="small" bordered />
+         <Table columns={columns} dataSource={data} size="small" bordered className="companies-list-table" />
       </div>
    );
 }

@@ -2,9 +2,11 @@ import React from 'react';
 import CIcon from '@coreui/icons-react';
 import {
    cilAirplaneMode,
+   cilAvTimer,
    cilBank,
    cilCalculator,
    cilCalendar,
+   cilChart,
    cilClipboard,
    cilClock,
    cilCommentBubble,
@@ -14,6 +16,7 @@ import {
    cilFolder,
    cilGroup,
    cilLightbulb,
+   cilList,
    cilListFilter,
    cilPhone,
    cilSend,
@@ -201,9 +204,30 @@ const _nav = [
    {
       parent: 99,
       component: CNavItem,
-      name: 'Харилцсан мэйл',
+      name: 'Профайл',
       to: '/profile',
       icon: <CIcon icon={cilCommentBubble} customClassName="nav-icon" />
+   },
+   {
+      parent: 10,
+      component: CNavItem,
+      name: 'Үндсэн мэдээлэл',
+      to: '/attendance/main',
+      icon: <CIcon icon={cilChart} customClassName="nav-icon" />
+   },
+   {
+      parent: 10,
+      component: CNavItem,
+      name: 'Цагийн бүртгэл',
+      to: '/attendance/list',
+      icon: <CIcon icon={cilAvTimer} customClassName="nav-icon" />
+   },
+   {
+      parent: 10,
+      component: CNavItem,
+      name: 'Хүсэлтүүд',
+      to: '/attendance/requests',
+      icon: <CIcon icon={cilList} customClassName="nav-icon" />
    }
 ];
 

@@ -48,6 +48,13 @@
     display: inline-flex !important;
     align-items: center !important;
 }
+.companies-list-table{
+    .ant-table-cell-with-append{
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+    }
+}
 // antd Search -н border
 .pexar-rounded{
     .ant-input-wrapper{
