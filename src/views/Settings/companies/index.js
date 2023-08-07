@@ -6,7 +6,6 @@ import Toolbar from './Toolbar';
 import List from './List';
 import DTL from './DTL/index';
 import Relation from './Relation/index';
-import { Button } from 'antd';
 
 function index() {
    // 0 => DTL, 1 => Relation
@@ -16,27 +15,18 @@ function index() {
          <AppHeader title="Компаниуд" icon={cilBank} />
          <CreateCompany />
          <Toolbar />
-         <Button size="small" onClick={() => setActionType('DTL')}>
-            Мөр нэмэх
-         </Button>
-         <Button size="small" onClick={() => setActionType('Relation')}>
-            Мөр нэмэх
-         </Button>
-         <Button size="small" onClick={() => setActionType(null)}>
-            Мөр нэмэх
-         </Button>
-         <div className="flex flex-row !gap-4">
+         <div className="flex flex-row !px-10 !gap-4">
             <div className={actionType === null ? 'basis-full' : 'basis-3/5'}>
-               <List />
+               <List actionType={actionType} setActionType={setActionType} />
             </div>
             {actionType === 'DTL' ? (
                <div className="basis-2/5">
-                  <DTL />
+                  <DTL actionType={actionType} setActionType={setActionType} />
                </div>
             ) : null}
             {actionType === 'Relation' ? (
                <div className="basis-2/5">
-                  <Relation />
+                  <Relation actionType={actionType} setActionType={setActionType} />
                </div>
             ) : null}
          </div>
