@@ -5,19 +5,19 @@ function HistoryCV() {
    const { TextArea } = Input;
    return (
       <div>
-         <span className="main-color font-bold">А. Таны ирээдүйн 5 жилийн зорилго</span>
+         <span className="main-color font-semibold">А. Таны ирээдүйн 5 жилийн зорилго</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-1 gap-2 !mb-3">
             <TextArea rows={4} placeholder="Шалтгаанаа бичнэ үү" showCount maxLength={250} className="!mt-2" />
          </div>
-         <span className="main-color font-bold">Б. Жолооны үнэмлэхтэй эсэх</span>
+         <span className="main-color font-semibold">Б. Жолооны үнэмлэхтэй эсэх</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-5 gap-2 !mb-3">
             <div className="flex flex-col">
                <Input placeholder="" size="small" />
             </div>
          </div>
-         <span className="main-color font-bold">В. Эрүүл мэндийн байдал</span>
+         <span className="main-color font-semibold">В. Эрүүл мэндийн байдал</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-4 gap-2 !mb-3">
             <div className="flex flex-col">
@@ -37,7 +37,7 @@ function HistoryCV() {
                <Input placeholder="" size="small" />
             </div>
          </div>
-         <span className="main-color font-bold">
+         <span className="main-color font-semibold">
             Г. Таныг ажил хэргийн хүрээнд сайн тодорхойлох 2 хүний мэдээлэл бичнэ үү
          </span>
          <Divider className="my-1" />
@@ -60,7 +60,7 @@ function HistoryCV() {
             </div>
          </div>
          <div className="flex justify-end !mt-2">
-            <Button>Мөр нэмэх</Button>
+            <Button size="small">Мөр нэмэх</Button>
          </div>
       </div>
    );

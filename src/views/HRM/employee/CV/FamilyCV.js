@@ -4,7 +4,7 @@ import React from 'react';
 function FamilyCV() {
    return (
       <div>
-         <span className="main-color font-bold">А. Гэр бүлийн байдал</span>
+         <span className="main-color font-semibold">А. Гэр бүлийн байдал</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-2 gap-2">
             <div className="flex flex-col">
@@ -17,9 +17,9 @@ function FamilyCV() {
             </div>
          </div>
          <div className="flex justify-end !mt-2">
-            <Button>Мөр нэмэх</Button>
+            <Button size="small">Мөр нэмэх</Button>
          </div>
-         <span className="main-color font-bold">А. Гэр бүлийн гишүүдийн мэдээлэл</span>
+         <span className="main-color font-semibold">А. Гэр бүлийн гишүүдийн мэдээлэл</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-4 gap-2">
             <div className="flex flex-col">
@@ -56,7 +56,7 @@ function FamilyCV() {
             </div>
          </div>
          <div className="flex justify-end !mt-2">
-            <Button>Мөр нэмэх</Button>
+            <Button size="small">Мөр нэмэх</Button>
          </div>
       </div>
    );

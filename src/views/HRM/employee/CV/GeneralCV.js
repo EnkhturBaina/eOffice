@@ -6,7 +6,7 @@ import { Button, Divider, Input } from 'antd';
 function GeneralCV() {
    return (
       <div>
-         <span className="main-color font-bold">A. Хувийн мэдээлэл</span>
+         <span className="main-color font-semibold">A. Хувийн мэдээлэл</span>
          <Divider className="my-1" />
          <div className="flex flex-row !mt-2 !mb-2">
             <div style={{ width: 140 }} className="flex flex-col items-center">
@@ -50,7 +50,7 @@ function GeneralCV() {
                </div>
             </div>
          </div>
-         <span className="main-color font-bold">Б.Холбоо барих</span>
+         <span className="main-color font-semibold">Б.Холбоо барих</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-4 gap-x-4 gap-y-2 !mb-2">
             <div className="flex flex-col">
@@ -70,7 +70,7 @@ function GeneralCV() {
                <Input placeholder="" size="small" />
             </div>
          </div>
-         <span className="main-color font-bold">В. Яаралтай тохиолдолд холбоо барих хүн</span>
+         <span className="main-color font-semibold">В. Яаралтай тохиолдолд холбоо барих хүн</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-4 gap-x-4 gap-y-2 !mb-2">
             <div className="flex flex-col">
@@ -102,9 +102,9 @@ function GeneralCV() {
             </div>
          </div>
          <div className="flex justify-end !mt-2">
-            <Button>Мөр нэмэх</Button>
+            <Button size="small">Мөр нэмэх</Button>
          </div>
-         <span className="main-color font-bold">Г.Хаяг</span>
+         <span className="main-color font-semibold">Г.Хаяг</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-6 gap-x-4 gap-y-2 !mb-2">
             <div className="flex flex-col">

@@ -1,27 +1,14 @@
 import React, { useState } from 'react';
 import { AppHeader } from 'src/components';
 import { cilPhone } from '@coreui/icons';
-import { Card, DatePicker, Progress, Table } from 'antd';
-import {
-   UserAddOutlined,
-   FileOutlined,
-   TagOutlined,
-   AlignLeftOutlined,
-   AppstoreOutlined,
-   PrinterOutlined,
-   DownloadOutlined,
-   BarsOutlined
-} from '@ant-design/icons';
-import dayjs from 'dayjs';
+import { Table } from 'antd';
 import avatar from '../../../assets/images/avatars/1.jpg';
 import GridView from './GridView';
+import Stats from './Stats';
+import Toolbar from './Toolbar';
 
 function index() {
-   const { RangePicker } = DatePicker;
-   const dateFormat = 'YYYY/MM/DD';
-   var now = dayjs();
-
-   const [isGird, setIsGrid] = useState(false);
+   const [isGrid, setIsGrid] = useState(false);
 
    const columns = [
       {
@@ -99,125 +86,10 @@ function index() {
    return (
       <div>
          <AppHeader title="Холбоо барих" icon={cilPhone} />
-         <div className="flex flex-row items-center !px-10 justify-between">
-            <Card
-               style={{
-                  width: 320
-               }}
-               className="employee-stat-card border-0"
-            >
-               <UserAddOutlined
-                  style={{
-                     fontSize: 24,
-                     padding: 12,
-                     color: '#8e88f8',
-                     backgroundColor: '#dad7fe',
-                     borderRadius: '50%'
-                  }}
-               />
-               <div className="flex flex-col !ml-5 !w-full justify-between">
-                  <span className="font-bold">120</span>
-                  <div className="flex flex-col">
-                     <span className="">Нийт ажилчид</span>
-                     <Progress percent={30} strokeColor="#8e88f8" trailColor="#dad7fe" showInfo={false} />
-                  </div>
-               </div>
-            </Card>
-            <Card
-               style={{
-                  width: 320
-               }}
-               className="employee-stat-card border-0"
-            >
-               <FileOutlined
-                  style={{
-                     fontSize: 24,
-                     padding: 12,
-                     color: '#34b53a',
-                     backgroundColor: '#e2fbd7',
-                     borderRadius: '50%'
-                  }}
-               />
-               <div className="flex flex-col !ml-5 !w-full justify-between">
-                  <span className="font-bold">120</span>
-                  <div className="flex flex-col">
-                     <span className="">Ажлаас гарсан</span>
-                     <Progress percent={30} strokeColor="#34b53a" trailColor="#e2fbd7" showInfo={false} />
-                  </div>
-               </div>
-            </Card>
-            <Card
-               style={{
-                  width: 320
-               }}
-               className="employee-stat-card border-0"
-            >
-               <TagOutlined
-                  style={{
-                     fontSize: 24,
-                     padding: 12,
-                     color: '#ffe5d3',
-                     backgroundColor: '#ff3a29',
-                     borderRadius: '50%'
-                  }}
-               />
-               <div className="flex flex-col !ml-5 !w-full justify-between">
-                  <span className="font-bold">120</span>
-                  <div className="flex flex-col">
-                     <span className="">Гарах хүсэлт илгээсэн</span>
-                     <Progress percent={30} strokeColor="#ff3a29" trailColor="#ffe5d3" showInfo={false} />
-                  </div>
-               </div>
-            </Card>
-            <Card
-               style={{
-                  width: 320
-               }}
-               className="employee-stat-card border-0"
-            >
-               <AlignLeftOutlined
-                  style={{
-                     fontSize: 24,
-                     padding: 12,
-                     color: '#fffae6',
-                     backgroundColor: '#ffb200',
-                     borderRadius: '50%'
-                  }}
-               />
-               <div className="flex flex-col !ml-5 !w-full justify-between">
-                  <span className="font-bold">120</span>
-                  <div className="flex flex-col">
-                     <span className="">Анкет илгээсэн</span>
-                     <Progress percent={30} strokeColor="#ffb200" trailColor="#fffae6" showInfo={false} />
-                  </div>
-               </div>
-            </Card>
-         </div>
+         <Stats />
          <div className="!px-10 !my-2">
-            <div className="flex justify-end !my-3 items-center">
-               <RangePicker
-                  defaultValue={[dayjs(now, dateFormat), dayjs(now.add(-1, 'month'), dateFormat)]}
-                  format={dateFormat}
-                  className="!rounded"
-                  style={{ height: 35 }}
-               />
-               {isGird ? (
-                  <BarsOutlined
-                     className="main-color !ml-3 cursor-pointer"
-                     style={{ fontSize: 20 }}
-                     onClick={() => setIsGrid(false)}
-                  />
-               ) : (
-                  <AppstoreOutlined
-                     className="main-color !ml-3 cursor-pointer"
-                     style={{ fontSize: 20 }}
-                     onClick={() => setIsGrid(true)}
-                  />
-               )}
-               <PrinterOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
-               <DownloadOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
-            </div>
-            {isGird ? (
+            <Toolbar isGrid={isGrid} setIsGrid={setIsGrid} />
+            {isGrid ? (
                <GridView />
             ) : (
                <div className="flex flex-row !gap-4">

@@ -4,7 +4,7 @@ import React from 'react';
 function SkillCV() {
    return (
       <div>
-         <span className="main-color font-bold">А.Гадаад хэлний мэдлэг</span>
+         <span className="main-color font-semibold">А.Гадаад хэлний мэдлэг</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-5 gap-x-4 gap-y-2">
             <div className="flex flex-col">
@@ -39,9 +39,9 @@ function SkillCV() {
             </div>
          </div>
          <div className="flex justify-end !mt-2">
-            <Button>Мөр нэмэх</Button>
+            <Button size="small">Мөр нэмэх</Button>
          </div>
-         <span className="main-color font-bold">Б.Авъяас чадвар</span>
+         <span className="main-color font-semibold">Б.Авъяас чадвар</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-3 gap-x-4 gap-y-2">
             <div className="flex flex-col">
@@ -58,9 +58,9 @@ function SkillCV() {
             </div>
          </div>
          <div className="flex justify-end !mt-2">
-            <Button>Мөр нэмэх</Button>
+            <Button size="small">Мөр нэмэх</Button>
          </div>
-         <span className="main-color font-bold">В. Шагналын мэдээлэл</span>
+         <span className="main-color font-semibold">В. Шагналын мэдээлэл</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-4 gap-x-4 gap-y-2">
             <div className="flex flex-col">
@@ -81,7 +81,7 @@ function SkillCV() {
             </div>
          </div>
          <div className="flex justify-end !mt-2">
-            <Button>Мөр нэмэх</Button>
+            <Button size="small">Мөр нэмэх</Button>
          </div>
       </div>
    );

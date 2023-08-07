@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
-import { Button, Select, DatePicker, Input, Table, Popover, Modal, message } from 'antd';
-import { PlusCircleOutlined, DownloadOutlined, PrinterOutlined, MoreOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
-import DTL from './DTL';
+import { Button, Input, Table, Popover, Modal, message } from 'antd';
+import { MoreOutlined } from '@ant-design/icons';
+import DTL from '../DTL';
+import Toolbar from './Toolbar';
+import LeaveReq from './LeaveReq';
 
-function Tab3() {
-   const { RangePicker } = DatePicker;
+function index() {
    const { TextArea } = Input;
-   const { Search } = Input;
-   const dateFormat = 'YYYY/MM/DD';
-   var now = dayjs();
    const [messageApi, contextHolder] = message.useMessage();
 
-   const [isModalOpen, setIsModalOpen] = useState(false);
    const [isModalOpenReject, setIsModalOpenReject] = useState(false);
-   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
 
    const [selectedUserData, setSelectedUserData] = useState(null);
    const [tempUserData, setTempUserData] = useState(null);
@@ -24,27 +19,8 @@ function Tab3() {
    const handleOpenPop = (id) => {
       setOpenPopopver({ show: true, popopverId: id });
    };
-
-   const showModalCreate = () => {
-      setIsModalOpenCreate(true);
-   };
-   const handleOkCreate = () => {
-      setIsModalOpenCreate(false);
-   };
-   const handleCancelCreate = () => {
-      setIsModalOpenCreate(false);
-   };
    const handleClosePop = () => {
       setOpenPopopver({ show: false });
-   };
-   const showModal = () => {
-      setIsModalOpen(true);
-   };
-   const handleOk = () => {
-      setIsModalOpen(false);
-   };
-   const handleCancel = () => {
-      setIsModalOpen(false);
    };
    const showModalReject = () => {
       setIsModalOpenReject(true);
@@ -55,30 +31,6 @@ function Tab3() {
    const handleCancelReject = () => {
       setIsModalOpenReject(false);
    };
-
-   const employee_list = [
-      {
-         value: 'jack',
-         label: 'Jack'
-      },
-      {
-         value: 'lucy',
-         label: 'Lucy'
-      },
-      {
-         value: 'Yiminghe',
-         label: 'yiminghe'
-      },
-      {
-         value: 'disabled',
-         label: 'Disabled',
-         disabled: true
-      }
-   ];
-   const handleChange = (value) => {
-      console.log(`selected ${value}`);
-   };
-   const onSearch = (value) => console.log(value);
 
    const successFnc = () => {
       messageApi.open({
@@ -252,42 +204,8 @@ function Tab3() {
    };
    return (
       <div>
-         <div className="flex justify-end">
-            <Button type="primary" className="flex items-center" size="middle" onClick={showModalCreate}>
-               <span className="text-sm">Гарах хүсэлт</span>
-               <PlusCircleOutlined />
-            </Button>
-         </div>
-         <div className="flex justify-end !my-3 items-center">
-            <Search
-               className="pexar-rounded"
-               placeholder="Хайх"
-               allowClear
-               onSearch={onSearch}
-               style={{
-                  height: 35,
-                  width: 200,
-                  borderRadius: 4
-               }}
-            />
-            <Select
-               defaultValue="lucy"
-               style={{
-                  width: 120
-               }}
-               onChange={handleChange}
-               options={employee_list}
-               className="custom-tab-select !mx-2"
-            />
-            <RangePicker
-               defaultValue={[dayjs(now, dateFormat), dayjs(now.add(-1, 'month'), dateFormat)]}
-               format={dateFormat}
-               className="!rounded"
-               style={{ height: 35 }}
-            />
-            <PrinterOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
-            <DownloadOutlined className="main-color !ml-3 cursor-pointer" style={{ fontSize: 20 }} />
-         </div>
+         <LeaveReq />
+         <Toolbar />
          <div className="flex flex-row !gap-4">
             <Table
                columns={columns}
@@ -314,31 +232,6 @@ function Tab3() {
             ) : null}
          </div>
          <Modal
-            title={<span className="main-color">Шилжүүлэх</span>}
-            open={isModalOpen}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            cancelText="Хаах"
-            okText="Илгээх"
-         >
-            <div className="!mb-4">
-               <p className="!mb-1">Компани</p>
-               <Input placeholder="Шилжүүлэх компанийн нэр" />
-            </div>
-            <div className="!mb-4">
-               <p className="!mb-1">Хэлтэс</p>
-               <Input placeholder="Шилжүүлэх хэлтэс" />
-            </div>
-            <div className="!mb-4">
-               <p className="!mb-1 text-sm">Шилжүүлсэн ажилтан</p>
-               <Input placeholder="Шилжүүлсэн ажилтаны нэр" />
-            </div>
-            <div className="!mb-4">
-               <p className="!mb-1">Шилжүүлсэн огноо</p>
-               <Input placeholder="Шилжүүлсэн огноо" />
-            </div>
-         </Modal>
-         <Modal
             title={<span className="main-color">Цуцлах болсон шалтгаанаа бичнэ үү.</span>}
             open={isModalOpenReject}
             onOk={handleOkReject}
@@ -351,21 +244,8 @@ function Tab3() {
                <TextArea rows={4} placeholder="Шалтгаанаа бичнэ үү" showCount maxLength={250} />
             </div>
          </Modal>
-         <Modal
-            title={<span className="main-color">Гарах хүсэлт гаргах болсон шалтгаанаа бичнэ үү.</span>}
-            open={isModalOpenCreate}
-            onOk={handleOkCreate}
-            onCancel={handleCancelCreate}
-            cancelText="Хаах"
-            okText="Илгээх"
-            className="modal-with-count"
-         >
-            <div>
-               <TextArea rows={8} placeholder="Шалтгаанаа бичнэ үү" showCount maxLength={500} />
-            </div>
-         </Modal>
       </div>
    );
 }
 
-export default Tab3;
+export default index;

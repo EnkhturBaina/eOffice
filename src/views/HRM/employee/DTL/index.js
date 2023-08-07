@@ -71,22 +71,22 @@ function index(props) {
       },
       {
          key: '2',
-         label: `Боловсролын мэдээлэл`,
+         label: `Боловсрол`,
          children: <Education />
       },
       {
          key: '3',
-         label: `Ур чадварын мэдээлэл`,
+         label: `Ур чадвар`,
          children: <Skill />
       },
       {
          key: '4',
-         label: `Ажил эрхлэлтийн байдал`,
+         label: `Ажил эрхлэлт`,
          children: <Work />
       },
       {
          key: '5',
-         label: `Гэр бүлийн байдал`,
+         label: `Гэр бүл`,
          children: <Family />
       },
       {

@@ -5,7 +5,7 @@ function WorkCV() {
    const { TextArea } = Input;
    return (
       <div>
-         <span className="main-color font-bold">А. Нийгмийн даатгалаар баталгаажсан хөдөлмөр эрхлэлт</span>
+         <span className="main-color font-semibold">А. Нийгмийн даатгалаар баталгаажсан хөдөлмөр эрхлэлт</span>
          <Divider className="my-1" />
          <div className="grid grid-cols-5 gap-x-4 gap-y-2">
             <div className="flex flex-col">
@@ -52,9 +52,9 @@ function WorkCV() {
             </div>
          </div>
          <div className="flex justify-end !mt-2">
-            <Button>Мөр нэмэх</Button>
+            <Button size="small">Мөр нэмэх</Button>
          </div>
-         <span className="main-color font-bold">
+         <span className="main-color font-semibold">
             Б. Хэрэв та удаан хугацаанд ажил хийгээгүй бол шалтгаанаа бичнэ үү
          </span>
          <Divider className="my-1" />
