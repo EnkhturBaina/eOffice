@@ -1,90 +1,327 @@
 import React from 'react';
 import { CButton, CForm, CFormInput, CFormTextarea } from '@coreui/react';
+import { Input, Form, Space, Button } from 'antd';
 
 function EditProfile(props) {
+   const { TextArea } = Input;
+   const onFinish = (values) => {
+      console.log('Received values of form:', values);
+   };
    return (
       <div>
          <CForm>
             <p className="main-color font-bold">Хувийн мэдээлэл</p>
             <div className="border-t border-slate-300 !my-2"></div>
-            <div className="flex justify-start">
-               <div className="basis-1/4">
-                  <span className="text-xs">Ургийн овог:</span>
-                  <CFormInput type="text" id="" placeholder="Ургийн овог" size="sm" className="w-9/12 mt-1" />
-               </div>
-               <div className="basis-1/4">
-                  <span className="text-xs">Эцэг /эх/-ийн нэр:</span>
-                  <CFormInput type="text" id="" placeholder="Эцэг /эх/-ийн нэр" size="sm" className="w-9/12 mt-1" />
-               </div>
-            </div>
-            <div className="flex justify-start mt-1">
-               <div className="basis-1/4">
-                  <span className="text-xs">Өөрийн нэр:</span>
-                  <CFormInput type="text" id="" placeholder="Өөрийн нэр" size="sm" className="w-9/12 mt-1" />
-               </div>
-               <div className="basis-1/4">
-                  <span className="text-xs">Регистерийн дугаар:</span>
-                  <CFormInput type="text" id="" placeholder="Регистерийн дугаар" size="sm" className="w-9/12 mt-1" />
-               </div>
-            </div>
-            <div className="flex justify-start mt-1">
-               <div className="basis-1/4">
-                  <span className="text-xs">Яс үндэс:</span>
-                  <CFormInput type="text" id="" placeholder="Яс үндэс" size="sm" className="w-9/12 mt-1" />
-               </div>
-               <div className="basis-1/4">
-                  <span className="text-xs">Иргэншил:</span>
-                  <CFormInput type="text" id="" placeholder="Иргэншил" size="sm" className="w-9/12 mt-1" />
-               </div>
-            </div>
-            <div className="flex justify-start mt-1">
-               <div className="basis-1/4">
-                  <span className="text-xs">Албан байгууллага:</span>
-                  <CFormInput type="text" id="" placeholder="Албан байгууллага" size="sm" className="w-9/12 mt-1" />
-               </div>
-               <div className="basis-1/4">
-                  <span className="text-xs">Албан тушаал:</span>
-                  <CFormInput type="text" id="" placeholder="Албан тушаал" size="sm" className="w-9/12 mt-1" />
-               </div>
-            </div>
-            <p className="main-color font-bold mt-3">Холбогдох мэдээлэл</p>
-            <div className="border-t border-slate-300 !my-2"></div>
-            <div className="flex justify-start">
-               <div className="basis-1/4">
-                  <span className="text-xs">Гар утас:</span>
-                  <CFormInput type="text" id="" placeholder="Гар утас" size="sm" className="w-9/12 mt-1" />
-               </div>
-               <div className="basis-1/4">
-                  <span className="text-xs">Гэрийн утас:</span>
-                  <CFormInput type="text" id="" placeholder="Гэрийн утас" size="sm" className="w-9/12 mt-1" />
-               </div>
-            </div>
-            <div className="flex justify-start">
-               <div className="basis-1/4">
-                  <span className="text-xs">Имэйл хаяг:</span>
-                  <CFormInput type="text" id="" placeholder="Имэйл хаяг" size="sm" className="w-9/12 mt-1" />
-               </div>
-               <div className="basis-1/4">
-                  <span className="text-xs">Facebook:</span>
-                  <CFormInput type="text" id="" placeholder="Facebook" size="sm" className="w-9/12 mt-1" />
-               </div>
-            </div>
-            <div className="flex justify-start">
-               <div className="basis-1/4">
-                  <span className="text-xs">Linked In:</span>
-                  <CFormInput type="text" id="" placeholder="Linked In" size="sm" className="w-9/12 mt-1" />
-               </div>
-               <div className="basis-1/4">
-                  <span className="text-xs">Оршин суудаг улс:</span>
-                  <CFormInput type="text" id="" placeholder="Оршин суудаг улс" size="sm" className="w-9/12 mt-1" />
-               </div>
-            </div>
-            <div className="flex justify-start">
-               <div style={{ width: '44%' }}>
-                  <span className="text-xs">Оршин суудаг хот:</span>
-                  <CFormTextarea id="exampleFormControlTextarea1" rows={2} className="mt-1"></CFormTextarea>
-               </div>
-            </div>
+            <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off" layout="vertical">
+               <Form.Item>
+                  <div className="flex justify-start gap-x-20">
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Ургийн овог</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Эцэг /эх/-ийн нэр</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                  </div>
+                  <div className="flex justify-start gap-x-20">
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Өөрийн нэр</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Регистерийн дугаар</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                  </div>
+                  <div className="flex justify-start gap-x-20">
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Яс үндэс</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Иргэншил</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                  </div>
+                  <div className="flex justify-start gap-x-20">
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Албан байгууллага</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Албан тушаал</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                  </div>
+                  <p className="main-color font-bold mt-3">Холбогдох мэдээлэл</p>
+                  <div className="border-t border-slate-300 !my-2"></div>
+                  <div className="flex justify-start gap-x-20">
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Гар утас</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Гэрийн утас</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                  </div>
+                  <div className="flex justify-start gap-x-20">
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Имэйл хаяг</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Facebook</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                  </div>
+                  <div className="flex justify-start gap-x-20">
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Linked In</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                     <div className="basis-1/6">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Оршин суудаг улс</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <Input size="small" />
+                        </Form.Item>
+                     </div>
+                  </div>
+                  <div className="flex justify-start">
+                     <div className="basis-5/12">
+                        <Form.Item
+                           name="family_name"
+                           label={<span className="text-xs text-slate-500">Оршин суудаг хот</span>}
+                           className="custom-form-item"
+                           rules={[
+                              {
+                                 required: true,
+                                 message: (
+                                    <span className="text-red-500" style={{ fontSize: 10 }}>
+                                       Шаардлагатай
+                                    </span>
+                                 )
+                              }
+                           ]}
+                        >
+                           <TextArea rows={2} placeholder="maxLength is 6" maxLength={6} />
+                        </Form.Item>
+                     </div>
+                  </div>
+                  <Button type="primary" htmlType="submit">
+                     Submit
+                  </Button>
+               </Form.Item>
+            </Form>
             <CButton
                color="dark"
                variant="ghost"
