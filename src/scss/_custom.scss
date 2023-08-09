@@ -75,6 +75,12 @@
 .ant-select-selector{
     border-radius: 4px !important;
 }
+.custom-form-item{
+    margin-bottom: 0 !important;
+    .ant-form-item-label{
+        padding: 0 !important;
+    }
+}
 .ant-btn-primary{
     background-color: $main-color !important;
 }
