@@ -5,13 +5,8 @@ import { UserAddOutlined, FileOutlined, TagOutlined, AlignLeftOutlined } from '@
 function Stats() {
    return (
       <div>
-         <div className="flex flex-row items-center !px-10 justify-between">
-            <Card
-               style={{
-                  width: 320
-               }}
-               className="employee-stat-card border-0"
-            >
+         <div className="flex flex-row items-center !px-10 justify-between gap-10">
+            <Card className="employee-stat-card border-0 w-1/4">
                <UserAddOutlined
                   style={{
                      fontSize: 24,
@@ -29,12 +24,7 @@ function Stats() {
                   </div>
                </div>
             </Card>
-            <Card
-               style={{
-                  width: 320
-               }}
-               className="employee-stat-card border-0"
-            >
+            <Card className="employee-stat-card border-0 w-1/4">
                <FileOutlined
                   style={{
                      fontSize: 24,
@@ -52,12 +42,7 @@ function Stats() {
                   </div>
                </div>
             </Card>
-            <Card
-               style={{
-                  width: 320
-               }}
-               className="employee-stat-card border-0"
-            >
+            <Card className="employee-stat-card border-0 w-1/4">
                <TagOutlined
                   style={{
                      fontSize: 24,
@@ -75,12 +60,7 @@ function Stats() {
                   </div>
                </div>
             </Card>
-            <Card
-               style={{
-                  width: 320
-               }}
-               className="employee-stat-card border-0"
-            >
+            <Card className="employee-stat-card border-0 w-1/4">
                <AlignLeftOutlined
                   style={{
                      fontSize: 24,

@@ -13,12 +13,12 @@ const DefaultLayout = () => {
    const [hoverItem, setHoverItem] = useState(null);
    const navigate = useNavigate();
    const menus = [
-      {
-         id: 1,
-         className: 'icon icon-b',
-         text: 'FRM',
-         disabled: true
-      },
+      // {
+      //    id: 1,
+      //    className: 'icon icon-b',
+      //    text: 'FRM',
+      //    disabled: true
+      // },
       {
          id: 2,
          text: 'HRM'

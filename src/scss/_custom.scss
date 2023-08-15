@@ -146,10 +146,12 @@
     .nav-link {
         &:hover {
             background-color: #EFF4FA !important;
+            border-radius: 8px !important;
         }
         &.active {
             background-color: #EFF4FA !important;
             color: $main-color !important;
+            border-radius: 8px !important;
         }
     }
     &::-webkit-scrollbar-track
@@ -235,9 +237,11 @@
                     margin-left: 25px !important;
                         .content {
                             padding: 10px;
-                            height: 40px !important;
+                            height: 50px !important;
+                            width: 50px !important;
                             display: flex !important;
                             align-items: center !important;
+                            justify-content: center !important;
                                 .icon {
                                     display: inline-block;
                                     background-size: cover;
@@ -318,9 +322,11 @@
                     margin-left: 25px !important;
                         .content {
                             padding: 10px;
-                            height: 40px !important;
+                            height: 50px !important;
+                            width: 50px !important;
                             display: flex !important;
                             align-items: center !important;
+                            justify-content: center !important;
                                 .icon {
                                     display: inline-block;
                                     background-size: cover;
