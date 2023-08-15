@@ -195,6 +195,13 @@ const _nav = [
       name: 'Хүсэлтүүд',
       to: '/attendance/requests',
       icon: <CIcon icon={cilList} customClassName="nav-icon" />
+   },
+   {
+      parent: 9,
+      component: CNavItem,
+      name: 'Тайлан',
+      to: '/report',
+      icon: <CIcon icon={cilCommentBubble} customClassName="nav-icon" />
    }
 ];
 

@@ -18,6 +18,7 @@ const Companies = React.lazy(() => import('./views/Settings/companies'));
 const Attendance_MAIN = React.lazy(() => import('./views/Attendance/general'));
 const Attendance_LIST = React.lazy(() => import('./views/Attendance/attendance'));
 const Attendance_REQUEST = React.lazy(() => import('./views/Attendance/request'));
+const Main_Report = React.lazy(() => import('./views/Report'));
 
 const routes = [
    { path: '/', exact: true, name: 'Home' },
@@ -38,7 +39,8 @@ const routes = [
    { path: '/settings/companies', name: 'Profile', element: Companies },
    { path: '/attendance/main', name: 'Att Main', element: Attendance_MAIN },
    { path: '/attendance/list', name: 'Att List', element: Attendance_LIST },
-   { path: '/attendance/requests', name: 'Att Request', element: Attendance_REQUEST }
+   { path: '/attendance/requests', name: 'Att Request', element: Attendance_REQUEST },
+   { path: '/report', name: 'Report', element: Main_Report }
 ];
 
 export default routes;

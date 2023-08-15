@@ -5,7 +5,7 @@ import main_logo from 'src/assets/main_logo.png';
 import avatarImg from 'src/assets/images/avatars/2.jpg';
 import MainContext from 'src/context/MainContext';
 import CIcon from '@coreui/icons-react';
-import { cilAvTimer, cilBell, cilChatBubble, cilGroup, cilSettings, freeSet } from '@coreui/icons';
+import { cilAvTimer, cilBell, cilChatBubble, cilFile, cilGroup, cilSettings, freeSet } from '@coreui/icons';
 import { useNavigate } from 'react-router-dom';
 
 const DefaultLayout = () => {
@@ -34,6 +34,12 @@ const DefaultLayout = () => {
    ];
    const bottom_menus = [
       {
+         id: 9,
+         icon: cilFile,
+         isHideSidebar: true,
+         url: '/report'
+      },
+      {
          id: 10,
          icon: cilAvTimer
       },
@@ -44,7 +50,8 @@ const DefaultLayout = () => {
       {
          id: 12,
          icon: cilGroup,
-         isHideSidebar: true
+         isHideSidebar: true,
+         url: ''
       },
       {
          id: 13,
@@ -53,7 +60,8 @@ const DefaultLayout = () => {
       {
          id: 99,
          isProfile: true,
-         isHideSidebar: true
+         isHideSidebar: true,
+         url: '/profile'
       }
    ];
    return (
@@ -121,7 +129,12 @@ const DefaultLayout = () => {
                            className={state.selectedParentMenu === item.id ? 'active' : ''}
                            onClick={() => {
                               state.setSelectedParentMenu(item.id);
-                              item.isHideSidebar ? state.setSidebarShow(false) : state.setSidebarShow(true);
+                              if (item.isHideSidebar) {
+                                 item.url && navigate(item.url);
+                                 state.setSidebarShow(false);
+                              } else {
+                                 state.setSidebarShow(true);
+                              }
                            }}
                         >
                            <div
