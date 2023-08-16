@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Input, Modal, Button } from 'antd';
+import { Input, Modal, Button, Form } from 'antd';
 
 function CreateEmp() {
    const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
@@ -15,6 +15,14 @@ function CreateEmp() {
    const handleCancelCreate = () => {
       setIsModalOpenCreate(false);
    };
+
+   const onFinish = (values) => {
+      console.log('Success:', values);
+   };
+   const onFinishFailed = (errorInfo) => {
+      console.log('Failed:', errorInfo);
+   };
+
    return (
       <div>
          <div className="flex justify-end">
@@ -26,130 +34,171 @@ function CreateEmp() {
          <Modal
             title={<span className="main-color">Ерөнхий мэдээлэл</span>}
             open={isModalOpenCreate}
-            onOk={handleOkCreate}
-            onCancel={handleCancelCreate}
-            cancelText="Хаах"
-            okText="Болсон"
             className="modal-with-count"
             width={1000}
+            footer={false}
+            maskClosable={false}
+            onCancel={handleCancelCreate}
          >
-            <div>
+            <Form
+               name="createEmployee"
+               onFinish={onFinish}
+               onFinishFailed={onFinishFailed}
+               autoComplete="off"
+               layout="vertical"
+            >
                <div className="grid grid-cols-3 gap-x-4">
+                  <Form.Item
+                     name="username"
+                     label={<span className="text-xs text-slate-500">Эцэг /эх/-ийн нэр</span>}
+                     className="custom-form-item"
+                     rules={[
+                        {
+                           required: true,
+                           message: 'Please input your username!'
+                        }
+                     ]}
+                  >
+                     <Input />
+                  </Form.Item>
+                  <Form.Item
+                     name="username"
+                     label={<span className="text-xs text-slate-500">Өөрийн нэр</span>}
+                     className="custom-form-item"
+                     rules={[
+                        {
+                           required: true,
+                           message: 'Please input your username!'
+                        }
+                     ]}
+                  >
+                     <Input />
+                  </Form.Item>
+                  <Form.Item
+                     name="username"
+                     label={<span className="text-xs text-slate-500">Регистерийн дугаар</span>}
+                     className="custom-form-item"
+                     rules={[
+                        {
+                           required: true,
+                           message: 'Please input your username!'
+                        }
+                     ]}
+                  >
+                     <Input />
+                  </Form.Item>
+                  <Form.Item
+                     name="username"
+                     label={<span className="text-xs text-slate-500">Компанийн нэр</span>}
+                     className="custom-form-item"
+                     rules={[
+                        {
+                           required: true,
+                           message: 'Please input your username!'
+                        }
+                     ]}
+                  >
+                     <Input />
+                  </Form.Item>
+                  <Form.Item
+                     name="username"
+                     label={<span className="text-xs text-slate-500">Хэлтэс нэгж</span>}
+                     className="custom-form-item"
+                  >
+                     <Input />
+                  </Form.Item>
+                  <Form.Item
+                     name="username"
+                     label={<span className="text-xs text-slate-500">Албан тушаал</span>}
+                     className="custom-form-item"
+                  >
+                     <Input />
+                  </Form.Item>
+                  <Form.Item
+                     name="username"
+                     label={<span className="text-xs text-slate-500">Цалин</span>}
+                     className="custom-form-item"
+                  >
+                     <Input />
+                  </Form.Item>
+                  <Form.Item
+                     name="username"
+                     label={<span className="text-xs text-slate-500">Гар утас</span>}
+                     className="custom-form-item"
+                  >
+                     <Input />
+                  </Form.Item>
+                  <Form.Item
+                     name="username"
+                     label={<span className="text-xs text-slate-500">Цахим шуудан</span>}
+                     className="custom-form-item"
+                  >
+                     <Input />
+                  </Form.Item>
                   <div>
-                     <div className="">
-                        <p className="!mb-1 text-sm">
-                           Эцэг /эх/-ийн нэр<span className="text-red-500"> *</span>
-                        </p>
-                        <Input placeholder="" />
-                        <span style={{ fontSize: 10 }}>Криллээр бичнэ үү</span>
-                     </div>
-                  </div>
-                  <div>
-                     <div className="">
-                        <p className="!mb-1 text-sm">
-                           Өөрийн нэр<span className="text-red-500"> *</span>
-                        </p>
-                        <Input placeholder="" />
-                        <span style={{ fontSize: 10 }}>Криллээр бичнэ үү</span>
-                     </div>
-                  </div>
-                  <div>
-                     <div className="">
-                        <p className="!mb-1 text-sm">
-                           Регистерийн дугаар<span className="text-red-500"> *</span>
-                        </p>
-                        <Input placeholder="" />
-                        <span style={{ fontSize: 10 }}>Криллээр бичнэ үү</span>
-                     </div>
-                  </div>
-                  <div>
-                     <div className="!mb-4">
-                        <p className="!mb-1 text-sm">
-                           Компанийн нэр<span className="text-red-500"> *</span>
-                        </p>
-                        <Input placeholder="" />
-                     </div>
-                  </div>
-                  <div>
-                     <div className="!mb-4">
-                        <p className="!mb-1 text-sm">Хэлтэс нэгж</p>
-                        <Input placeholder="" />
-                     </div>
-                  </div>
-                  <div>
-                     <div className="!mb-4">
-                        <p className="!mb-1 text-sm">Албан тушаал</p>
-                        <Input placeholder="" />
-                     </div>
-                  </div>
-                  <div>
-                     <div className="!mb-4">
-                        <p className="!mb-1 text-sm">Цалин</p>
-                        <Input placeholder="" />
-                     </div>
-                  </div>
-                  <div>
-                     <div className="!mb-4">
-                        <p className="!mb-1 text-sm">Гар утас</p>
-                        <Input placeholder="" />
-                     </div>
-                  </div>
-                  <div>
-                     <div className="!mb-4">
-                        <p className="!mb-1 text-sm">Цахим шуудан</p>
-                        <Input placeholder="" />
+                     <div className="grid grid-cols-2 gap-2">
+                        <Form.Item
+                           name="username"
+                           label={<span className="text-xs text-slate-500">Аймаг, хот</span>}
+                           className="custom-form-item"
+                        >
+                           <Input />
+                        </Form.Item>
+                        <Form.Item
+                           name="username"
+                           label={<span className="text-xs text-slate-500">Сум, дүүрэг</span>}
+                           className="custom-form-item"
+                        >
+                           <Input />
+                        </Form.Item>
                      </div>
                   </div>
                   <div>
                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                           <div className="!mb-4">
-                              <p className="!mb-1 text-sm">Аймаг, хот</p>
-                              <Input placeholder="" />
-                           </div>
-                        </div>
-                        <div>
-                           <div className="!mb-4">
-                              <p className="!mb-1 text-sm">Сум, дүүрэг</p>
-                              <Input placeholder="" />
-                           </div>
-                        </div>
+                        <Form.Item
+                           name="username"
+                           label={<span className="text-xs text-slate-500">Баг, хороо</span>}
+                           className="custom-form-item"
+                        >
+                           <Input />
+                        </Form.Item>
+                        <Form.Item
+                           name="username"
+                           label={<span className="text-xs text-slate-500">Хороолол</span>}
+                           className="custom-form-item"
+                        >
+                           <Input />
+                        </Form.Item>
                      </div>
                   </div>
                   <div>
                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                           <div className="!mb-4">
-                              <p className="!mb-1 text-sm">Баг, хороо</p>
-                              <Input placeholder="" />
-                           </div>
-                        </div>
-                        <div>
-                           <div className="!mb-4">
-                              <p className="!mb-1 text-sm">Хороолол</p>
-                              <Input placeholder="" />
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div>
-                     <div className="grid grid-cols-2 gap-2">
-                        <div>
-                           <div className="!mb-4">
-                              <p className="!mb-1 text-sm">Байшин</p>
-                              <Input placeholder="" />
-                           </div>
-                        </div>
-                        <div>
-                           <div className="!mb-4">
-                              <p className="!mb-1 text-sm">Хаалганы дугаар</p>
-                              <Input placeholder="" />
-                           </div>
-                        </div>
+                        <Form.Item
+                           name="username"
+                           label={<span className="text-xs text-slate-500">Байшин</span>}
+                           className="custom-form-item"
+                        >
+                           <Input />
+                        </Form.Item>
+                        <Form.Item
+                           name="username"
+                           label={<span className="text-xs text-slate-500">Хаалганы дугаар</span>}
+                           className="custom-form-item"
+                        >
+                           <Input />
+                        </Form.Item>
                      </div>
                   </div>
                </div>
-            </div>
+               <Form.Item className="text-right !mt-4 !mb-0">
+                  <Button onClick={handleCancelCreate} className="!mr-2">
+                     Хаах
+                  </Button>
+                  <Button type="primary" htmlType="submit">
+                     Болсон
+                  </Button>
+               </Form.Item>
+            </Form>
          </Modal>
       </div>
    );

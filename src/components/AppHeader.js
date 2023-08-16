@@ -19,12 +19,12 @@ const AppHeader = (props) => {
             <span className="font-bold">{props.title}</span>
          </div>
          <div className="flex flex-row">
-            <RangePicker
+            {/* <RangePicker
                defaultValue={[dayjs(now, dateFormat), dayjs(now.add(-1, 'month'), dateFormat)]}
                format={dateFormat}
                className="!rounded"
                style={{ height: 35 }}
-            />
+            /> */}
             <Search
                className="!mx-2 pexar-rounded"
                placeholder="Хайх"
@@ -32,7 +32,7 @@ const AppHeader = (props) => {
                onSearch={onSearch}
                style={{
                   height: 35,
-                  width: 200,
+                  width: 300,
                   borderRadius: 4
                }}
             />
