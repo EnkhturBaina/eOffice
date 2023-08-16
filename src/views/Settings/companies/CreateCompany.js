@@ -30,15 +30,23 @@ function CreateCompany() {
             <Modal
                title={<span className="main-color">Компани бүртгэх</span>}
                open={isModalOpen}
-               onOk={handleOk}
                onCancel={handleCancel}
-               cancelText="Хаах"
-               okText="Бүртгэх"
+               maskClosable={false}
+               footer={false}
                className="modal-with-count"
                width={1000}
             >
                <div>
-                  <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off" layout="vertical">
+                  <Form
+                     name="dynamic_form_nest_item"
+                     onFinish={onFinish}
+                     autoComplete="off"
+                     layout="vertical"
+                     initialValues={{
+                        emergency: [{ name: '', position: '', phone: '' }],
+                        shareholder: [{ last_name: '', first_name: '', perc: '' }]
+                     }}
+                  >
                      <div className="grid grid-cols-2 gap-4">
                         <div>
                            <span className="main-color font-semibold">А.Ерөнхий боловсрол</span>
@@ -185,7 +193,7 @@ function CreateCompany() {
                                  >
                                     <Form.Item
                                        {...restField}
-                                       name={[name, 'who_is']}
+                                       name={[name, 'name']}
                                        label={<span className="text-xs text-slate-500">Нэр</span>}
                                        rules={[
                                           {
@@ -203,7 +211,7 @@ function CreateCompany() {
                                     </Form.Item>
                                     <Form.Item
                                        {...restField}
-                                       name={[name, 'last_name']}
+                                       name={[name, 'position']}
                                        label={<span className="text-xs text-slate-500">Албан тушаал</span>}
                                        rules={[
                                           {
@@ -221,7 +229,7 @@ function CreateCompany() {
                                     </Form.Item>
                                     <Form.Item
                                        {...restField}
-                                       name={[name, 'first_name']}
+                                       name={[name, 'phone']}
                                        label={<span className="text-xs text-slate-500">Утас</span>}
                                        rules={[
                                           {
@@ -237,11 +245,15 @@ function CreateCompany() {
                                     >
                                        <Input placeholder="" size="small" />
                                     </Form.Item>
-                                    <DeleteOutlined
-                                       onClick={() => remove(name)}
-                                       className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
-                                       style={{ marginTop: 15 }}
-                                    />
+                                    {fields.length > 1 ? (
+                                       <DeleteOutlined
+                                          onClick={() => {
+                                             remove(name);
+                                          }}
+                                          className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
+                                          style={{ marginTop: 15 }}
+                                       />
+                                    ) : null}
                                  </Space>
                               ))}
                               <Form.Item className="text-right">
@@ -254,7 +266,7 @@ function CreateCompany() {
                      </Form.List>
                      <span className="main-color font-semibold">Г.Хувьцаа эзэмшигчид</span>
                      <Divider className="my-1" />
-                     <Form.List name="emergency2">
+                     <Form.List name="shareholder">
                         {(fields, { add, remove }) => (
                            <>
                               {fields.map(({ key, name, ...restField }) => (
@@ -265,7 +277,7 @@ function CreateCompany() {
                                  >
                                     <Form.Item
                                        {...restField}
-                                       name={[name, 'who_is']}
+                                       name={[name, 'last_name']}
                                        label={<span className="text-xs text-slate-500">Овог</span>}
                                        rules={[
                                           {
@@ -283,7 +295,7 @@ function CreateCompany() {
                                     </Form.Item>
                                     <Form.Item
                                        {...restField}
-                                       name={[name, 'last_name']}
+                                       name={[name, 'first_name']}
                                        label={<span className="text-xs text-slate-500">Нэр</span>}
                                        rules={[
                                           {
@@ -301,7 +313,7 @@ function CreateCompany() {
                                     </Form.Item>
                                     <Form.Item
                                        {...restField}
-                                       name={[name, 'first_name']}
+                                       name={[name, 'perc']}
                                        label={<span className="text-xs text-slate-500">Хувьцааны хэмжээ</span>}
                                        rules={[
                                           {
@@ -317,11 +329,15 @@ function CreateCompany() {
                                     >
                                        <Input placeholder="" size="small" />
                                     </Form.Item>
-                                    <DeleteOutlined
-                                       onClick={() => remove(name)}
-                                       className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
-                                       style={{ marginTop: 15 }}
-                                    />
+                                    {fields.length > 1 ? (
+                                       <DeleteOutlined
+                                          onClick={() => {
+                                             remove(name);
+                                          }}
+                                          className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
+                                          style={{ marginTop: 15 }}
+                                       />
+                                    ) : null}
                                  </Space>
                               ))}
                               <Form.Item className="text-right">
@@ -448,9 +464,9 @@ function CreateCompany() {
                            </div>
                         </div>
                      </div>
-                     <Form.Item>
+                     <Form.Item className="text-right !mt-4 !mb-0">
                         <Button type="primary" htmlType="submit">
-                           Submit
+                           Бүртгэх
                         </Button>
                      </Form.Item>
                   </Form>
