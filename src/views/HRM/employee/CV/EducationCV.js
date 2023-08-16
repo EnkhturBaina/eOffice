@@ -8,10 +8,20 @@ function EducationCV() {
    };
    return (
       <div>
-         <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off" layout="vertical">
+         <Form
+            name="dynamic_form_nest_item"
+            onFinish={onFinish}
+            autoComplete="off"
+            layout="vertical"
+            initialValues={{
+               general: [{ start_date: '', end_date: '', country: '', city: '', school: '', grade: '' }],
+               deeed_bolowsrol: [{ start_date: '', end_date: '', country: '', city: '', occupation: '', grade: '' }],
+               surgalt: [{ name: '', start_date: '', end_date: '', school: '', cert_no: '' }]
+            }}
+         >
             <span className="main-color font-semibold">А.Ерөнхий боловсрол</span>
             <Divider className="my-1" />
-            <Form.List name="emergency">
+            <Form.List name="general">
                {(fields, { add, remove }) => (
                   <>
                      {fields.map(({ key, name, ...restField }) => (
@@ -25,7 +35,7 @@ function EducationCV() {
                         >
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'start_date']}
                               label={<span className="text-xs text-slate-500">Элссэн он</span>}
                               className="custom-form-item"
                               rules={[
@@ -43,7 +53,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'end_date']}
                               label={<span className="text-xs text-slate-500">Төгссөн он</span>}
                               className="custom-form-item"
                               rules={[
@@ -61,7 +71,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'country']}
                               label={<span className="text-xs text-slate-500">Улс</span>}
                               className="custom-form-item"
                               rules={[
@@ -79,7 +89,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'city']}
                               label={<span className="text-xs text-slate-500">Аймаг, хот</span>}
                               className="custom-form-item"
                               rules={[
@@ -97,7 +107,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'school']}
                               label={<span className="text-xs text-slate-500">Сургууль</span>}
                               className="custom-form-item"
                               rules={[
@@ -115,7 +125,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'grade']}
                               label={<span className="text-xs text-slate-500">Дүн</span>}
                               className="custom-form-item"
                               rules={[
@@ -131,11 +141,15 @@ function EducationCV() {
                            >
                               <Input size="small" />
                            </Form.Item>
-                           <DeleteOutlined
-                              onClick={() => remove(name)}
-                              className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
-                              style={{ marginTop: 15 }}
-                           />
+                           {fields.length > 1 ? (
+                              <DeleteOutlined
+                                 onClick={() => {
+                                    remove(name);
+                                 }}
+                                 className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
+                                 style={{ marginTop: 15 }}
+                              />
+                           ) : null}
                         </Space>
                      ))}
                      <Form.Item className="text-right">
@@ -162,7 +176,7 @@ function EducationCV() {
                         >
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'start_date']}
                               label={<span className="text-xs text-slate-500">Элссэн он</span>}
                               className="custom-form-item"
                               rules={[
@@ -180,7 +194,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'end_date']}
                               label={<span className="text-xs text-slate-500">Төгссөн он</span>}
                               className="custom-form-item"
                               rules={[
@@ -198,7 +212,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'country']}
                               label={<span className="text-xs text-slate-500">Улс</span>}
                               className="custom-form-item"
                               rules={[
@@ -216,7 +230,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'school']}
                               label={<span className="text-xs text-slate-500">Сургууль</span>}
                               className="custom-form-item"
                               rules={[
@@ -234,7 +248,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'occupation']}
                               label={<span className="text-xs text-slate-500">Мэргэжил</span>}
                               className="custom-form-item"
                               rules={[
@@ -252,7 +266,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'grade']}
                               label={<span className="text-xs text-slate-500">Дүн</span>}
                               className="custom-form-item"
                               rules={[
@@ -268,11 +282,15 @@ function EducationCV() {
                            >
                               <Input size="small" />
                            </Form.Item>
-                           <DeleteOutlined
-                              onClick={() => remove(name)}
-                              className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
-                              style={{ marginTop: 15 }}
-                           />
+                           {fields.length > 1 ? (
+                              <DeleteOutlined
+                                 onClick={() => {
+                                    remove(name);
+                                 }}
+                                 className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
+                                 style={{ marginTop: 15 }}
+                              />
+                           ) : null}
                         </Space>
                      ))}
                      <Form.Item className="text-right">
@@ -285,7 +303,7 @@ function EducationCV() {
             </Form.List>
             <span className="main-color font-semibold">В. Мэргэжлийн чиглэлээр хамрагдаж байсан сургалт</span>
             <Divider className="my-1" />
-            <Form.List name="deeed_bolowsrol">
+            <Form.List name="surgalt">
                {(fields, { add, remove }) => (
                   <>
                      {fields.map(({ key, name, ...restField }) => (
@@ -299,7 +317,7 @@ function EducationCV() {
                         >
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'name']}
                               label={<span className="text-xs text-slate-500">Нарийн мэргэжлийн нэр</span>}
                               className="custom-form-item"
                               rules={[
@@ -317,7 +335,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'start_date']}
                               label={<span className="text-xs text-slate-500">Авсан он</span>}
                               className="custom-form-item"
                               rules={[
@@ -335,7 +353,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'end_date']}
                               label={<span className="text-xs text-slate-500">Хугацаа дуусах он</span>}
                               className="custom-form-item"
                               rules={[
@@ -353,7 +371,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'school']}
                               label={<span className="text-xs text-slate-500">Байгууллага/сургууль</span>}
                               className="custom-form-item"
                               rules={[
@@ -371,7 +389,7 @@ function EducationCV() {
                            </Form.Item>
                            <Form.Item
                               {...restField}
-                              name={[name, 'who_is']}
+                              name={[name, 'cert_no']}
                               label={<span className="text-xs text-slate-500">Гэрчилгээний №</span>}
                               className="custom-form-item"
                               rules={[
@@ -387,11 +405,15 @@ function EducationCV() {
                            >
                               <Input size="small" />
                            </Form.Item>
-                           <DeleteOutlined
-                              onClick={() => remove(name)}
-                              className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
-                              style={{ marginTop: 15 }}
-                           />
+                           {fields.length > 1 ? (
+                              <DeleteOutlined
+                                 onClick={() => {
+                                    remove(name);
+                                 }}
+                                 className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
+                                 style={{ marginTop: 15 }}
+                              />
+                           ) : null}
                         </Space>
                      ))}
                      <Form.Item className="text-right">

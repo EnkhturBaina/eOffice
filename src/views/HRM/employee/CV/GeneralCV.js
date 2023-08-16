@@ -10,7 +10,15 @@ function GeneralCV() {
    };
    return (
       <div>
-         <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off" layout="vertical">
+         <Form
+            name="dynamic_form_nest_item"
+            onFinish={onFinish}
+            autoComplete="off"
+            layout="vertical"
+            initialValues={{
+               emergency: [{ who_is: '', last_name: '', first_name: '', phone: '' }]
+            }}
+         >
             <span className="main-color font-semibold">A. Хувийн мэдээлэл</span>
             <Divider className="my-1" />
             <div className="flex flex-row !mt-2 !mb-2">
@@ -247,11 +255,15 @@ function GeneralCV() {
                            >
                               <Input placeholder="" size="small" />
                            </Form.Item>
-                           <DeleteOutlined
-                              onClick={() => remove(name)}
-                              className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
-                              style={{ marginTop: 15 }}
-                           />
+                           {fields.length > 1 ? (
+                              <DeleteOutlined
+                                 onClick={() => {
+                                    remove(name);
+                                 }}
+                                 className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
+                                 style={{ marginTop: 15 }}
+                              />
+                           ) : null}
                         </Space>
                      ))}
                      <Form.Item className="text-right">

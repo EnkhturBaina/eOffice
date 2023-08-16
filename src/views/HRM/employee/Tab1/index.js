@@ -51,8 +51,8 @@ function index() {
          render: (_, record) => (
             <div className="flex flex-row items-center">
                <img src={avatar} width={30} height={30} style={{ borderRadius: '50%' }} />
-               <div className="flex flex-col !ml-2">
-                  <span>{record.name}</span>
+               <div className="flex flex-col !ml-2 items-start">
+                  <span className="font-bold">{record.name}</span>
                   <span className="text-gray-400 text-xs">{record.regnum}</span>
                </div>
             </div>
