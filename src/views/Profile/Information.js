@@ -22,7 +22,7 @@ function Information(props) {
                <span className="font-bold text-sm">Зориглон</span>
             </div>
             <div className="basis-1/4 grid">
-               <span className="text-xs">Регистерийн дугаар:</span>
+               <span className="text-xs">Регистрийн дугаар:</span>
                <span className="font-bold text-sm">УХ00272176</span>
             </div>
          </div>

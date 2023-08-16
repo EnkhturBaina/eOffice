@@ -22,7 +22,7 @@ function General() {
                      <span className="text-xs">128581262</span>
                   </div>
                   <div className="flex flex-col">
-                     <span className="text-xs text-slate-500">Регистерийн дугаар</span>
+                     <span className="text-xs text-slate-500">Регистрийн дугаар</span>
                      <span className="text-xs">9258165</span>
                   </div>
                   <div className="flex flex-col">

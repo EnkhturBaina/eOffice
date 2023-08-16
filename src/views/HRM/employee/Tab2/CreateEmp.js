@@ -76,7 +76,7 @@ function CreateEmp() {
                   </Form.Item>
                   <Form.Item
                      name="username"
-                     label={<span className="text-xs text-slate-500">Регистерийн дугаар</span>}
+                     label={<span className="text-xs text-slate-500">Регистрийн дугаар</span>}
                      className="custom-form-item"
                      rules={[
                         {

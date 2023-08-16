@@ -152,6 +152,9 @@
             background-color: #EFF4FA !important;
             color: $main-color !important;
             border-radius: 8px !important;
+            .nav-icon {
+                color: $main-color !important;
+            }
         }
     }
     &::-webkit-scrollbar-track

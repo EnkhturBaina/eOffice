@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Input, Modal, Button, Form } from 'antd';
+import { Input, Modal, Button, Form, Divider } from 'antd';
 
 function CreateEmp() {
    const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
@@ -40,6 +40,7 @@ function CreateEmp() {
             maskClosable={false}
             onCancel={handleCancelCreate}
          >
+            <Divider className="my-1" />
             <Form
                name="createEmployee"
                onFinish={onFinish}
@@ -47,7 +48,7 @@ function CreateEmp() {
                autoComplete="off"
                layout="vertical"
             >
-               <div className="grid grid-cols-3 gap-x-4">
+               <div className="grid grid-cols-3 gap-x-4 gap-y-2">
                   <Form.Item
                      name="username"
                      label={<span className="text-xs text-slate-500">Эцэг /эх/-ийн нэр</span>}
@@ -55,7 +56,7 @@ function CreateEmp() {
                      rules={[
                         {
                            required: true,
-                           message: 'Please input your username!'
+                           message: ''
                         }
                      ]}
                   >
@@ -68,7 +69,7 @@ function CreateEmp() {
                      rules={[
                         {
                            required: true,
-                           message: 'Please input your username!'
+                           message: ''
                         }
                      ]}
                   >
@@ -76,12 +77,12 @@ function CreateEmp() {
                   </Form.Item>
                   <Form.Item
                      name="username"
-                     label={<span className="text-xs text-slate-500">Регистерийн дугаар</span>}
+                     label={<span className="text-xs text-slate-500">Регистрийн дугаар</span>}
                      className="custom-form-item"
                      rules={[
                         {
                            required: true,
-                           message: 'Please input your username!'
+                           message: ''
                         }
                      ]}
                   >
@@ -94,7 +95,7 @@ function CreateEmp() {
                      rules={[
                         {
                            required: true,
-                           message: 'Please input your username!'
+                           message: ''
                         }
                      ]}
                   >

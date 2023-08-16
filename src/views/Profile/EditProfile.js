@@ -77,7 +77,7 @@ function EditProfile(props) {
                      <div className="basis-1/6">
                         <Form.Item
                            name="family_name"
-                           label={<span className="text-xs text-slate-500">Регистерийн дугаар</span>}
+                           label={<span className="text-xs text-slate-500">Регистрийн дугаар</span>}
                            className="custom-form-item"
                            rules={[
                               {

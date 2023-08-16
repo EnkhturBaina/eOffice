@@ -200,7 +200,7 @@ function Tab1() {
                   </div>
                   <div className="flex flex-col">
                      <span className="text-xs text-slate-500 !mb-1">
-                        Регистерийн дугаар<span className="text-red-500"> *</span>
+                        Регистрийн дугаар<span className="text-red-500"> *</span>
                      </span>
                      <Input placeholder="" size="small" />
                   </div>

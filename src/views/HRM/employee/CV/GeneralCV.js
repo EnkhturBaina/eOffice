@@ -77,7 +77,7 @@ function GeneralCV() {
                      </Form.Item>
                      <Form.Item
                         name="family_name"
-                        label={<span className="text-xs text-slate-500">Регистерийн дугаар</span>}
+                        label={<span className="text-xs text-slate-500">Регистрийн дугаар</span>}
                         className="custom-form-item"
                         rules={[
                            {
