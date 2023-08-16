@@ -250,6 +250,7 @@ function GeneralCV() {
                            <DeleteOutlined
                               onClick={() => remove(name)}
                               className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
+                              style={{ marginTop: 15 }}
                            />
                         </Space>
                      ))}
