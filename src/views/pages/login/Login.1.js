@@ -12,8 +12,9 @@ import linkedin from "../../../assets/images/login/linkedin.png";
 import { useState } from "react";
 import { openNofi } from "src/features/comman";
 
-const Login = () => {
+export const Login = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [loginForm] = Form.useForm();
   const { login, user, remember_me } = useContext(AuthContext);
   // newtertsn ued login ruu oroh ued butsaagad daӨshboardru ywulah
@@ -100,13 +101,17 @@ const Login = () => {
             type="primary"
             className="w-1/5 flex items-center justify-center"
             size="large"
+            loading={isLoading}
             onClick={() => {
               loginForm
                 .validateFields()
                 .then(async (values) => {
-                  await login(values);
+                  setIsLoading(true);
+                  const data = await login(values);
+                  console.log("data", data);
                 })
                 .catch((error) => {
+                  setIsLoading(false);
                   error.errorFields?.map((err) => {
                     openNofi("error", "Алдаа", err.errors[0]);
                   });
@@ -150,6 +155,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;
-
