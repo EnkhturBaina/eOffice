@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { decryptData } from 'src/features/comman';
 const DEV_URL = process.env.REACT_APP_DEV_URL;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -7,10 +8,11 @@ var jwtInterceptor = axios.create({});
 jwtInterceptor.defaults.baseURL = DEV_URL;
 
 jwtInterceptor.interceptors.request.use((config) => {
-   let tokens = JSON.parse(localStorage.getItem('tokens'));
+   let tokens = decryptData('tokens');
    if (tokens) {
-      (config.headers['Authorization'] = `Bearer ${tokens.accessToken}`), (config.headers['x-api-key'] = API_KEY);
+      config.headers['Authorization'] = `Bearer ${tokens.accessToken}`;
    }
+   config.headers['x-api-key'] = API_KEY;
    return config;
 });
 
