@@ -1,0 +1,17 @@
+[
+  {
+    "code": "WOMAN",
+    "label": "Эм",
+    "value": "WOMAN"
+  },
+  {
+    "code": "MAN",
+    "label": "Эр",
+    "value": "MAN"
+  },
+  {
+    "code": "TRANS",
+    "label": "Эр эм холилдсон",
+    "value": "TRANS"
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "code": "YES",
+    "label": "Тийм",
+    "value": 1
+  },
+  {
+    "code": "NO",
+    "label": "Үгүй",
+    "value": 0
+  }
+]

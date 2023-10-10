@@ -41,6 +41,7 @@ export const AuthContextProvider = ({ children }) => {
       });
   };
   const logout = async () => {
+    console.log("A");
     await jwtInterceopter
       .post("authentication/logout")
       .then((response) => {
