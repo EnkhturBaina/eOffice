@@ -6,20 +6,46 @@ import avatar from "../../../../assets/images/avatars/1.jpg";
 import Toolbar from "./Toolbar";
 import CompanyServices from "../../../../services/settings/company";
 import CreateEmp2 from "./CreateEmp2";
+import Worker from "src/services/worker/worker";
+import ReferenceService from "../../../../services/upload/ReferenceService";
 
 function index() {
   const { TextArea } = Input;
 
   const [selectedBtn, setSelectedBtn] = useState(1);
+  //["0=>TABLE", "1=>50:50", "2=>DTL"];
+  const [dtlSize, setDtlSize] = useState(0);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenReason, setIsModalOpenReason] = useState(false);
 
   const [selectedUserData, setSelectedUserData] = useState(null);
+  const [workerList, setWorkerList] = useState("");
+  const [isLoadingWorker, setIsLoadingWorker] = useState(false);
 
   const [openPopopver, setOpenPopopver] = useState({
     show: false,
     popopverId: 0,
   });
+
+  const getWorkers = async () => {
+    setIsLoadingWorker(true);
+    await Worker.get()
+      .then((res) => {
+        console.log("getWorkers", res);
+        if (res?.data?.response) {
+          setWorkerList(res.data.response.data);
+        }
+      })
+      .catch((c) => {})
+      .finally(() => {
+        setIsLoadingWorker(false);
+      });
+  };
+
+  useEffect(() => {
+    getWorkers();
+  }, []);
 
   const handleOpenPop = (id) => {
     setOpenPopopver({ show: true, popopverId: id });
@@ -64,33 +90,40 @@ function index() {
       title: <span className="text-gray-400">Овог, нэр</span>,
       align: "center",
       dataIndex: "name",
-      key: "name",
-      render: (_, record) => (
-        <div className="flex flex-row items-center">
-          <img
-            src={avatar}
-            width={30}
-            height={30}
-            style={{ borderRadius: "50%" }}
-          />
-          <div className="flex flex-col !ml-2 items-start">
-            <span className="font-bold">{record.name}</span>
-            <span className="text-gray-400 text-xs">{record.regnum}</span>
+      key: ["humans"],
+      render: (_, record) => {
+        return (
+          <div className="flex flex-row items-center">
+            <img
+              src={avatar}
+              width={30}
+              height={30}
+              style={{ borderRadius: "50%" }}
+            />
+            <div className="flex flex-col !ml-2 items-start">
+              <span className="font-bold">{`${record.humans.firstName?.substr(
+                0,
+                1
+              )}. ${record.humans.lastName}`}</span>
+              <span className="text-gray-400 text-xs">
+                {record.humans.regNumber}
+              </span>
+            </div>
           </div>
-        </div>
-      ),
+        );
+      },
     },
     {
       title: <span className="text-gray-400">Ажилчны ID</span>,
       align: "center",
-      dataIndex: "empoyee_id",
-      key: "empoyee_id",
+      dataIndex: ["humans", "id"],
+      key: ["humans", "id"],
     },
     {
       title: <span className="text-gray-400">Компанийн нэр,рд</span>,
       align: "center",
-      dataIndex: "company_reg",
-      key: "company_reg",
+      dataIndex: ["companies", "name"],
+      key: ["companies", "name"],
     },
     {
       title: <span className="text-gray-400">Хэлтэс нэгж</span>,
@@ -135,35 +168,15 @@ function index() {
             placement="left"
             content={content}
             trigger="click"
-            open={openPopopver.show && openPopopver.popopverId == record.key}
+            open={openPopopver.show && openPopopver.popopverId == record.id}
             onOpenChange={() => {
-              handleOpenPop(record.key);
+              handleOpenPop(record.id);
             }}
           >
             <MoreOutlined />
           </Popover>
         </div>
       ),
-    },
-  ];
-  const data = [
-    {
-      key: "1",
-      name: "Түдэв Уянга",
-      empoyee_id: "LA-0231",
-      regnum: "АБ11223344",
-      company_reg: "TenPlus ХХК",
-      emp_department: "Хөгжүүлэлт",
-      emp_position: "Маркетинг",
-      join_date: "30 Apr, 2020",
-      emp_salary: "120000000",
-      emp_status: "Идэвхтэй",
-    },
-    {
-      key: "2",
-      col2: "02/05/2023",
-      device: "Android s13",
-      ip: "101.234.12.110",
     },
   ];
 
@@ -207,6 +220,16 @@ function index() {
       name: record.name,
     }),
   };
+
+  const getFile = async (id) => {
+    return await ReferenceService.getImage(id).then((response) => {
+      const file = new Blob([response], { type: response.type });
+      const fileUrl = URL.createObjectURL(file);
+      console.log("fileUrl", fileUrl);
+      return fileUrl;
+    });
+  };
+
   return (
     <div>
       <Toolbar selectedBtn={selectedBtn} setSelectedBtn={setSelectedBtn} />
@@ -214,15 +237,25 @@ function index() {
         <>
           <div className="flex flex-row !gap-4">
             <Table
+              rowKey={"id"}
+              loading={isLoadingWorker}
               columns={columns}
-              dataSource={data}
-              className={selectedUserData ? "basis-3/5" : "basis-full"}
+              dataSource={workerList}
+              className={
+                dtlSize === 2
+                  ? "hidden"
+                  : dtlSize === 1
+                  ? "basis-3/5"
+                  : "basis-full"
+              }
               bordered
               size="small"
               onRow={(record, rowIndex) => {
                 return {
                   onDoubleClick: (event) => {
+                    console.log("record", record);
                     setSelectedUserData(record);
+                    setDtlSize(1);
                   },
                 };
               }}
@@ -232,10 +265,20 @@ function index() {
               }}
             />
             {selectedUserData ? (
-              <div className="basis-2/5">
+              <div
+                className={
+                  dtlSize === 2
+                    ? "basis-full"
+                    : dtlSize === 1
+                    ? "basis-2/5"
+                    : "basis-0"
+                }
+              >
                 <DTL
                   selectedUserData={selectedUserData}
                   setSelectedUserData={setSelectedUserData}
+                  dtlSize={dtlSize}
+                  setDtlSize={setDtlSize}
                 />
               </div>
             ) : null}
@@ -287,7 +330,7 @@ function index() {
           </Modal>
         </>
       ) : (
-        <CreateEmp2 />
+        <CreateEmp2 selectedBtn={selectedBtn} setSelectedBtn={setSelectedBtn} />
       )}
     </div>
   );

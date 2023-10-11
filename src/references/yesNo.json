@@ -2,11 +2,11 @@
   {
     "code": "YES",
     "label": "Тийм",
-    "value": 1
+    "value": true
   },
   {
     "code": "NO",
     "label": "Үгүй",
-    "value": 0
+    "value": false
   }
 ]
