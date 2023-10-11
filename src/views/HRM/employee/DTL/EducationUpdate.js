@@ -1,16 +1,27 @@
-import { Button, Divider, Input, Form, Space, InputNumber } from "antd";
+import {
+  Button,
+  Divider,
+  Input,
+  Form,
+  Space,
+  InputNumber,
+  DatePicker,
+} from "antd";
 import React, { useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
 
-function EducationUpdate() {
+function EducationUpdate(props) {
+  console.log("props", props);
   const onFinish = (values) => {
     console.log("Received values of form:", values);
   };
   const [form] = Form.useForm();
   const updateEducation = async (values) => {
     console.log("values", values);
+    values.userId = props?.selectedUserData?.id;
+
     await UpdateWorkerData.post(values)
       .then((response) => {
         console.log("updateEducation", response);
@@ -21,6 +32,9 @@ function EducationUpdate() {
         openNofi("warning", "Амжилтгүй", error?.response?.data?.message);
       })
       .finally(() => {});
+  };
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
   };
   return (
     <div>
@@ -41,7 +55,7 @@ function EducationUpdate() {
               type: 1,
             },
           ],
-          deeed_bolowsrol: [
+          university: [
             {
               schoolName: null,
               startYear: null,
@@ -55,7 +69,7 @@ function EducationUpdate() {
               type: 2,
             },
           ],
-          surgalt: [
+          training: [
             {
               fineProfession: null,
               startDate: null,
@@ -103,7 +117,12 @@ function EducationUpdate() {
                       }
                       className="custom-form-item"
                     >
-                      <Input size="small" />
+                      {/* <DatePicker
+                        onChange={onChange}
+                        picker="year"
+                        format={"YYYY"}
+                      /> */}
+                      <InputNumber size="small" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -115,7 +134,7 @@ function EducationUpdate() {
                       }
                       className="custom-form-item"
                     >
-                      <Input size="small" />
+                      <InputNumber size="small" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -137,7 +156,8 @@ function EducationUpdate() {
                       }
                       className="custom-form-item"
                     >
-                      <Input size="small" />
+                      {/* <Input size="small" /> */}
+                      <InputNumber size="small" />
                     </Form.Item>
                   </div>
                   {fields.length > 1 ? (
@@ -166,7 +186,7 @@ function EducationUpdate() {
         </Form.List>
         <span className="main-color font-semibold">Б.Дээд боловсрол</span>
         <Divider className="my-1" />
-        <Form.List name="deeed_bolowsrol">
+        <Form.List name="university">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -200,7 +220,8 @@ function EducationUpdate() {
                       }
                       className="custom-form-item"
                     >
-                      <Input size="small" />
+                      {/* <Input size="small" /> */}
+                      <InputNumber size="small" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -212,7 +233,8 @@ function EducationUpdate() {
                       }
                       className="custom-form-item"
                     >
-                      <Input size="small" />
+                      {/* <Input size="small" /> */}
+                      <InputNumber size="small" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -222,7 +244,8 @@ function EducationUpdate() {
                       }
                       className="custom-form-item"
                     >
-                      <Input size="small" />
+                      {/* <Input size="small" /> */}
+                      <InputNumber size="small" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -234,7 +257,8 @@ function EducationUpdate() {
                       }
                       className="custom-form-item"
                     >
-                      <Input size="small" />
+                      {/* <Input size="small" /> */}
+                      <InputNumber size="small" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -307,7 +331,7 @@ function EducationUpdate() {
           В. Мэргэжлийн чиглэлээр хамрагдаж байсан сургалт
         </span>
         <Divider className="my-1" />
-        <Form.List name="surgalt">
+        <Form.List name="training">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -341,7 +365,8 @@ function EducationUpdate() {
                       }
                       className="custom-form-item"
                     >
-                      <Input size="small" />
+                      {/* <Input size="small" /> */}
+                      <InputNumber size="small" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -353,7 +378,8 @@ function EducationUpdate() {
                       }
                       className="custom-form-item"
                     >
-                      <Input size="small" />
+                      {/* <Input size="small" /> */}
+                      <InputNumber size="small" />
                     </Form.Item>
                     <Form.Item
                       {...restField}

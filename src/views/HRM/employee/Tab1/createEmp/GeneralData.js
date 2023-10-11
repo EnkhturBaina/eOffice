@@ -90,7 +90,7 @@ function GeneralData(props) {
             </Upload>
           </Form.Item>
         </div>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-2 w-100">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2 w-50">
           <Form.Item
             name="familyName"
             label={<span className="text-xs text-slate-500">Ургийн овог</span>}
@@ -290,7 +290,7 @@ function GeneralData(props) {
                 name="disabled"
                 label={
                   <span className="text-xs text-slate-500">
-                    Хөгжлийн бэрхшээлтэй эсэх
+                    Х/бэрхшээлтэй эсэх
                   </span>
                 }
                 className="custom-form-item"
