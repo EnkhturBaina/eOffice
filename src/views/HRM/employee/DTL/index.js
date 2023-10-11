@@ -100,9 +100,6 @@ function index(props) {
             />
           </div>
         </div>
-        <div className="flex justify-end !mt-12">
-          <Button>Засах</Button>
-        </div>
       </Card>
     </div>
   );
