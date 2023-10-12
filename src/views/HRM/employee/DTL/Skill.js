@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import SkillUpdate from "./SkillUpdate";
 import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
+import languageLevel from "../../../../references/languageLevel.json";
 
 function Skill(props) {
   const [isUpdate, setIsUpdate] = useState(false);
@@ -40,6 +41,16 @@ function Skill(props) {
     getSkill();
   }, [props?.selectedUserData]);
 
+  const getName = (val) => {
+    return languageLevel.map((item, index) => {
+      console.log("item", item);
+      if (item.value === val) {
+        console.log("val", val);
+        return <span key={index}>{item.label}</span>;
+      }
+    });
+  };
+
   return (
     <>
       {isLoading ? (
@@ -68,37 +79,49 @@ function Skill(props) {
                       <span className="text-xs text-slate-500">
                         Гадаад хэл:
                       </span>
-                      <span className="text-xs">{el.name}</span>
+                      <span className="text-xs font-bold">
+                        {el.country?.name}
+                      </span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Шалгалт:</span>
-                      <span className="text-xs">{el.exam}</span>
+                      <span className="text-xs font-bold">{el.exam}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Оноо:</span>
-                      <span className="text-xs">{el.score}</span>
+                      <span className="text-xs font-bold">{el.score}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Ярих:</span>
-                      <span className="text-xs">{el.speak}</span>
+                      <span className="text-xs font-bold">
+                        {getName(el.speak)}
+                      </span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Сонсох:</span>
-                      <span className="text-xs">{el.listen}</span>
+                      <span className="text-xs font-bold">
+                        {getName(el.listen)}
+                      </span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Унших :</span>
-                      <span className="text-xs">{el.read}</span>
+                      <span className="text-xs font-bold">
+                        {getName(el.read)}
+                      </span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Бичих:</span>
-                      <span className="text-xs">{el.write}</span>
+                      <span className="text-xs font-bold">
+                        {getName(el.write)}
+                      </span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
                         Ерөнхий түвшин:
                       </span>
-                      <span className="text-xs">{el.note}</span>
+                      <span className="text-xs font-bold">
+                        {getName(el.note)}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -108,35 +131,35 @@ function Skill(props) {
             <div className="grid grid-cols-3 gap-2">
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Гадаад хэл:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Шалгалт:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Оноо:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Ярих:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Сонсох:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Унших :</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Бичих:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Ерөнхий түвшин:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
             </div>
           )}
@@ -151,17 +174,17 @@ function Skill(props) {
                   <div className="grid grid-cols-3 gap-2">
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Төрөл:</span>
-                      <span className="text-xs">{el.sName}</span>
+                      <span className="text-xs font-bold">{el.sName}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
                         Хичээллэсэн жил:
                       </span>
-                      <span className="text-xs">{el.sYear}</span>
+                      <span className="text-xs font-bold">{el.sYear}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Зэрэг,цол:</span>
-                      <span className="text-xs">{el.level}</span>
+                      <span className="text-xs font-bold">{el.level}</span>
                     </div>
                   </div>
                 </div>
@@ -171,15 +194,15 @@ function Skill(props) {
             <div className="grid grid-cols-3 gap-2">
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Төрөл:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Хичээллэсэн жил:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Зэрэг,цол:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
             </div>
           )}
@@ -196,19 +219,19 @@ function Skill(props) {
                       <span className="text-xs text-slate-500">
                         Шагналын нэр:
                       </span>
-                      <span className="text-xs">{el.awardName}</span>
+                      <span className="text-xs font-bold">{el.awardName}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Он:</span>
-                      <span className="text-xs">{el.sdate}</span>
+                      <span className="text-xs font-bold">{el.sdate}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Талбар:</span>
-                      <span className="text-xs">{el.type}</span>
+                      <span className="text-xs font-bold">{el.type}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Тайлбар:</span>
-                      <span className="text-xs">{el.reason}</span>
+                      <span className="text-xs font-bold">{el.reason}</span>
                     </div>
                   </div>
                 </div>
@@ -218,19 +241,19 @@ function Skill(props) {
             <div className="grid grid-cols-4 gap-2">
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Он:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Талбар:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Шагналын нэр:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Тайлбар:</span>
-                <span className="text-xs">-</span>
+                <span className="text-xs font-bold">-</span>
               </div>
             </div>
           )}
