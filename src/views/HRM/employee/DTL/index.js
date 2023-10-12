@@ -83,7 +83,7 @@ function index(props) {
   return (
     <div className="!w-full">
       <Card>
-        <div className="flex flex-row justify-between">
+        <div className="flex-row justify-between !block">
           <div>
             <Tabs
               defaultActiveKey="1"

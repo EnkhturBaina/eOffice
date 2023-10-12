@@ -5,27 +5,33 @@ import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
 import CountryServices from "../../../../services/settings/country";
 import { useEffect } from "react";
+import languageLevel from "../../../../references/languageLevel.json";
 
-function EducationUpdate(props) {
+function SkillUpdate(props) {
   const [countryData, setCountryData] = useState("");
-  const [cityData, setCityData] = useState("");
   const [loading, setLoading] = useState(false);
-
   const onFinish = (values) => {
     console.log("Received values of form:", values);
   };
 
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
+
   const [form] = Form.useForm();
-  const updateEducation = async (values) => {
+  const updateSkill = async (values) => {
     setLoading(true);
     values.userId = props?.selectedUserData?.id;
 
-    await UpdateWorkerData.postEdu(values)
+    await UpdateWorkerData.postSkill(values)
       .then((response) => {
         if (response.status === 201) {
           setTimeout(() => {
             //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
-            props.getEducation();
+            props.getSkill();
           }, 1000);
         }
       })
@@ -39,6 +45,14 @@ function EducationUpdate(props) {
       });
   };
 
+  const strDataFnc = () => {
+    form.setFieldsValue({
+      aptitudes: props.aptData,
+      awards: props.awardData,
+      languages: props.langData,
+    });
+  };
+
   const getCountries = async () => {
     await CountryServices.get({ type: 1 })
       .then((res) => {
@@ -47,35 +61,10 @@ function EducationUpdate(props) {
       .catch((c) => {})
       .finally(() => {});
   };
-  const getCities = async () => {
-    await CountryServices.get({ type: 2 })
-      .then((res) => {
-        setCityData(res.data.response.data);
-      })
-      .catch((c) => {})
-      .finally(() => {});
-  };
-
-  const strDataFnc = () => {
-    form.setFieldsValue({
-      general: props.generalEduData,
-      university: props.uniEduData,
-      training: props.trainingData,
-    });
-  };
   useEffect(() => {
     strDataFnc();
     getCountries();
-    getCities();
   }, []);
-
-  const filterOption = (input, option) =>
-    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-
-  const onSearch = (value) => {
-    console.log("search:", value);
-  };
-
   return (
     <div>
       <Form
@@ -85,45 +74,41 @@ function EducationUpdate(props) {
         autoComplete="off"
         layout="vertical"
         initialValues={{
-          general: [
+          languages: [
             {
-              schoolName: null,
-              startYear: null,
-              endYear: null,
-              countryId: null,
-              cityId: null,
-              type: 1,
+              name: null,
+              exam: null,
+              score: null,
+              speak: null,
+              listen: null,
+              read: null,
+              write: null,
+              note: null,
+              userId: props?.selectedUserData?.id,
             },
           ],
-          university: [
+          aptitudes: [
             {
-              schoolName: null,
-              startYear: null,
-              endYear: null,
-              countryId: null,
-              cityId: null,
-              occupation: null,
-              degree: null,
-              diplomNumber: null,
-              grade: null,
-              type: 2,
+              sName: null,
+              sYear: null,
+              level: null,
+              userId: props?.selectedUserData?.id,
             },
           ],
-          training: [
+          awards: [
             {
-              fineProfession: null,
-              startDate: null,
-              endDate: null,
-              organizationName: null,
-              certificateNumber: null,
-              type: 3,
+              awardName: null,
+              sdate: null,
+              type: null,
+              reason: null,
+              userId: props?.selectedUserData?.id,
             },
           ],
         }}
       >
-        <span className="main-color font-semibold">А.Ерөнхий боловсрол</span>
+        <span className="main-color font-semibold">А.Гадаад хэлний мэдлэг</span>
         <Divider className="my-1" />
-        <Form.List name="general">
+        <Form.List name="languages">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -132,64 +117,18 @@ function EducationUpdate(props) {
                     <Form.Item
                       {...restField}
                       hidden
-                      name={[name, "type"]}
+                      name={[name, "userId"]}
                       label={null}
                       className="custom-form-item"
-                      initialValue={1}
+                      initialValue={props?.selectedUserData?.id}
                     ></Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "schoolName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Сургууль</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "startYear"]}
+                      name={[name, "name"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Элссэн он
+                          Гадаад хэл
                         </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <InputNumber
-                        min={1900}
-                        max={2100}
-                        className="hide-input-arrow"
-                        style={{
-                          width: "100%",
-                        }}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "endYear"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Төгссөн он
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <InputNumber
-                        min={1900}
-                        max={2100}
-                        className="hide-input-arrow"
-                        style={{
-                          width: "100%",
-                        }}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "countryId"]}
-                      label={
-                        <span className="text-xs text-slate-500">Улс</span>
                       }
                       className="custom-form-item"
                     >
@@ -203,10 +142,86 @@ function EducationUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "cityId"]}
+                      name={[name, "exam"]}
+                      label={
+                        <span className="text-xs text-slate-500">Шалгалт</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Input size="small" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "score"]}
+                      label={
+                        <span className="text-xs text-slate-500">Оноо</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Input size="small" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "speak"]}
+                      label={
+                        <span className="text-xs text-slate-500">Ярих</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={languageLevel}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "listen"]}
+                      label={
+                        <span className="text-xs text-slate-500">Сонсох</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={languageLevel}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "read"]}
+                      label={
+                        <span className="text-xs text-slate-500">Унших</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={languageLevel}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "write"]}
+                      label={
+                        <span className="text-xs text-slate-500">Бичих</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={languageLevel}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "note"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Аймаг, хот
+                          Ерөнхий түвшин
                         </span>
                       }
                       className="custom-form-item"
@@ -214,9 +229,7 @@ function EducationUpdate(props) {
                       <Select
                         showSearch
                         optionFilterProp="children"
-                        options={cityData}
-                        onSearch={onSearch}
-                        filterOption={filterOption}
+                        options={languageLevel}
                       />
                     </Form.Item>
                   </div>
@@ -244,9 +257,9 @@ function EducationUpdate(props) {
             </>
           )}
         </Form.List>
-        <span className="main-color font-semibold">Б.Дээд боловсрол</span>
+        <span className="main-color font-semibold">Б.Авъяас чадвар</span>
         <Divider className="my-1" />
-        <Form.List name="university">
+        <Form.List name="aptitudes">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -255,16 +268,16 @@ function EducationUpdate(props) {
                     <Form.Item
                       {...restField}
                       hidden
-                      name={[name, "type"]}
+                      name={[name, "userId"]}
                       label={null}
                       className="custom-form-item"
-                      initialValue={2}
+                      initialValue={props?.selectedUserData?.id}
                     ></Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "schoolName"]}
+                      name={[name, "sName"]}
                       label={
-                        <span className="text-xs text-slate-500">Сургууль</span>
+                        <span className="text-xs text-slate-500">Төрөл</span>
                       }
                       className="custom-form-item"
                     >
@@ -272,17 +285,16 @@ function EducationUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "startYear"]}
+                      name={[name, "sYear"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Элссэн он
+                          Хичэллэсэн жил
                         </span>
                       }
                       className="custom-form-item"
                     >
                       <InputNumber
-                        min={1900}
-                        max={2100}
+                        min={0}
                         className="hide-input-arrow"
                         style={{
                           width: "100%",
@@ -291,94 +303,11 @@ function EducationUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "endYear"]}
+                      name={[name, "level"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Төгссөн он
+                          Зэрэг цол
                         </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <InputNumber
-                        min={1900}
-                        max={2100}
-                        className="hide-input-arrow"
-                        style={{
-                          width: "100%",
-                        }}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "countryId"]}
-                      label={
-                        <span className="text-xs text-slate-500">Улс</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={countryData}
-                        onSearch={onSearch}
-                        filterOption={filterOption}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "cityId"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Аймаг, хот
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={cityData}
-                        onSearch={onSearch}
-                        filterOption={filterOption}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "occupation"]}
-                      label={
-                        <span className="text-xs text-slate-500">Мэргэжил</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "degree"]}
-                      label={
-                        <span className="text-xs text-slate-500">Зэрэглэл</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "diplomNumber"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Дипломны дугаар
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "grade"]}
-                      label={
-                        <span className="text-xs text-slate-500">Дүн</span>
                       }
                       className="custom-form-item"
                     >
@@ -409,11 +338,9 @@ function EducationUpdate(props) {
             </>
           )}
         </Form.List>
-        <span className="main-color font-semibold">
-          В. Мэргэжлийн чиглэлээр хамрагдаж байсан сургалт
-        </span>
+        <span className="main-color font-semibold">В. Шагналын мэдээлэл</span>
         <Divider className="my-1" />
-        <Form.List name="training">
+        <Form.List name="awards">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -422,17 +349,17 @@ function EducationUpdate(props) {
                     <Form.Item
                       {...restField}
                       hidden
-                      name={[name, "type"]}
+                      name={[name, "userId"]}
                       label={null}
                       className="custom-form-item"
-                      initialValue={3}
+                      initialValue={props?.selectedUserData?.id}
                     ></Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "fineProfession"]}
+                      name={[name, "awardName"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Нарийн мэргэжлийн нэр
+                          Шагналын нэр
                         </span>
                       }
                       className="custom-form-item"
@@ -441,10 +368,8 @@ function EducationUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "startDate"]}
-                      label={
-                        <span className="text-xs text-slate-500">Авсан он</span>
-                      }
+                      name={[name, "sdate"]}
+                      label={<span className="text-xs text-slate-500">Он</span>}
                       className="custom-form-item"
                     >
                       <InputNumber
@@ -458,30 +383,9 @@ function EducationUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "endDate"]}
+                      name={[name, "type"]}
                       label={
-                        <span className="text-xs text-slate-500">
-                          Хугацаа дуусах он
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <InputNumber
-                        min={1900}
-                        max={2100}
-                        className="hide-input-arrow"
-                        style={{
-                          width: "100%",
-                        }}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "organizationName"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Байгууллага/сургууль
-                        </span>
+                        <span className="text-xs text-slate-500">Талбар</span>
                       }
                       className="custom-form-item"
                     >
@@ -489,11 +393,9 @@ function EducationUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "certificateNumber"]}
+                      name={[name, "reason"]}
                       label={
-                        <span className="text-xs text-slate-500">
-                          Гэрчилгээний №
-                        </span>
+                        <span className="text-xs text-slate-500">Тайлбар</span>
                       }
                       className="custom-form-item"
                     >
@@ -541,7 +443,7 @@ function EducationUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
-                  updateEducation(values);
+                  updateSkill(values);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -557,4 +459,4 @@ function EducationUpdate(props) {
   );
 }
 
-export default EducationUpdate;
+export default SkillUpdate;

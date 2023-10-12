@@ -16,7 +16,7 @@ function Education(props) {
     setUniEduData([]);
     setTrainingData([]);
     setIsLoading(true);
-    await UpdateWorkerData.get({ userId: props?.selectedUserData?.id })
+    await UpdateWorkerData.getEdu({ userId: props?.selectedUserData?.id })
       .then((response) => {
         if (response.status === 200) {
           response.data?.response?.data?.map((el) => {
@@ -54,8 +54,8 @@ function Education(props) {
           generalEduData={generalEduData}
           uniEduData={uniEduData}
           trainingData={trainingData}
-          setIsUpdate={setIsUpdate}
           getEducation={getEducation}
+          setIsUpdate={setIsUpdate}
         />
       ) : (
         <div>

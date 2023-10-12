@@ -1,0 +1,17 @@
+[
+  {
+    "code": "First",
+    "label": "Анхан",
+    "value": 0
+  },
+  {
+    "code": "Medium",
+    "label": "Дунд",
+    "value": 1
+  },
+  {
+    "code": "Advanced",
+    "label": "Ахисан",
+    "value": 2
+  }
+]
