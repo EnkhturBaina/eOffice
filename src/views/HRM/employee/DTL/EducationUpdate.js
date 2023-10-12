@@ -1,41 +1,81 @@
-import {
-  Button,
-  Divider,
-  Input,
-  Form,
-  Space,
-  InputNumber,
-  DatePicker,
-} from "antd";
+import { Button, Divider, Input, Form, Space, InputNumber, Select } from "antd";
 import React, { useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
+import CountryServices from "../../../../services/settings/country";
+import { useEffect } from "react";
 
 function EducationUpdate(props) {
-  console.log("props", props);
+  const [countryData, setCountryData] = useState("");
+  const [cityData, setCityData] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const onFinish = (values) => {
     console.log("Received values of form:", values);
   };
+
   const [form] = Form.useForm();
   const updateEducation = async (values) => {
-    console.log("values", values);
+    setLoading(true);
     values.userId = props?.selectedUserData?.id;
 
     await UpdateWorkerData.post(values)
       .then((response) => {
-        console.log("updateEducation", response);
         if (response.status === 201) {
+          setTimeout(() => {
+            //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
+            props.getEducation();
+          }, 1000);
         }
       })
       .catch((error) => {
         openNofi("warning", "Амжилтгүй", error?.response?.data?.message);
       })
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      });
+  };
+
+  const getCountries = async () => {
+    await CountryServices.get({ type: 1 })
+      .then((res) => {
+        setCountryData(res.data.response.data);
+      })
+      .catch((c) => {})
       .finally(() => {});
   };
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
+  const getCities = async () => {
+    await CountryServices.get({ type: 2 })
+      .then((res) => {
+        setCityData(res.data.response.data);
+      })
+      .catch((c) => {})
+      .finally(() => {});
   };
+
+  const strDataFnc = () => {
+    form.setFieldsValue({
+      general: props.generalEduData,
+      university: props.uniEduData,
+      training: props.trainingData,
+    });
+  };
+  useEffect(() => {
+    strDataFnc();
+    getCountries();
+    getCities();
+  }, []);
+
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
+
   return (
     <div>
       <Form
@@ -117,12 +157,14 @@ function EducationUpdate(props) {
                       }
                       className="custom-form-item"
                     >
-                      {/* <DatePicker
-                        onChange={onChange}
-                        picker="year"
-                        format={"YYYY"}
-                      /> */}
-                      <InputNumber size="small" />
+                      <InputNumber
+                        min={1900}
+                        max={2100}
+                        className="hide-input-arrow"
+                        style={{
+                          width: "100%",
+                        }}
+                      />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -134,7 +176,14 @@ function EducationUpdate(props) {
                       }
                       className="custom-form-item"
                     >
-                      <InputNumber size="small" />
+                      <InputNumber
+                        min={1900}
+                        max={2100}
+                        className="hide-input-arrow"
+                        style={{
+                          width: "100%",
+                        }}
+                      />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -144,7 +193,13 @@ function EducationUpdate(props) {
                       }
                       className="custom-form-item"
                     >
-                      <InputNumber size="small" />
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={countryData}
+                        onSearch={onSearch}
+                        filterOption={filterOption}
+                      />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -156,8 +211,13 @@ function EducationUpdate(props) {
                       }
                       className="custom-form-item"
                     >
-                      {/* <Input size="small" /> */}
-                      <InputNumber size="small" />
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={cityData}
+                        onSearch={onSearch}
+                        filterOption={filterOption}
+                      />
                     </Form.Item>
                   </div>
                   {fields.length > 1 ? (
@@ -176,7 +236,7 @@ function EducationUpdate(props) {
                   type="dashed"
                   onClick={() => add()}
                   block
-                  className="!w-2/12"
+                  className="!w-2/12 mt-2"
                 >
                   Мөр нэмэх
                 </Button>
@@ -220,8 +280,14 @@ function EducationUpdate(props) {
                       }
                       className="custom-form-item"
                     >
-                      {/* <Input size="small" /> */}
-                      <InputNumber size="small" />
+                      <InputNumber
+                        min={1900}
+                        max={2100}
+                        className="hide-input-arrow"
+                        style={{
+                          width: "100%",
+                        }}
+                      />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -233,8 +299,14 @@ function EducationUpdate(props) {
                       }
                       className="custom-form-item"
                     >
-                      {/* <Input size="small" /> */}
-                      <InputNumber size="small" />
+                      <InputNumber
+                        min={1900}
+                        max={2100}
+                        className="hide-input-arrow"
+                        style={{
+                          width: "100%",
+                        }}
+                      />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -244,8 +316,13 @@ function EducationUpdate(props) {
                       }
                       className="custom-form-item"
                     >
-                      {/* <Input size="small" /> */}
-                      <InputNumber size="small" />
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={countryData}
+                        onSearch={onSearch}
+                        filterOption={filterOption}
+                      />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -257,8 +334,13 @@ function EducationUpdate(props) {
                       }
                       className="custom-form-item"
                     >
-                      {/* <Input size="small" /> */}
-                      <InputNumber size="small" />
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={cityData}
+                        onSearch={onSearch}
+                        filterOption={filterOption}
+                      />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -319,7 +401,7 @@ function EducationUpdate(props) {
                   type="dashed"
                   onClick={() => add()}
                   block
-                  className="!w-2/12"
+                  className="!w-2/12 mt-2"
                 >
                   Мөр нэмэх
                 </Button>
@@ -365,8 +447,14 @@ function EducationUpdate(props) {
                       }
                       className="custom-form-item"
                     >
-                      {/* <Input size="small" /> */}
-                      <InputNumber size="small" />
+                      <InputNumber
+                        min={1900}
+                        max={2100}
+                        className="hide-input-arrow"
+                        style={{
+                          width: "100%",
+                        }}
+                      />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -378,8 +466,14 @@ function EducationUpdate(props) {
                       }
                       className="custom-form-item"
                     >
-                      {/* <Input size="small" /> */}
-                      <InputNumber size="small" />
+                      <InputNumber
+                        min={1900}
+                        max={2100}
+                        className="hide-input-arrow"
+                        style={{
+                          width: "100%",
+                        }}
+                      />
                     </Form.Item>
                     <Form.Item
                       {...restField}
@@ -422,7 +516,7 @@ function EducationUpdate(props) {
                   type="dashed"
                   onClick={() => add()}
                   block
-                  className="!w-2/12"
+                  className="!w-2/12 mt-2"
                 >
                   Мөр нэмэх
                 </Button>
@@ -434,7 +528,7 @@ function EducationUpdate(props) {
           <Button
             type="primary"
             htmlType="submit"
-            onClick={() =>
+            onClick={() => {
               form
                 .validateFields()
                 .then((values) => {
@@ -442,8 +536,9 @@ function EducationUpdate(props) {
                 })
                 .catch((error) => {
                   console.log(error);
-                })
-            }
+                });
+            }}
+            loading={loading}
           >
             Хадгалах
           </Button>
