@@ -1,0 +1,92 @@
+[
+  {
+    "code": "0",
+    "label": "Бусад",
+    "value": 0
+  },
+  {
+    "code": "1",
+    "label": "Эцэг",
+    "value": 1
+  },
+  {
+    "code": "2",
+    "label": "Эх",
+    "value": 2
+  },
+  {
+    "code": "3",
+    "label": "Өвөө",
+    "value": 3
+  },
+  {
+    "code": "4",
+    "label": "Эмээ",
+    "value": 4
+  },
+  {
+    "code": "5",
+    "label": "Ах",
+    "value": 5
+  },
+  {
+    "code": "6",
+    "label": "Эгч",
+    "value": 6
+  },
+  {
+    "code": "7",
+    "label": "Дүү",
+    "value": 7
+  },
+  {
+    "code": "8",
+    "label": "Хамаатан садан",
+    "value": 8
+  },
+  {
+    "code": "9",
+    "label": "Найз нөхөд",
+    "value": 9
+  },
+  {
+    "code": "10",
+    "label": "Хүү",
+    "value": 10
+  },
+  {
+    "code": "11",
+    "label": "Охин",
+    "value": 11
+  },
+  {
+    "code": "12",
+    "label": "Эхнэр",
+    "value": 12
+  },
+  {
+    "code": "13",
+    "label": "Нөхөр",
+    "value": 13
+  },
+  {
+    "code": "14",
+    "label": "Хадам эцэг",
+    "value": 14
+  },
+  {
+    "code": "15",
+    "label": "Хадам эх",
+    "value": 15
+  },
+  {
+    "code": "16",
+    "label": "Бэр",
+    "value": 16
+  },
+  {
+    "code": "17",
+    "label": "Хүргэн",
+    "value": 17
+  }
+]

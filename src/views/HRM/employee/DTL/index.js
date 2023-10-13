@@ -9,6 +9,7 @@ import Family from "./Family";
 import History from "./History";
 import Contract from "./Contract";
 import Command from "./Command";
+import Contact from "./Contact";
 
 function index(props) {
   const onChange = (key) => {
@@ -54,6 +55,11 @@ function index(props) {
       key: "8",
       label: `Тушаал`,
       children: <Command selectedUserData={props.selectedUserData} />,
+    },
+    {
+      key: "9",
+      label: `Мэдээлэл өгөх хүн`,
+      children: <Contact selectedUserData={props.selectedUserData} />,
     },
   ];
 

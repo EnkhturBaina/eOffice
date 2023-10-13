@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import FamilyUpdate from "./FamilyUpdate";
 import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import dayjs from "dayjs";
 
 function Family(props) {
   const [isUpdate, setIsUpdate] = useState(false);
@@ -15,7 +14,7 @@ function Family(props) {
     setIsLoading(true);
     await UpdateWorkerData.getFamily({ userId: props?.selectedUserData?.id })
       .then((response) => {
-        //   console.log("getWork =======>", response);
+        console.log("get Family =======>", response);
         if (response.status === 200) {
           setFamilyData(response.data?.response?.data);
         }
@@ -31,7 +30,7 @@ function Family(props) {
   };
 
   useEffect(() => {
-    // getFamily();
+    //  getFamily();
   }, [props?.selectedUserData]);
 
   return (

@@ -4,21 +4,18 @@ import { DeleteOutlined } from "@ant-design/icons";
 import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
 import dayjs from "dayjs";
-import mn_MN from "antd/es/date-picker/locale/mn_MN";
 const dateFormat = "YYYY-MM-DD";
 import familyPersons from "../../../../references/familyPersons.json";
-import CountryServices from "../../../../services/settings/country";
 
-function FamilyUpdate(props) {
+function ContactUpdate(props) {
   const [loading, setLoading] = useState(false);
-  const [cityData, setCityData] = useState("");
 
   const onFinish = (values) => {
     // console.log("Received values of form:", values);
   };
 
   const [form] = Form.useForm();
-  const updateFamily = async (values) => {
+  const updateContact = async (values) => {
     values?.families?.map((el) => {
       el.birthDate = dayjs(el.birthDate).format(dateFormat);
     });
@@ -32,7 +29,7 @@ function FamilyUpdate(props) {
         if (response.status === 201) {
           setTimeout(() => {
             //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
-            props.getFamily();
+            props.getContact();
           }, 1000);
         }
       })
@@ -48,24 +45,11 @@ function FamilyUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      families: props.familyData,
+      contacts: props.contactData,
     });
-  };
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
-  };
-
-  const getCities = async () => {
-    await CountryServices.get({ type: 2 })
-      .then((res) => {
-        setCityData(res.data.response.data);
-      })
-      .catch((c) => {})
-      .finally(() => {});
   };
 
   useEffect(() => {
-    getCities();
     strDataFnc();
   }, []);
   return (
@@ -77,33 +61,45 @@ function FamilyUpdate(props) {
         autoComplete="off"
         layout="vertical"
         initialValues={{
-          families: [
+          contacts: [
             {
+              lastName: null,
+              firstName: null,
               whoIs: null,
-              lName: null,
-              fName: null,
-              jobType: null,
-              desc: null,
-              jobName: null,
-              rank: null,
-              occupation: null,
-              birthDate: null,
-              birthCityId: null,
-              liveCityId: null,
+              workplace: null,
+              work: null,
+              phone: null,
             },
           ],
         }}
       >
-        <span className="main-color font-bold">
-          Гэр бүлийн гишүүдийн мэдээлэл
-        </span>
         <Divider className="my-1" />
-        <Form.List name="families">
+        <Form.List name="contacts">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
                   <div className="grid grid-cols-3 gap-x-1">
+                    <Form.Item
+                      {...restField}
+                      name={[name, "lastName"]}
+                      label={
+                        <span className="text-xs text-slate-500">Овог</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Input size="small" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "firstName"]}
+                      label={
+                        <span className="text-xs text-slate-500">Нэр</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Input size="small" />
+                    </Form.Item>
                     <Form.Item
                       {...restField}
                       name={[name, "whoIs"]}
@@ -122,30 +118,10 @@ function FamilyUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "lName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Овог</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "fName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Нэр</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "jobType"]}
+                      name={[name, "workplace"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Ажлын төрөл
+                          Ажлын байр
                         </span>
                       }
                       className="custom-form-item"
@@ -154,9 +130,9 @@ function FamilyUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "desc"]}
+                      name={[name, "work"]}
                       label={
-                        <span className="text-xs text-slate-500">Тайлбар</span>
+                        <span className="text-xs text-slate-500">Ажил</span>
                       }
                       className="custom-form-item"
                     >
@@ -164,86 +140,13 @@ function FamilyUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "jobName"]}
+                      name={[name, "phone"]}
                       label={
-                        <span className="text-xs text-slate-500">
-                          Ажлын нэр
-                        </span>
+                        <span className="text-xs text-slate-500">Утас</span>
                       }
                       className="custom-form-item"
                     >
                       <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "rank"]}
-                      label={
-                        <span className="text-xs text-slate-500">Зэрэглэл</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "occupation"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Ажил мэргэжил
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "birthDate"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Төрсөн он сар өдөр
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <DatePicker
-                        onChange={onChange}
-                        className="custom-datepicker"
-                        format={dateFormat}
-                        locale={mn_MN}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "birthCityId"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Төрсөн аймаг хот
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={cityData}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "liveCityId"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Амьдарч байгаа аймаг хот
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={cityData}
-                      />
                     </Form.Item>
                   </div>
                   {fields.length > 1 ? (
@@ -287,7 +190,7 @@ function FamilyUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
-                  updateFamily(values);
+                  updateContact(values);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -303,4 +206,4 @@ function FamilyUpdate(props) {
   );
 }
 
-export default FamilyUpdate;
+export default ContactUpdate;

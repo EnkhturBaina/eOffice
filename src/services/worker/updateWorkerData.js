@@ -32,5 +32,13 @@ class UpdateWorkerData {
       params: param,
     });
   }
+  async postContact(data) {
+    return await jwtInterceptor.post("human-resource/contact", data);
+  }
+  async getContact(param) {
+    return await jwtInterceptor.get("human-resource/contact", {
+      params: param,
+    });
+  }
 }
 export default new UpdateWorkerData();
