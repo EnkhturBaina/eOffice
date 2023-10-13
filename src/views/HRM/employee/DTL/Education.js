@@ -18,6 +18,10 @@ function Education(props) {
     setIsLoading(true);
     await UpdateWorkerData.getEdu({ userId: props?.selectedUserData?.id })
       .then((response) => {
+        console.log(
+          "response.data?.response?.data",
+          response.data?.response?.data
+        );
         if (response.status === 200) {
           response.data?.response?.data?.map((el) => {
             if (el.type === 1) {
@@ -84,13 +88,15 @@ function Education(props) {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Улс:</span>
-                      <span className="text-xs font-bold">{el.countryId}</span>
+                      <span className="text-xs font-bold">
+                        {el.country?.name}
+                      </span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
                         Аймаг, хот:
                       </span>
-                      <span className="text-xs font-bold">{el.cityId}</span>
+                      <span className="text-xs font-bold">{el.city?.name}</span>
                     </div>
                   </div>
                 </div>
@@ -145,13 +151,15 @@ function Education(props) {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Улс:</span>
-                      <span className="text-xs font-bold">{el.countryId}</span>
+                      <span className="text-xs font-bold">
+                        {el.country?.name}
+                      </span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
                         Аймаг, хот:
                       </span>
-                      <span className="text-xs font-bold">{el.cityId}</span>
+                      <span className="text-xs font-bold">{el.city?.name}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Мэргэжил:</span>
