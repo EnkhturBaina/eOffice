@@ -18,10 +18,7 @@ function Education(props) {
     setIsLoading(true);
     await UpdateWorkerData.getEdu({ userId: props?.selectedUserData?.id })
       .then((response) => {
-        console.log(
-          "response.data?.response?.data",
-          response.data?.response?.data
-        );
+        // console.log("getEducation", response.data?.response?.data);
         if (response.status === 200) {
           response.data?.response?.data?.map((el) => {
             if (el.type === 1) {
@@ -66,7 +63,7 @@ function Education(props) {
           <div className="mt-2">
             <span className="main-color font-bold">Ерөнхий боловсрол</span>
           </div>
-          {generalEduData.length !== 0 ? (
+          {generalEduData?.length !== 0 ? (
             generalEduData?.map((el, index) => {
               return (
                 <div key={index}>
@@ -129,7 +126,7 @@ function Education(props) {
           <div className="mt-1">
             <span className="main-color font-bold">Дээд боловсрол</span>
           </div>
-          {uniEduData.length !== 0 ? (
+          {uniEduData?.length !== 0 ? (
             uniEduData?.map((el, index) => {
               return (
                 <div key={index}>
@@ -230,7 +227,7 @@ function Education(props) {
               Мэргэжлийн чиглэлээр хамрагдаж байсан сургалт
             </span>
           </div>
-          {trainingData.length !== 0 ? (
+          {trainingData?.length !== 0 ? (
             trainingData?.map((el, index) => {
               return (
                 <div key={index}>

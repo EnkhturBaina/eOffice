@@ -12,7 +12,7 @@ function EducationUpdate(props) {
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values) => {
-    console.log("Received values of form:", values);
+    // console.log("Received values of form:", values);
   };
 
   const [form] = Form.useForm();

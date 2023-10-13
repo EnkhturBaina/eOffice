@@ -1,120 +1,163 @@
-import React from 'react';
+import { Button, Divider, Spin } from "antd";
+import React, { useState, useEffect } from "react";
+import WorkUpdate from "./WorkUpdate";
+import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
+import { openNofi } from "src/features/comman";
+import dayjs from "dayjs";
 
-function Work() {
-   return (
-      <div>
-         <div className="mt-2">
-            <span className="main-color font-bold">Нийгмийн даатгалаар баталгаажсан хөдөлмөр эрхлэлт </span>
-         </div>
-         <div className="grid grid-cols-4 gap-2">
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Төрсөн он сар өдөр:</span>
-               <span className="text-xs">Англи, Солонгос</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Гарсан огноо:</span>
-               <span className="text-xs">2021</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Байгууллагын нэр:</span>
-               <span className="text-xs">Ахисан</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Албан тушаал:</span>
-               <span className="text-xs">Ахисан</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Цалин:</span>
-               <span className="text-xs">Ахисан</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Гарсан шалтгаан:</span>
-               <span className="text-xs">Дундаж</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Удирдлага:</span>
-               <span className="text-xs">Дундаж</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Удирдлага:</span>
-               <span className="text-xs">Дундаж</span>
-            </div>
-         </div>
-         <div className="mt-2">
-            <span className="main-color font-bold">Гэр бүлийн байдал</span>
-         </div>
-         <div className="grid grid-cols-2 gap-2">
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Гэрлэлтийн байдал:</span>
-               <span className="text-xs">Гэрлэсэн</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Ам бүлийн тоо:</span>
-               <span className="text-xs">2</span>
-            </div>
-         </div>
-         <div className="mt-2">
-            <span className="main-color font-bold">Гэр бүлийн гишүүдийн мэдээлэл</span>
-         </div>
-         <div className="grid grid-cols-4 gap-2">
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Ажилтны юу болох:</span>
-               <span className="text-xs">Нөхөр</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Эцэг /эх/-ийн нэр:</span>
-               <span className="text-xs">Лхагва</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Нэр:</span>
-               <span className="text-xs">Гантулга</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Төрсөн он:</span>
-               <span className="text-xs">1999</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Төрсөн сум, дүүрэг:</span>
-               <span className="text-xs">Нөхөр</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Төрсөн сум, дүүрэг:</span>
-               <span className="text-xs">Лхагва</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Албан тушаал:</span>
-               <span className="text-xs">Гантулга</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Утас:</span>
-               <span className="text-xs">1999</span>
-            </div>
-         </div>
-         <div className="mt-2">
+function Work(props) {
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [workData, setWorkData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getWork = async () => {
+    setWorkData([]);
+    setIsLoading(true);
+    await UpdateWorkerData.getWork({ userId: props?.selectedUserData?.id })
+      .then((response) => {
+        //   console.log("getWork =======>", response);
+        if (response.status === 200) {
+          setWorkData(response.data?.response?.data);
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+        openNofi("warning", "Амжилтгүй", error?.response?.data?.message);
+      })
+      .finally(() => {
+        setIsUpdate(false);
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getWork();
+  }, [props?.selectedUserData]);
+
+  return (
+    <>
+      {isLoading ? (
+        <Spin />
+      ) : isUpdate ? (
+        <WorkUpdate
+          selectedUserData={props.selectedUserData}
+          getWork={getWork}
+          workData={workData}
+          setIsUpdate={setIsUpdate}
+        />
+      ) : (
+        <div>
+          <div className="mt-2">
             <span className="main-color font-bold">
-               Таныг ажил хэргийн хүрээнд сайн тодорхойлох 2 хүний мэдээлэл бичнэ үү
+              Нийгмийн даатгалаар баталгаажсан хөдөлмөр эрхлэлт
             </span>
-         </div>
-         <div className="grid grid-cols-4 gap-2">
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Төрөл:</span>
-               <span className="text-xs">Сагсан бөмбөг</span>
+          </div>
+          {workData?.length !== 0 ? (
+            workData?.map((el, index) => {
+              return (
+                <div key={index}>
+                  <Divider className="mt-2 mb-1" />
+
+                  <div className="grid grid-cols-4 gap-2">
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Ямар ажил хийж байсан
+                      </span>
+                      <span className="text-xs font-bold">{el.workType}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Ажлын газар
+                      </span>
+                      <span className="text-xs font-bold">{el.company}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Салбар</span>
+                      <span className="text-xs font-bold">{el.branch}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Карьер</span>
+                      <span className="text-xs font-bold">{el.career}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Ажилд орсон огноо
+                      </span>
+                      <span className="text-xs font-bold">
+                        {dayjs(el.startDate).format("YYYY-MM-DD")}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Ажилаас гарсан огноо
+                      </span>
+                      <span className="text-xs font-bold">
+                        {dayjs(el.endDate).format("YYYY-MM-DD")}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Ажилаас гарсан шалтгаан
+                      </span>
+                      <span className="text-xs font-bold">{el.reason}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="grid grid-cols-4 gap-2">
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">
+                  Ямар ажил хийж байсан
+                </span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Ажлын газар</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Салбар</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Карьер</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">
+                  Ажилд орсон огноо
+                </span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">
+                  Ажилаас гарсан огноо
+                </span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">
+                  Ажилаас гарсан шалтгаан
+                </span>
+                <span className="text-xs font-bold">-</span>
+              </div>
             </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Хичээллэсэн жил:</span>
-               <span className="text-xs">10+</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Зэрэг,цол:</span>
-               <span className="text-xs">Мастер</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Зэрэг,цол:</span>
-               <span className="text-xs">Зэрэг,цол</span>
-            </div>
-         </div>
-      </div>
-   );
+          )}
+          <div className="flex justify-end !mt-12">
+            <Button
+              onClick={() => {
+                setIsUpdate(true);
+              }}
+            >
+              Засах
+            </Button>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
 
 export default Work;

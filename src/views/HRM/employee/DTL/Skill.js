@@ -13,14 +13,13 @@ function Skill(props) {
   const [isLoading, setIsLoading] = useState(false);
 
   const getSkill = async () => {
-    console.log("props?.selectedUserData?.id", props?.selectedUserData?.id);
     setAptData([]);
     setAwardData([]);
     setLangData([]);
     setIsLoading(true);
     await UpdateWorkerData.getSkill({ userId: props?.selectedUserData?.id })
       .then((response) => {
-        console.log("RES =======>", response);
+        //   console.log("getSkill =======>", response);
         if (response.status === 200) {
           setAptData(response.data?.response?.aptitudes?.data);
           setAwardData(response.data?.response?.awards?.data);
@@ -43,9 +42,7 @@ function Skill(props) {
 
   const getName = (val) => {
     return languageLevel.map((item, index) => {
-      console.log("item", item);
       if (item.value === val) {
-        console.log("val", val);
         return <span key={index}>{item.label}</span>;
       }
     });
@@ -69,7 +66,7 @@ function Skill(props) {
           <div className="mt-1">
             <span className="main-color font-bold">Гадаад хэлний мэдлэг</span>
           </div>
-          {langData.length !== 0 ? (
+          {langData?.length !== 0 ? (
             langData?.map((el, index) => {
               return (
                 <div key={index}>
@@ -166,7 +163,7 @@ function Skill(props) {
           <div className="mt-1">
             <span className="main-color font-bold">Авъяас чадвар</span>
           </div>
-          {aptData.length !== 0 ? (
+          {aptData?.length !== 0 ? (
             aptData?.map((el, index) => {
               return (
                 <div key={index}>
@@ -209,7 +206,7 @@ function Skill(props) {
           <div className="mt-1">
             <span className="main-color font-bold">Шагналын мэдээлэл</span>
           </div>
-          {awardData.length !== 0 ? (
+          {awardData?.length !== 0 ? (
             awardData?.map((el, index) => {
               return (
                 <div key={index}>

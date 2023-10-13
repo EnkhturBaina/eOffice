@@ -16,5 +16,21 @@ class UpdateWorkerData {
       params: param,
     });
   }
+  async postWork(data) {
+    return await jwtInterceptor.post("human-resource/experience", data);
+  }
+  async getWork(param) {
+    return await jwtInterceptor.get("human-resource/experience", {
+      params: param,
+    });
+  }
+  async postFamily(data) {
+    return await jwtInterceptor.post("human-resource/family", data);
+  }
+  async getFamily(param) {
+    return await jwtInterceptor.get("human-resource/family", {
+      params: param,
+    });
+  }
 }
 export default new UpdateWorkerData();

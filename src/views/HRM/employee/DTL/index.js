@@ -32,7 +32,7 @@ function index(props) {
     },
     {
       key: "4",
-      label: `Ажил эрхлэлт`,
+      label: `Ажлын туршлага`,
       children: <Work selectedUserData={props.selectedUserData} />,
     },
     {

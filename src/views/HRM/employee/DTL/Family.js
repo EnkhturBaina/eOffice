@@ -1,83 +1,188 @@
-import React from 'react';
+import { Button, Divider, Spin } from "antd";
+import React, { useState, useEffect } from "react";
+import FamilyUpdate from "./FamilyUpdate";
+import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
+import { openNofi } from "src/features/comman";
+import dayjs from "dayjs";
 
-function Family() {
-   return (
-      <div>
-         <div className="mt-2">
-            <span className="main-color font-bold">Гэр бүлийн байдал</span>
-         </div>
-         <div className="grid grid-cols-2 gap-2">
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Гэрлэлтийн байдал:</span>
-               <span className="text-xs">Гэрлэсэн</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Ам бүлийн тоо:</span>
-               <span className="text-xs">2</span>
-            </div>
-         </div>
-         <div className="mt-2">
-            <span className="main-color font-bold">Гэр бүлийн гишүүдийн мэдээлэл</span>
-         </div>
-         <div className="grid grid-cols-4 gap-2">
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Ажилтны юу болох:</span>
-               <span className="text-xs">Нөхөр</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Эцэг /эх/-ийн нэр:</span>
-               <span className="text-xs">Лхагва</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Нэр:</span>
-               <span className="text-xs">Гантулга</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Төрсөн он:</span>
-               <span className="text-xs">1999</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Төрсөн сум, дүүрэг:</span>
-               <span className="text-xs">Нөхөр</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Ажлын газар:</span>
-               <span className="text-xs">Лхагва</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Албан тушаал:</span>
-               <span className="text-xs">Гантулга</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Утас:</span>
-               <span className="text-xs">Утас</span>
-            </div>
-         </div>
-         <div className="mt-2">
+function Family(props) {
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [familyData, setFamilyData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getFamily = async () => {
+    setFamilyData([]);
+    setIsLoading(true);
+    await UpdateWorkerData.getFamily({ userId: props?.selectedUserData?.id })
+      .then((response) => {
+        //   console.log("getWork =======>", response);
+        if (response.status === 200) {
+          setFamilyData(response.data?.response?.data);
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+        openNofi("warning", "Амжилтгүй", error?.response?.data?.message);
+      })
+      .finally(() => {
+        setIsUpdate(false);
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    // getFamily();
+  }, [props?.selectedUserData]);
+
+  return (
+    <>
+      {isLoading ? (
+        <Spin />
+      ) : isUpdate ? (
+        <FamilyUpdate
+          selectedUserData={props.selectedUserData}
+          getFamily={getFamily}
+          familyData={familyData}
+          setIsUpdate={setIsUpdate}
+        />
+      ) : (
+        <div>
+          <div className="mt-2">
             <span className="main-color font-bold">
-               Таныг ажил хэргийн хүрээнд сайн тодорхойлох 2 хүний мэдээлэл бичнэ үү
+              Гэр бүлийн гишүүдийн мэдээлэл
             </span>
-         </div>
-         <div className="grid grid-cols-4 gap-2">
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Төрөл:</span>
-               <span className="text-xs">Сагсан бөмбөг</span>
+          </div>
+          {familyData?.length !== 0 ? (
+            familyData?.map((el, index) => {
+              return (
+                <div key={index}>
+                  <Divider className="mt-2 mb-1" />
+                  <div className="grid grid-cols-4 gap-2">
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Таны хэн болох
+                      </span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Овог</span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Нэр</span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Ажлын төрөл
+                      </span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Тайлбар</span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Ажлын нэр</span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Зэрэглэл</span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Ажил мэргэжил
+                      </span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Төрсөн он сар өдөр
+                      </span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Төрсөн аймаг/хот
+                      </span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Амьдарч буй аймаг/хот
+                      </span>
+                      <span className="text-xs font-bold">-</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="grid grid-cols-4 gap-2">
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Таны хэн болох</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Овог</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Нэр</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Ажлын төрөл</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Тайлбар</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Ажлын нэр</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Зэрэглэл</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Ажил мэргэжил</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">
+                  Төрсөн он сар өдөр
+                </span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Төрсөн аймаг/хот</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">
+                  Амьдарч буй аймаг/хот
+                </span>
+                <span className="text-xs font-bold">-</span>
+              </div>
             </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Хичээллэсэн жил:</span>
-               <span className="text-xs">10+</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Зэрэг,цол:</span>
-               <span className="text-xs">Мастер</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="text-xs text-slate-500">Зэрэг,цол:</span>
-               <span className="text-xs">Мастер</span>
-            </div>
-         </div>
-      </div>
-   );
+          )}
+          <div className="flex justify-end !mt-12">
+            <Button
+              onClick={() => {
+                setIsUpdate(true);
+              }}
+            >
+              Засах
+            </Button>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
 
 export default Family;
