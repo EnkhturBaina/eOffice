@@ -48,7 +48,10 @@ function FamilyUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      families: props.familyData,
+      families: props.familyData?.map((data) => ({
+        ...data,
+        birthDate: dayjs(data.birthDate, dateFormat),
+      })),
     });
   };
   const onChange = (date, dateString) => {

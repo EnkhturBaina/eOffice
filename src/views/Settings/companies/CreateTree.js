@@ -5,7 +5,9 @@ import {
   Modal,
   Form,
   DatePicker,
+  Select,
   InputNumber,
+  Checkbox,
 } from "antd";
 import React from "react";
 import { PlusCircleOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -15,8 +17,9 @@ import dayjs from "dayjs";
 const dateFormat = "YYYY-MM-DD";
 import Company from "../../../services/company/company";
 import { openNofi } from "src/features/comman";
+import companyTreeIType from "../../../references/companyTreeIType.json";
 
-function CreateCompany() {
+function CreateTree() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
 
@@ -37,22 +40,23 @@ function CreateCompany() {
     console.log(date, dateString);
   };
 
-  const createCompany = async (values) => {
-    values.licenseDate = dayjs(values.licenseDate).format(dateFormat);
-    values.attentDate = dayjs(values.attentDate).format(dateFormat);
-
-    await Company.postCompany(values)
+  const createTree = async (values) => {
+    await Company.postTree(values)
       .then((response) => {
-        console.log("Res createCompany =====>", response);
+        console.log("Res createTree =====>", response);
         if (response.status === 201) {
           setIsModalOpen(false);
-          openNofi("warning", "Амжилттай", "Коипани бүртгэгдлээ.");
+          form.resetFields();
+          openNofi("success", "Амжилттай", "Бүртгэгдлээ.");
         }
       })
       .catch((error) => {
         openNofi("warning", "Амжилтгүй", error?.response?.data?.message);
       })
       .finally(() => {});
+  };
+  const onChangeCheck = (e) => {
+    console.log(`checked = ${e.target.checked}`);
   };
   return (
     <div>
@@ -64,12 +68,12 @@ function CreateCompany() {
             size="middle"
             onClick={showModal}
           >
-            <span className="text-sm">Компани бүртгэх</span>
+            <span className="text-sm">Бүртгэх</span>
             <PlusCircleOutlined />
           </Button>
         </div>
         <Modal
-          title={<span className="main-color">Компани бүртгэх</span>}
+          title={<span className="main-color">Бүртгэх</span>}
           open={isModalOpen}
           onCancel={handleCancel}
           maskClosable={false}
@@ -89,11 +93,55 @@ function CreateCompany() {
                 <Divider className="my-1" />
                 <div className="grid grid-cols-1">
                   <Form.Item
+                    name="type"
+                    label={
+                      <span className="text-xs text-slate-500">Төрөл</span>
+                    }
+                    className="custom-form-item"
+                    rules={[
+                      {
+                        required: true,
+                        message: (
+                          <span
+                            className="text-red-500"
+                            style={{ fontSize: 10 }}
+                          >
+                            Шаардлагатай
+                          </span>
+                        ),
+                      },
+                    ]}
+                  >
+                    <Select
+                      showSearch
+                      optionFilterProp="children"
+                      options={companyTreeIType}
+                    />
+                  </Form.Item>
+                  <Form.Item
                     name="name"
+                    label={<span className="text-xs text-slate-500">Нэр</span>}
+                    className="custom-form-item"
+                    rules={[
+                      {
+                        required: true,
+                        message: (
+                          <span
+                            className="text-red-500"
+                            style={{ fontSize: 10 }}
+                          >
+                            Шаардлагатай
+                          </span>
+                        ),
+                      },
+                    ]}
+                  >
+                    <Input size="small" />
+                  </Form.Item>
+                  <Form.Item
+                    name="shortName"
                     label={
-                      <span className="text-xs text-slate-500">
-                        Компаний нэр
-                      </span>
+                      <span className="text-xs text-slate-500">Богино нэр</span>
                     }
                     className="custom-form-item"
                     rules={[
@@ -113,100 +161,24 @@ function CreateCompany() {
                     <Input size="small" />
                   </Form.Item>
                   <Form.Item
-                    name="licenseDate"
-                    label={
-                      <span className="text-xs text-slate-500">
-                        Систем ашиглах хугацаа
-                      </span>
-                    }
+                    name="pos"
+                    label={null}
                     className="custom-form-item"
-                    rules={[
-                      {
-                        required: true,
-                        message: (
-                          <span
-                            className="text-red-500"
-                            style={{ fontSize: 10 }}
-                          >
-                            Шаардлагатай
-                          </span>
-                        ),
-                      },
-                    ]}
                   >
-                    <DatePicker
-                      onChange={onChange}
-                      className="custom-datepicker"
-                      format={dateFormat}
-                      locale={mn_MN}
-                    />
+                    <Checkbox onChange={onChangeCheck}>
+                      <span className="text-xs text-slate-500">
+                        Идэвхтэй эсэх
+                      </span>
+                    </Checkbox>
                   </Form.Item>
                   <Form.Item
-                    name="attentDate"
-                    label={
-                      <span className="text-xs text-slate-500">
-                        Анхааруулах хугацаа
-                      </span>
-                    }
+                    name="isDevice"
+                    label={null}
                     className="custom-form-item"
                   >
-                    <DatePicker
-                      onChange={onChange}
-                      className="custom-datepicker"
-                      format={dateFormat}
-                      locale={mn_MN}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="userCnt"
-                    label={
-                      <span className="text-xs text-slate-500">
-                        Хэрэглэгчийн тоо
-                      </span>
-                    }
-                    className="custom-form-item"
-                    rules={[
-                      {
-                        required: true,
-                        message: (
-                          <span
-                            className="text-red-500"
-                            style={{ fontSize: 10 }}
-                          >
-                            Шаардлагатай
-                          </span>
-                        ),
-                      },
-                    ]}
-                  >
-                    <InputNumber
-                      min={1900}
-                      max={2100}
-                      className="hide-input-arrow"
-                      style={{
-                        width: "100%",
-                      }}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="dataHost"
-                    label={
-                      <span className="text-xs text-slate-500">Data URL</span>
-                    }
-                    className="custom-form-item"
-                  >
-                    <Input size="small" />
-                  </Form.Item>
-                  <Form.Item
-                    name="dataDir"
-                    label={
-                      <span className="text-xs text-slate-500">
-                        Data хавтас
-                      </span>
-                    }
-                    className="custom-form-item"
-                  >
-                    <Input size="small" />
+                    <Checkbox onChange={onChangeCheck}>
+                      <span className="text-xs text-slate-500">isDevice</span>
+                    </Checkbox>
                   </Form.Item>
                 </div>
               </div>
@@ -218,7 +190,7 @@ function CreateCompany() {
                     form
                       .validateFields()
                       .then((values) => {
-                        createCompany(values);
+                        createTree(values);
                       })
                       .catch((error) => {
                         console.log(error);
@@ -236,5 +208,5 @@ function CreateCompany() {
   );
 }
 
-export default CreateCompany;
+export default CreateTree;
 

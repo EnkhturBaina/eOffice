@@ -1,10 +1,8 @@
-import { Button, Divider, Input, Form, Space, DatePicker, Select } from "antd";
+import { Button, Divider, Input, Form, Space, Select } from "antd";
 import React, { useState, useEffect } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import dayjs from "dayjs";
-const dateFormat = "YYYY-MM-DD";
 import familyPersons from "../../../../references/familyPersons.json";
 
 function ContactUpdate(props) {
@@ -16,14 +14,10 @@ function ContactUpdate(props) {
 
   const [form] = Form.useForm();
   const updateContact = async (values) => {
-    values?.families?.map((el) => {
-      el.birthDate = dayjs(el.birthDate).format(dateFormat);
-    });
-
-    //  setLoading(true);
+    setLoading(true);
     values.userId = props?.selectedUserData?.id;
 
-    await UpdateWorkerData.postFamily(values)
+    await UpdateWorkerData.postContact(values)
       .then((response) => {
         console.log("res", response);
         if (response.status === 201) {
