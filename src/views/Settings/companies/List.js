@@ -24,10 +24,10 @@ import companyTreeIType from "../../../references/companyTreeIType.json";
 function List(props) {
   const [companyList, setCompanyList] = useState([]);
   const [treeList, setTreeList] = useState([]);
-  const [defaultType, setDefaultType] = useState([]);
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDepency, setIsDepency] = useState(false);
   const [form] = Form.useForm();
 
   const getCompanyList = async () => {
@@ -41,7 +41,7 @@ function List(props) {
         }
       })
       .catch((error) => {
-        console.log("error", error);
+        //   console.log("error", error);
         openNofi("warning", "Амжилтгүй", error?.response?.data?.message);
       })
       .finally(() => {
@@ -53,13 +53,13 @@ function List(props) {
     setIsLoading(true);
     await Company.getTree()
       .then((response) => {
-        console.log("getTreeList =======>", response);
+        //   console.log("getTreeList =======>", response);
         if (response.status === 200) {
           setTreeList(response.data?.response?.data);
         }
       })
       .catch((error) => {
-        console.log("error", error);
+        //   console.log("error", error);
         openNofi("warning", "Амжилтгүй", error?.response?.data?.message);
       })
       .finally(() => {
@@ -80,18 +80,25 @@ function List(props) {
   const onFinish = (values) => {
     console.log("Received values of form:", values);
   };
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
-  };
 
   const createTree = async (values) => {
-    if (values.type == 0) {
-      // values.mid =
+    values.type = values.type.value;
+    if (selectedRowData.type === 2) {
+      // КОМПАНИД САЛБАР БҮРТГЭХ
+      values.mid = selectedRowData.id;
+    } else if (selectedRowData.type === 0) {
+      // САЛБАРТ АЛБАН ТУШААЛ БҮРТГЭХ
+      if (isDepency) {
+        values.mid = selectedRowData.mid;
+      } else {
+        values.mid = selectedRowData.id;
+      }
     }
     await Company.postTree(values)
       .then((response) => {
-        console.log("Res createTree =====>", response);
+        //   console.log("Res createTree =====>", response);
         if (response.status === 201) {
+          getTreeList();
           setIsModalOpen(false);
           form.resetFields();
           openNofi("success", "Амжилттай", "Бүртгэгдлээ.");
@@ -103,35 +110,13 @@ function List(props) {
       .finally(() => {});
   };
   const onChangeCheck = (e) => {
-    console.log(`checked = ${e.target.checked}`);
+    setIsDepency(e.target.checked);
   };
 
   useEffect(() => {
     //  getCompanyList();
     getTreeList();
   }, []);
-
-  useEffect(() => {
-    if (selectedRowData?.type === 2) {
-      companyTreeIType.map((el) => {
-        if (el.value === 0) {
-          setDefaultType([el]);
-        }
-      });
-    } else if (selectedRowData?.type === 0) {
-      companyTreeIType.map((el) => {
-        if (el.value === 1) {
-          setDefaultType([el]);
-        }
-      });
-    }
-    //  if (selectedRowData?.type === 2) {
-    //    )
-    //    setDefaultType(0);
-    //  } else if (selectedRowData?.type === 0) {
-    //    setDefaultType(1);
-    //  }
-  }, [selectedRowData]);
 
   const columns = [
     {
@@ -182,15 +167,32 @@ function List(props) {
           />
           <AppstoreAddOutlined
             onClick={() => {
-              console.log("rec", record);
-              setTimeout(() => {
+              if (record.type === 1) {
+              } else {
+                setSelectedRowData(record);
+                if (record?.type === 2) {
+                  companyTreeIType.map((el) => {
+                    if (el.value === 0) {
+                      form.setFieldValue("type", el);
+                    }
+                  });
+                } else if (record?.type === 0) {
+                  companyTreeIType.map((el) => {
+                    if (el.value === 1) {
+                      form.setFieldValue("type", el);
+                    }
+                  });
+                }
                 showModal();
-              }, 500);
-              setDefaultType(record.type);
-              setSelectedRowData(record);
+              }
             }}
             className="main-color cursor-pointer"
-            style={{ fontSize: 18 }}
+            style={{
+              fontSize: 18,
+              color: record.type === 1 ? "gray" : "#0095ff",
+            }}
+            disabled
+            color="red"
           />
         </div>
       ),
@@ -208,13 +210,19 @@ function List(props) {
         rowKey={"id"}
       />
       <Modal
-        title={<span className="main-color">Бүртгэх</span>}
+        title={
+          <span className="main-color">
+            {selectedRowData?.type === 2
+              ? "Салбар бүртгэх"
+              : selectedRowData?.type === 0
+              ? "Албан тушаал бүртгэх"
+              : "Бүртгэх"}
+          </span>
+        }
         open={isModalOpen}
         onCancel={() => {
           handleCancel();
-          console.log("AA");
           form.resetFields();
-          setDefaultType([]);
         }}
         maskClosable={false}
         footer={false}
@@ -235,7 +243,6 @@ function List(props) {
             //   isActive: null,
             //   isDevice: null,
             // }}
-            initialValues={{ type: defaultType && defaultType[0] }}
           >
             <div>
               <Divider className="my-1" />
@@ -254,16 +261,20 @@ function List(props) {
                       ),
                     },
                   ]}
-                  // initialValue={defaultType && defaultType[0]}
                 >
                   <Select
-                    //   labelInValue
-                    options={defaultType}
-                    //   value={defaultType && defaultType[0]}
-                    defaultValue={defaultType && defaultType[0]}
-                    //   defaultActiveFirstOption={true}
+                    options={companyTreeIType}
+                    disabled
+                    className="custom-disabled-select"
                   />
                 </Form.Item>
+                {selectedRowData?.type === 0 ? (
+                  <Checkbox onChange={onChangeCheck} className="mt-2">
+                    <span className="text-xs text-slate-500">
+                      Салбар хамаарахгүй
+                    </span>
+                  </Checkbox>
+                ) : null}
                 <Form.Item
                   name="name"
                   label={<span className="text-xs text-slate-500">Нэр</span>}
@@ -287,16 +298,6 @@ function List(props) {
                     <span className="text-xs text-slate-500">Богино нэр</span>
                   }
                   className="custom-form-item"
-                  rules={[
-                    {
-                      required: true,
-                      message: (
-                        <span className="text-red-500" style={{ fontSize: 10 }}>
-                          Шаардлагатай
-                        </span>
-                      ),
-                    },
-                  ]}
                 >
                   <Input size="small" />
                 </Form.Item>
@@ -305,7 +306,7 @@ function List(props) {
                   label={null}
                   className="custom-form-item"
                 >
-                  <Checkbox onChange={onChangeCheck} checked={false}>
+                  <Checkbox>
                     <span className="text-xs text-slate-500">
                       Идэвхтэй эсэх
                     </span>
@@ -316,7 +317,7 @@ function List(props) {
                   label={null}
                   className="custom-form-item"
                 >
-                  <Checkbox onChange={onChangeCheck} checked={false}>
+                  <Checkbox>
                     <span className="text-xs text-slate-500">isDevice</span>
                   </Checkbox>
                 </Form.Item>

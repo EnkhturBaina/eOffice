@@ -472,3 +472,7 @@
 .ant-picker-dropdown {
   z-index: 99999 !important;
 }
+
+.custom-disabled-select > .ant-select-selector {
+  color: #000 !important;
+}
