@@ -48,10 +48,12 @@ function FamilyUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      families: props.familyData?.map((data) => ({
-        ...data,
-        birthDate: dayjs(data.birthDate, dateFormat),
-      })),
+      ...(props.familyData?.length !== 0 && {
+        families: props.familyData?.map((data) => ({
+          ...data,
+          birthDate: dayjs(data.birthDate, dateFormat),
+        })),
+      }),
     });
   };
   const onChange = (date, dateString) => {
@@ -106,7 +108,7 @@ function FamilyUpdate(props) {
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-1">
+                  <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
                       name={[name, "whoIs"]}

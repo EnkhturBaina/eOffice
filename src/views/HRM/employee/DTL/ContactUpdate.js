@@ -39,7 +39,9 @@ function ContactUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      contacts: props.contactData,
+      ...(props.contactData?.length !== 0 && {
+        contacts: props.contactData,
+      }),
     });
   };
 
@@ -73,7 +75,7 @@ function ContactUpdate(props) {
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-1">
+                  <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
                       name={[name, "lastName"]}

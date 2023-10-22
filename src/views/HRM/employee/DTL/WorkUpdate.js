@@ -46,11 +46,13 @@ function WorkUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      experiences: props.workData?.map((workdata) => ({
-        ...workdata,
-        startDate: dayjs(workdata.startDate, dateFormat),
-        endDate: dayjs(workdata.endDate, dateFormat),
-      })),
+      ...(props.workData?.length !== 0 && {
+        experiences: props.workData?.map((workdata) => ({
+          ...workdata,
+          startDate: dayjs(workdata.startDate, dateFormat),
+          endDate: dayjs(workdata.endDate, dateFormat),
+        })),
+      }),
     });
   };
   useEffect(() => {
@@ -92,7 +94,7 @@ function WorkUpdate(props) {
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-1">
+                  <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
                       name={[name, "workType"]}

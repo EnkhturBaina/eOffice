@@ -47,9 +47,15 @@ function SkillUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      aptitudes: props.aptData,
-      awards: props.awardData,
-      languages: props.langData,
+      ...(props.aptData?.length !== 0 && {
+        aptitudes: props.aptData,
+      }),
+      ...(props.awardData?.length !== 0 && {
+        awards: props.awardData,
+      }),
+      ...(props.langData?.length !== 0 && {
+        languages: props.langData,
+      }),
     });
   };
 
@@ -113,7 +119,7 @@ function SkillUpdate(props) {
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-1">
+                  <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
                       hidden
@@ -264,7 +270,7 @@ function SkillUpdate(props) {
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-1">
+                  <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
                       hidden
@@ -345,7 +351,7 @@ function SkillUpdate(props) {
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-1">
+                  <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
                       hidden

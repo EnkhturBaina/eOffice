@@ -58,9 +58,15 @@ function EducationUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      general: props.generalEduData,
-      university: props.uniEduData,
-      training: props.trainingData,
+      ...(props.generalEduData?.length !== 0 && {
+        general: props.generalEduData,
+      }),
+      ...(props.trainingData?.length !== 0 && {
+        training: props.trainingData,
+      }),
+      ...(props.uniEduData?.length !== 0 && {
+        university: props.uniEduData,
+      }),
     });
   };
   useEffect(() => {
@@ -128,7 +134,7 @@ function EducationUpdate(props) {
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-1">
+                  <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
                       hidden
@@ -251,7 +257,7 @@ function EducationUpdate(props) {
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-1">
+                  <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
                       hidden
@@ -418,7 +424,7 @@ function EducationUpdate(props) {
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-1">
+                  <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
                       hidden
