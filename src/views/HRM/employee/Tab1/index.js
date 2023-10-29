@@ -245,7 +245,7 @@ function index() {
                 dtlSize === 2
                   ? "hidden"
                   : dtlSize === 1
-                  ? "basis-3/5"
+                  ? "basis-1/2"
                   : "basis-full"
               }
               bordered
@@ -270,7 +270,7 @@ function index() {
                   dtlSize === 2
                     ? "basis-full"
                     : dtlSize === 1
-                    ? "basis-2/5"
+                    ? "basis-1/2"
                     : "basis-0"
                 }
               >

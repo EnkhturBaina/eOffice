@@ -6,14 +6,7 @@ function General(props) {
   return (
     <div>
       <div className="flex flex-row !mt-2">
-        <div style={{ width: 140 }}>
-          <img
-            src={avatar}
-            className="rounded-md"
-            style={{ height: 160, width: 140 }}
-          />
-        </div>
-        <div className="flex flex-col flex-1 !ml-3">
+        <div className="flex flex-col flex-1">
           <div className="flex flex-row">
             <span className="main-color font-bold">Хувийн мэдээлэл</span>
           </div>
