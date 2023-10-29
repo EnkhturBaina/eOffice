@@ -53,7 +53,7 @@ const LeftTreeMenu = () => {
         expandIcon={(props) => {
           const { isOpen } = props;
           return isOpen ? (
-            <FolderOpenOutlined style={{ fontSize: 20 }} />
+            <FolderOpenOutlined style={{ fontSize: 20, color: "" }} />
           ) : (
             <FolderOutlined style={{ fontSize: 20 }} />
           );

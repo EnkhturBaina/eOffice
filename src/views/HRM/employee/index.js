@@ -9,7 +9,10 @@ function index() {
   return (
     <div className="flex">
       <LeftTreeMenu />
-      <div className="w-100">
+      <div
+        className="w-100 h-100"
+        // style={{ backgroundColor: "#f9fbfd" }}
+      >
         <AppHeader title="Ажилчид" icon={cilUser} />
         <Stats />
         <div className="!px-10 !my-2">

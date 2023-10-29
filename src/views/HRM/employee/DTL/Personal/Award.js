@@ -1,23 +1,23 @@
 import { Button, Divider, Spin } from "antd";
 import React, { useState, useEffect } from "react";
-import WorkUpdate from "./WorkUpdate";
-import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
+import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
+import AwardUpdate from "./AwardUpdate";
 import dayjs from "dayjs";
 
-function Work(props) {
+function Award(props) {
   const [isUpdate, setIsUpdate] = useState(false);
-  const [workData, setWorkData] = useState([]);
+  const [awardData, setAwardData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getWork = async () => {
-    setWorkData([]);
+  const getAward = async () => {
+    setAwardData([]);
     setIsLoading(true);
-    await UpdateWorkerData.getWork({ userId: props?.selectedUserData?.id })
+    await UpdateWorkerData.getAward({ userId: props?.selectedUserData?.id })
       .then((response) => {
-        //   console.log("getWork =======>", response);
+        console.log("getAward =======>", response);
         if (response.status === 200) {
-          setWorkData(response.data?.response?.data);
+          setAwardData(response.data?.response?.data);
         }
       })
       .catch((error) => {
@@ -31,7 +31,7 @@ function Work(props) {
   };
 
   useEffect(() => {
-    getWork();
+    getAward();
   }, [props?.selectedUserData]);
 
   return (
@@ -39,107 +39,106 @@ function Work(props) {
       {isLoading ? (
         <Spin />
       ) : isUpdate ? (
-        <WorkUpdate
+        <AwardUpdate
           selectedUserData={props.selectedUserData}
-          getWork={getWork}
-          workData={workData}
+          getAward={getAward}
+          awardData={awardData}
           setIsUpdate={setIsUpdate}
         />
       ) : (
         <div>
           <div className="mt-2">
-            <span className="main-color font-bold">
-              Нийгмийн даатгалаар баталгаажсан хөдөлмөр эрхлэлт
-            </span>
+            <span className="main-color font-bold">Шагнал урамшуулал</span>
           </div>
-          {workData?.length !== 0 ? (
-            workData?.map((el, index) => {
+          {awardData?.length !== 0 ? (
+            awardData?.map((el, index) => {
               return (
                 <div key={index}>
-                  <Divider className="mt-2 mb-1" />
-
                   <div className="grid grid-cols-4 gap-2">
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
-                        Ямар ажил хийж байсан
+                        Шагналын нэр
                       </span>
-                      <span className="text-xs font-bold">{el.workType}</span>
+                      <span className="text-xs font-bold">{el.awardName}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
-                        Ажлын газар
+                        Шагналын төрөл
                       </span>
-                      <span className="text-xs font-bold">{el.company}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Салбар</span>
-                      <span className="text-xs font-bold">{el.branch}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Карьер</span>
-                      <span className="text-xs font-bold">{el.career}</span>
+                      <span className="text-xs font-bold">{el.type}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
-                        Ажилд орсон огноо
+                        Шийдвэрийн дугаар
                       </span>
-                      <span className="text-xs font-bold">
-                        {dayjs(el.startDate).format("YYYY-MM-DD")}
-                      </span>
+                      <span className="text-xs font-bold">{el.sNumber}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
-                        Ажилаас гарсан огноо
+                        Шийдвэрийн нэр
                       </span>
-                      <span className="text-xs font-bold">
-                        {dayjs(el.endDate).format("YYYY-MM-DD")}
-                      </span>
+                      <span className="text-xs font-bold">{el.sName}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
-                        Ажилаас гарсан шалтгаан
+                        Шагнасан байгууллага:
+                      </span>
+                      <span className="text-xs font-bold">{el.bonus}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Шагнагдсан шалтгаан:
                       </span>
                       <span className="text-xs font-bold">{el.reason}</span>
                     </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Шагнуулсан огноо:
+                      </span>
+                      <span className="text-xs font-bold">
+                        {dayjs(el.date).format("YYYY-MM-DD")}
+                      </span>
+                    </div>
                   </div>
+                  <Divider className="mt-2 mb-1" />
                 </div>
               );
             })
           ) : (
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-3 gap-2">
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Шагналын нэр</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Шагналын төрөл</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">
-                  Ямар ажил хийж байсан
+                  Шийдвэрийн дугаар
                 </span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Ажлын газар</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Салбар</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Карьер</span>
+                <span className="text-xs text-slate-500">Шийдвэрийн нэр</span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">
-                  Ажилд орсон огноо
-                </span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">
-                  Ажилаас гарсан огноо
+                  Шагнасан байгууллага:
                 </span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">
-                  Ажилаас гарсан шалтгаан
+                  Шагнагдсан шалтгаан:
+                </span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">
+                  Шагнуулсан огноо:
                 </span>
                 <span className="text-xs font-bold">-</span>
               </div>
@@ -160,4 +159,4 @@ function Work(props) {
   );
 }
 
-export default Work;
+export default Award;

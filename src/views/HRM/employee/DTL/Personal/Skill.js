@@ -1,9 +1,9 @@
 import { Button, Divider, Spin } from "antd";
 import React, { useState, useEffect } from "react";
 import SkillUpdate from "./SkillUpdate";
-import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
+import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import languageLevel from "../../../../references/languageLevel.json";
+import languageLevel from "../../../../../references/languageLevel.json";
 
 function Skill(props) {
   const [isUpdate, setIsUpdate] = useState(false);
@@ -64,7 +64,7 @@ function Skill(props) {
       ) : (
         <div>
           <div className="mt-1">
-            <span className="main-color font-bold">Гадаад хэлний мэдлэг</span>
+            <span className="main-color font-bold">Урлаг спортын мэдээлэл</span>
           </div>
           {langData?.length !== 0 ? (
             langData?.map((el, index) => {

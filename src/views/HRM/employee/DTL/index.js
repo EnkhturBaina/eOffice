@@ -28,11 +28,33 @@ import {
   CarryOutOutlined,
   BugOutlined,
 } from "@ant-design/icons";
-import General from "./General";
-import Education from "./Education";
-import Work from "./Work";
-import Family from "./Family";
+import General from "./Personal/General";
+import Education from "./Personal/Education";
+import Work from "./Personal/Work";
+import Contact from "./Personal/Contact";
 import avatar from "../../../../assets/images/avatars/1.jpg";
+import Family from "./Personal/Family";
+import Award from "./Personal/Award";
+import Language from "./Personal/Language";
+import Skill from "./Personal/Skill";
+import Training from "./Personal/Training";
+import Sport from "./Personal/Sport";
+import It from "./Personal/It";
+import Health from "./Personal/Health";
+import Other from "./Personal/Other";
+import WorkContract from "./Work/WorkContract";
+import WorkSchedule from "./Work/WorkSchedule";
+import SalaryCondition from "./Work/SalaryCondition";
+import Description from "./Work/Description";
+import SystemAccess from "./Work/SystemAccess";
+import SpecManagement from "./Work/SpecManagement";
+import Errors from "./Work/Errors";
+import SocialWelfare from "./Work/SocialWelfare";
+import Vacation from "./Work/Vacation";
+import Appointment from "./Work/Appointment";
+import Movement from "./Work/Movement";
+import InternalTraining from "./Work/InternalTraining";
+import Ethic from "./Work/Ethic";
 
 function index(props) {
   const [valueRadio, setValueRadio] = useState(0);
@@ -267,64 +289,78 @@ function index(props) {
         {valueRadio === 0 && selectedMenu === "1" ? (
           <Family selectedUserData={props.selectedUserData} />
         ) : null}
-        {valueRadio === 0 && selectedMenu === "2" ? <span>X</span> : null}
+        {valueRadio === 0 && selectedMenu === "2" ? (
+          <Contact selectedUserData={props.selectedUserData} />
+        ) : null}
         {valueRadio === 0 && selectedMenu === "3" ? (
           <Education selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 0 && selectedMenu === "4" ? (
           <Work selectedUserData={props.selectedUserData} />
         ) : null}
-        {valueRadio === 0 && selectedMenu === "5" ? <span>X</span> : null}
-        {valueRadio === 0 && selectedMenu === "6" ? <span>X</span> : null}
-        {valueRadio === 0 && selectedMenu === "7" ? <span>X</span> : null}
-        {valueRadio === 0 && selectedMenu === "8" ? <span>X</span> : null}
-        {valueRadio === 0 && selectedMenu === "9" ? <span>X</span> : null}
+        {valueRadio === 0 && selectedMenu === "5" ? (
+          <Training selectedUserData={props.selectedUserData} />
+        ) : null}
+        {valueRadio === 0 && selectedMenu === "6" ? (
+          <Award selectedUserData={props.selectedUserData} />
+        ) : null}
+        {valueRadio === 0 && selectedMenu === "7" ? (
+          <Sport selectedUserData={props.selectedUserData} />
+        ) : null}
+        {valueRadio === 0 && selectedMenu === "8" ? (
+          <Language selectedUserData={props.selectedUserData} />
+        ) : null}
+        {valueRadio === 0 && selectedMenu === "9" ? (
+          <It selectedUserData={props.selectedUserData} />
+        ) : null}
         {valueRadio === 0 && selectedMenu === "10" ? (
-          <General selectedUserData={props.selectedUserData} />
+          <Skill selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 0 && selectedMenu === "11" ? (
-          <General selectedUserData={props.selectedUserData} />
+          <Health selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 0 && selectedMenu === "12" ? (
-          <General selectedUserData={props.selectedUserData} />
+          <Other selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "0" ? (
-          <span>Хөдөлмөрийн гэрээ</span>
+          <WorkContract selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "1" ? (
-          <span>Ажил үүргийн хуваарь</span>
+          <WorkSchedule selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "2" ? (
-          <span>Цалинжих нөхцөл</span>
+          <SalaryCondition selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "3" ? (
-          <span>Тодорхойлолт</span>
+          <Description selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "4" ? (
-          <span>Системийн хандалт</span>
+          <SystemAccess selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "5" ? (
-          <span>Тусгай удирдлага</span>
+          <SpecManagement selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "6" ? (
-          <span>Алдаа дутагдал</span>
+          <Errors selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "7" ? (
-          <span>Нийгмийн халамж</span>
+          <SocialWelfare selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "8" ? (
-          <span>Ээлжийн амралт</span>
+          <Vacation selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "9" ? (
-          <span>Албан томилолт</span>
+          <Appointment selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "10" ? (
-          <span>Шилжилт хөдөлгөөн</span>
+          <Movement selectedUserData={props.selectedUserData} />
         ) : null}
         {valueRadio === 1 && selectedMenu === "11" ? (
-          <span>Дотоод сургалт</span>
+          <InternalTraining selectedUserData={props.selectedUserData} />
         ) : null}
-        {valueRadio === 1 && selectedMenu === "12" ? <span>Ёс зүй</span> : null}
+        {valueRadio === 1 && selectedMenu === "12" ? (
+          <Ethic selectedUserData={props.selectedUserData} />
+        ) : null}
       </div>
     </div>
   );

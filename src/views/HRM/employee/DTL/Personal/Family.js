@@ -1,10 +1,10 @@
 import { Button, Divider, Spin } from "antd";
 import React, { useState, useEffect } from "react";
 import FamilyUpdate from "./FamilyUpdate";
-import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
+import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
 import dayjs from "dayjs";
-import familyPersons from "../../../../references/familyPersons.json";
+import familyPersons from "../../../../../references/familyPersons.json";
 
 function Family(props) {
   const [isUpdate, setIsUpdate] = useState(false);

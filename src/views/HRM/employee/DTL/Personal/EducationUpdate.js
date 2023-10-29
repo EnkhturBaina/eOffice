@@ -1,9 +1,9 @@
 import { Button, Divider, Input, Form, Space, InputNumber, Select } from "antd";
 import React, { useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
-import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
+import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import CountryServices from "../../../../services/settings/country";
+import CountryServices from "../../../../../services/settings/country";
 import { useEffect } from "react";
 
 function EducationUpdate(props) {

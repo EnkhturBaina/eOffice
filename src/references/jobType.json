@@ -1,0 +1,47 @@
+[
+  {
+    "code": "PrivateSector",
+    "label": "Хувийн хэвшилд",
+    "value": 0
+  },
+  {
+    "code": "PublicInstitutions",
+    "label": "Төрийн байгууллагад",
+    "value": 1
+  },
+  {
+    "code": "Public",
+    "label": "Олон нийтийн байгууллагад",
+    "value": 2
+  },
+  {
+    "code": "InternationalOrganization",
+    "label": "Олон улсын байгууллага",
+    "value": 3
+  },
+  {
+    "code": "IndividualCommunity",
+    "label": "Хувь нийлүүлсэн нийгэмлэг",
+    "value": 4
+  },
+  {
+    "code": "Personally",
+    "label": "Хувиараа",
+    "value": 5
+  },
+  {
+    "code": "Unemployed",
+    "label": "Ажилгүй",
+    "value": 6
+  },
+  {
+    "code": "Retired",
+    "label": "Тэтгэвэрт",
+    "value": 7
+  },
+  {
+    "code": "Others",
+    "label": "Бусад",
+    "value": 8
+  }
+]

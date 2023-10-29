@@ -1,5 +1,4 @@
 import React from "react";
-import avatar from "../../../../assets/images/avatars/1.jpg";
 
 function General(props) {
   console.log("props", props);

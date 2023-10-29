@@ -1,7 +1,7 @@
 import { Button, Divider, Spin } from "antd";
 import React, { useState, useEffect } from "react";
 import EducationUpdate from "./EducationUpdate";
-import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
+import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
 
 function Education(props) {

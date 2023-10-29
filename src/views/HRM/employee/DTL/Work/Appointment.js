@@ -1,11 +1,12 @@
 import { Button, Divider, Spin } from "antd";
 import React, { useState, useEffect } from "react";
-import ContactUpdate from "./ContactUpdate";
-import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
+import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import familyPersons from "../../../../references/familyPersons.json";
+import familyPersons from "../../../../../references/familyPersons.json";
+import jobType from "../../../../../references/jobType.json";
+import AppointmentUpdate from "./AppointmentUpdate";
 
-function Contact(props) {
+function Appointment(props) {
   const [isUpdate, setIsUpdate] = useState(false);
   const [contactData, setContactData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +16,7 @@ function Contact(props) {
     setIsLoading(true);
     await UpdateWorkerData.getContact({ userId: props?.selectedUserData?.id })
       .then((response) => {
-        // console.log("getContact =======>", response);
+        console.log("getContact =======>", response);
         if (response.status === 200) {
           setContactData(response.data?.response?.data);
         }
@@ -41,12 +42,19 @@ function Contact(props) {
       }
     });
   };
+  const getJobName = (val) => {
+    return jobType.map((item, index) => {
+      if (item.value === val) {
+        return <span key={index}>{item.label}</span>;
+      }
+    });
+  };
   return (
     <>
       {isLoading ? (
         <Spin />
       ) : isUpdate ? (
-        <ContactUpdate
+        <AppointmentUpdate
           selectedUserData={props.selectedUserData}
           getContact={getContact}
           contactData={contactData}
@@ -54,6 +62,9 @@ function Contact(props) {
         />
       ) : (
         <div>
+          <div className="mt-2">
+            <span className="main-color font-bold">Шагнал урамшуулал</span>
+          </div>
           {contactData?.length !== 0 ? (
             contactData?.map((el, index) => {
               return (
@@ -68,6 +79,10 @@ function Contact(props) {
                       <span className="text-xs font-bold">{el.firstName}</span>
                     </div>
                     <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Төрсөн он</span>
+                      <span className="text-xs font-bold">{el.birthDate}</span>
+                    </div>
+                    <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
                         Таны хэн болох
                       </span>
@@ -76,12 +91,28 @@ function Contact(props) {
                       </span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Ажлын байр</span>
+                      <span className="text-xs text-slate-500">
+                        Ажил эрхлэлт
+                      </span>
+                      <span className="text-xs font-bold">
+                        {getJobName(el.jobType)}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Ажлын газар
+                      </span>
                       <span className="text-xs font-bold">{el.workplace}</span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Ажил</span>
+                      <span className="text-xs text-slate-500">
+                        Албан тушаал
+                      </span>
                       <span className="text-xs font-bold">{el.work}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Мэргэжил</span>
+                      <span className="text-xs font-bold">{el.profession}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">Утас</span>
@@ -103,15 +134,27 @@ function Contact(props) {
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Төрсөн он</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Таны хэн болох</span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Ажлын байр</span>
+                <span className="text-xs text-slate-500">Ажил эрхлэлт</span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Ажил</span>
+                <span className="text-xs text-slate-500">Ажлын газар</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Албан тушаал</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Мэргэжил</span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
@@ -135,4 +178,4 @@ function Contact(props) {
   );
 }
 
-export default Contact;
+export default Appointment;

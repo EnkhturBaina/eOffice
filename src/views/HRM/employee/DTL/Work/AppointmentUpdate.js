@@ -1,14 +1,12 @@
-import { Button, Divider, Input, Form, Space, DatePicker } from "antd";
-import React, { useState } from "react";
+import { Button, Divider, Input, Form, Space, Select, InputNumber } from "antd";
+import React, { useState, useEffect } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
-import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
+import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import { useEffect } from "react";
-import dayjs from "dayjs";
-import mn_MN from "antd/es/date-picker/locale/mn_MN";
-const dateFormat = "YYYY-MM-DD";
+import familyPersons from "../../../../../references/familyPersons.json";
+import jobType from "../../../../../references/jobType.json";
 
-function WorkUpdate(props) {
+function AppointmentUpdate(props) {
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values) => {
@@ -16,21 +14,20 @@ function WorkUpdate(props) {
   };
 
   const [form] = Form.useForm();
-  const updateWork = async (values) => {
-    values?.experiences?.map((el) => {
-      el.endDate = dayjs(el.endDate).format(dateFormat);
-      el.startDate = dayjs(el.startDate).format(dateFormat);
-    });
-
-    //  setLoading(true);
+  const updateContact = async (values) => {
+    setLoading(true);
     values.userId = props?.selectedUserData?.id;
+    // values?.contacts?.map((el) => {
+    //   el.birthDate = dayjs(el.birthDate).format(dateFormat);
+    // });
 
-    await UpdateWorkerData.postWork(values)
+    await UpdateWorkerData.postContact(values)
       .then((response) => {
+        console.log("res", response);
         if (response.status === 201) {
           setTimeout(() => {
             //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
-            props.getWork();
+            props.getContact();
           }, 1000);
         }
       })
@@ -46,23 +43,18 @@ function WorkUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      ...(props.workData?.length !== 0 && {
-        experiences: props.workData?.map((workdata) => ({
-          ...workdata,
-          startDate: dayjs(workdata.startDate, dateFormat),
-          endDate: dayjs(workdata.endDate, dateFormat),
+      ...(props.contactData?.length !== 0 && {
+        contacts: props.contactData?.map((data) => ({
+          ...data,
+          // birthDate: dayjs(data.birthDate, dateFormat),
         })),
       }),
     });
   };
+
   useEffect(() => {
     strDataFnc();
   }, []);
-
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
-  };
-
   return (
     <div>
       <Form
@@ -72,24 +64,23 @@ function WorkUpdate(props) {
         autoComplete="off"
         layout="vertical"
         initialValues={{
-          experiences: [
+          contacts: [
             {
-              workType: null,
-              company: null,
-              branch: null,
-              career: null,
-              endDate: null,
-              startDate: null,
-              reason: null,
+              lastName: null,
+              firstName: null,
+              birthDate: null,
+              whoIs: null,
+              jobType: null,
+              workplace: null,
+              work: null,
+              profession: null,
+              phone: null,
             },
           ],
         }}
       >
-        <span className="main-color font-semibold">
-          Нийгмийн даатгалаар баталгаажсан хөдөлмөр эрхлэлт
-        </span>
         <Divider className="my-1" />
-        <Form.List name="experiences">
+        <Form.List name="contacts">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -97,19 +88,90 @@ function WorkUpdate(props) {
                   <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
-                      name={[name, "workType"]}
+                      name={[name, "lastName"]}
                       label={
-                        <span className="text-xs text-slate-500">
-                          Ямар ажил хийж байсан
-                        </span>
+                        <span className="text-xs text-slate-500">Овог</span>
                       }
                       className="custom-form-item"
+                      rules={[
+                        {
+                          required: true,
+                          message: "",
+                        },
+                      ]}
                     >
                       <Input size="small" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "company"]}
+                      name={[name, "firstName"]}
+                      label={
+                        <span className="text-xs text-slate-500">Нэр</span>
+                      }
+                      className="custom-form-item"
+                      rules={[
+                        {
+                          required: true,
+                          message: "",
+                        },
+                      ]}
+                    >
+                      <Input size="small" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "birthDate"]}
+                      label={
+                        <span className="text-xs text-slate-500">
+                          Төрсөн он
+                        </span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <InputNumber
+                        min={1900}
+                        max={2100}
+                        className="hide-input-arrow"
+                        style={{
+                          width: "100%",
+                        }}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "whoIs"]}
+                      label={
+                        <span className="text-xs text-slate-500">
+                          Таны хэн болох
+                        </span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={familyPersons}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "jobType"]}
+                      label={
+                        <span className="text-xs text-slate-500">
+                          Ажил эрхлэлт
+                        </span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={jobType}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "workplace"]}
                       label={
                         <span className="text-xs text-slate-500">
                           Ажлын газар
@@ -121,9 +183,11 @@ function WorkUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "branch"]}
+                      name={[name, "work"]}
                       label={
-                        <span className="text-xs text-slate-500">Салбар</span>
+                        <span className="text-xs text-slate-500">
+                          Албан тушаал
+                        </span>
                       }
                       className="custom-form-item"
                     >
@@ -131,9 +195,9 @@ function WorkUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "career"]}
+                      name={[name, "profession"]}
                       label={
-                        <span className="text-xs text-slate-500">Карьер</span>
+                        <span className="text-xs text-slate-500">Мэргэжил</span>
                       }
                       className="custom-form-item"
                     >
@@ -141,45 +205,9 @@ function WorkUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "startDate"]}
+                      name={[name, "phone"]}
                       label={
-                        <span className="text-xs text-slate-500">
-                          Ажилд орсон огноо
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <DatePicker
-                        onChange={onChange}
-                        className="custom-datepicker"
-                        format={dateFormat}
-                        locale={mn_MN}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "endDate"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Ажилаас гарсан огноо
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <DatePicker
-                        onChange={onChange}
-                        className="custom-datepicker"
-                        format={dateFormat}
-                        locale={mn_MN}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "reason"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Ажилаас гарсан шалтгаан
-                        </span>
+                        <span className="text-xs text-slate-500">Утас</span>
                       }
                       className="custom-form-item"
                     >
@@ -227,7 +255,7 @@ function WorkUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
-                  updateWork(values);
+                  updateContact(values);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -243,4 +271,4 @@ function WorkUpdate(props) {
   );
 }
 
-export default WorkUpdate;
+export default AppointmentUpdate;

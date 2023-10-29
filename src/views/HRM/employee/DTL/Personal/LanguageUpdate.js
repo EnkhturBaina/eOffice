@@ -1,29 +1,37 @@
 import { Button, Divider, Input, Form, Space, Select } from "antd";
 import React, { useState, useEffect } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
-import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
+import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import familyPersons from "../../../../references/familyPersons.json";
+import languageLevel from "../../../../../references/languageLevel.json";
+import CountryServices from "../../../../../services/settings/country";
 
-function ContactUpdate(props) {
+function LanguageUpdate(props) {
   const [loading, setLoading] = useState(false);
+  const [countryData, setCountryData] = useState("");
 
   const onFinish = (values) => {
     // console.log("Received values of form:", values);
   };
 
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
+
   const [form] = Form.useForm();
-  const updateContact = async (values) => {
+  const updateLanguage = async (values) => {
     setLoading(true);
     values.userId = props?.selectedUserData?.id;
-
-    await UpdateWorkerData.postContact(values)
+    await UpdateWorkerData.postLanguage(values)
       .then((response) => {
         console.log("res", response);
         if (response.status === 201) {
           setTimeout(() => {
             //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
-            props.getContact();
+            props.getLanguage();
           }, 1000);
         }
       })
@@ -39,14 +47,26 @@ function ContactUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      ...(props.contactData?.length !== 0 && {
-        contacts: props.contactData,
+      ...(props.languageData?.length !== 0 && {
+        languages: props.languageData?.map((data) => ({
+          ...data,
+          // birthDate: dayjs(data.birthDate, dateFormat),
+        })),
       }),
     });
   };
 
+  const getCountries = async () => {
+    await CountryServices.get({ type: 1 })
+      .then((res) => {
+        setCountryData(res.data.response.data);
+      })
+      .catch((c) => {})
+      .finally(() => {});
+  };
   useEffect(() => {
     strDataFnc();
+    getCountries();
   }, []);
   return (
     <div>
@@ -57,20 +77,22 @@ function ContactUpdate(props) {
         autoComplete="off"
         layout="vertical"
         initialValues={{
-          contacts: [
+          languages: [
             {
-              lastName: null,
-              firstName: null,
-              whoIs: null,
-              workplace: null,
-              work: null,
-              phone: null,
+              name: null,
+              exam: null,
+              score: null,
+              speak: null,
+              read: null,
+              write: null,
+              listen: null,
+              note: null,
             },
           ],
         }}
       >
         <Divider className="my-1" />
-        <Form.List name="contacts">
+        <Form.List name="languages">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -78,30 +100,18 @@ function ContactUpdate(props) {
                   <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
-                      name={[name, "lastName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Овог</span>
-                      }
+                      hidden
+                      name={[name, "userId"]}
+                      label={null}
                       className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
+                      initialValue={props?.selectedUserData?.id}
+                    ></Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "firstName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Нэр</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "whoIs"]}
+                      name={[name, "name"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Таны хэн болох
+                          Гадаад хэл
                         </span>
                       }
                       className="custom-form-item"
@@ -109,16 +119,16 @@ function ContactUpdate(props) {
                       <Select
                         showSearch
                         optionFilterProp="children"
-                        options={familyPersons}
+                        options={countryData}
+                        onSearch={onSearch}
+                        filterOption={filterOption}
                       />
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "workplace"]}
+                      name={[name, "exam"]}
                       label={
-                        <span className="text-xs text-slate-500">
-                          Ажлын байр
-                        </span>
+                        <span className="text-xs text-slate-500">Шалгалт</span>
                       }
                       className="custom-form-item"
                     >
@@ -126,9 +136,9 @@ function ContactUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "work"]}
+                      name={[name, "score"]}
                       label={
-                        <span className="text-xs text-slate-500">Ажил</span>
+                        <span className="text-xs text-slate-500">Оноо</span>
                       }
                       className="custom-form-item"
                     >
@@ -136,9 +146,65 @@ function ContactUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "phone"]}
+                      name={[name, "speak"]}
                       label={
-                        <span className="text-xs text-slate-500">Утас</span>
+                        <span className="text-xs text-slate-500">Ярих</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={languageLevel}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "listen"]}
+                      label={
+                        <span className="text-xs text-slate-500">Сонсох</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={languageLevel}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "read"]}
+                      label={
+                        <span className="text-xs text-slate-500">Унших</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={languageLevel}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "write"]}
+                      label={
+                        <span className="text-xs text-slate-500">Бичих</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={languageLevel}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "note"]}
+                      label={
+                        <span className="text-xs text-slate-500">Тайлбар</span>
                       }
                       className="custom-form-item"
                     >
@@ -186,7 +252,7 @@ function ContactUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
-                  updateContact(values);
+                  updateLanguage(values);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -202,4 +268,4 @@ function ContactUpdate(props) {
   );
 }
 
-export default ContactUpdate;
+export default LanguageUpdate;
