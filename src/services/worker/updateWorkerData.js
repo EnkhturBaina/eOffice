@@ -32,10 +32,10 @@ class UpdateWorkerData {
       params: param,
     });
   }
-  async postSkill(data) {
+  async postAptitude(data) {
     return await jwtInterceptor.post("human-resource/aptitude", data);
   }
-  async getSkill(param) {
+  async getAptitude(param) {
     return await jwtInterceptor.get("human-resource/aptitude", {
       params: param,
     });
@@ -53,6 +53,14 @@ class UpdateWorkerData {
   }
   async getLanguage(param) {
     return await jwtInterceptor.get("human-resource/language", {
+      params: param,
+    });
+  }
+  async postTraining(data) {
+    return await jwtInterceptor.post("human-resource/training", data);
+  }
+  async getTraining(param) {
+    return await jwtInterceptor.get("human-resource/training", {
       params: param,
     });
   }

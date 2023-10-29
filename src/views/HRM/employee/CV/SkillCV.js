@@ -1,7 +1,6 @@
 import { Button, Divider, Input, Form, Space, InputNumber, Select } from "antd";
 import React, { useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
-import UpdateWorkerData from "../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
 import CountryServices from "../../../../services/settings/country";
 import { useEffect } from "react";
@@ -16,24 +15,6 @@ function SkillCV() {
   const updateSkill = async (values) => {
     setLoading(true);
     values.userId = props?.selectedUserData?.id;
-
-    await UpdateWorkerData.postSkill(values)
-      .then((response) => {
-        if (response.status === 201) {
-          setTimeout(() => {
-            //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
-            props.getSkill();
-          }, 1000);
-        }
-      })
-      .catch((error) => {
-        openNofi("warning", "Амжилтгүй", error?.response?.data?.message);
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
-      });
   };
   return (
     <div>

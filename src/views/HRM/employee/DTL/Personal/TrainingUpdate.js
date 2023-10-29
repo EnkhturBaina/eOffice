@@ -1,33 +1,45 @@
-import { Button, Divider, Input, Form, Space, Select, InputNumber } from "antd";
+import {
+  Button,
+  Divider,
+  Input,
+  Form,
+  Space,
+  Select,
+  InputNumber,
+  DatePicker,
+} from "antd";
 import React, { useState, useEffect } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import familyPersons from "../../../../../references/familyPersons.json";
-import jobType from "../../../../../references/jobType.json";
+import mn_MN from "antd/es/date-picker/locale/mn_MN";
+import dayjs from "dayjs";
+const dateFormat = "YYYY-MM-DD";
+import CountryServices from "../../../../../services/settings/country";
 
 function TrainingUpdate(props) {
+  console.log("props", props);
   const [loading, setLoading] = useState(false);
+  const [countryData, setCountryData] = useState("");
+  const [cityData, setCityData] = useState("");
 
   const onFinish = (values) => {
     // console.log("Received values of form:", values);
   };
 
   const [form] = Form.useForm();
-  const updateContact = async (values) => {
+  const updateTraining = async (values) => {
+    console.log("values", values);
+    console.log("props", props.selectedUserData);
     setLoading(true);
     values.userId = props?.selectedUserData?.id;
-    // values?.contacts?.map((el) => {
-    //   el.birthDate = dayjs(el.birthDate).format(dateFormat);
-    // });
-
-    await UpdateWorkerData.postContact(values)
+    await UpdateWorkerData.postTraining(values)
       .then((response) => {
         console.log("res", response);
         if (response.status === 201) {
           setTimeout(() => {
             //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
-            props.getContact();
+            props.getTraining();
           }, 1000);
         }
       })
@@ -43,18 +55,48 @@ function TrainingUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      ...(props.contactData?.length !== 0 && {
-        contacts: props.contactData?.map((data) => ({
+      ...(props.trainingData?.length !== 0 && {
+        trainings: props.trainingData?.map((data) => ({
           ...data,
-          // birthDate: dayjs(data.birthDate, dateFormat),
+          startDate: dayjs(data.startDate, dateFormat),
+          endDate: dayjs(data.endDate, dateFormat),
         })),
       }),
     });
   };
 
+  const getCountries = async () => {
+    await CountryServices.get({ type: 1 })
+      .then((res) => {
+        setCountryData(res.data.response.data);
+      })
+      .catch((c) => {})
+      .finally(() => {});
+  };
+  const getCities = async () => {
+    await CountryServices.get({ type: 2 })
+      .then((res) => {
+        setCityData(res.data.response.data);
+      })
+      .catch((c) => {})
+      .finally(() => {});
+  };
+
   useEffect(() => {
     strDataFnc();
+    getCountries();
+    getCities();
   }, []);
+
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
   return (
     <div>
       <Form
@@ -64,23 +106,23 @@ function TrainingUpdate(props) {
         autoComplete="off"
         layout="vertical"
         initialValues={{
-          contacts: [
+          trainings: [
             {
-              lastName: null,
-              firstName: null,
-              birthDate: null,
-              whoIs: null,
-              jobType: null,
-              workplace: null,
-              work: null,
-              profession: null,
-              phone: null,
+              name: null,
+              course: null,
+              type: null,
+              organiser: null,
+              countryId: null,
+              cityId: null,
+              serNumber: null,
+              startDate: null,
+              endDate: null,
             },
           ],
         }}
       >
         <Divider className="my-1" />
-        <Form.List name="contacts">
+        <Form.List name="trainings">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -88,49 +130,95 @@ function TrainingUpdate(props) {
                   <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
-                      name={[name, "lastName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Овог</span>
-                      }
-                      className="custom-form-item"
-                      rules={[
-                        {
-                          required: true,
-                          message: "",
-                        },
-                      ]}
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "firstName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Нэр</span>
-                      }
-                      className="custom-form-item"
-                      rules={[
-                        {
-                          required: true,
-                          message: "",
-                        },
-                      ]}
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "birthDate"]}
+                      name={[name, "name"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Төрсөн он
+                          Сургалтын нэр
+                        </span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Input size="small" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "course"]}
+                      label={
+                        <span className="text-xs text-slate-500">
+                          Сургалтын чиглэл
+                        </span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Input size="small" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "type"]}
+                      label={
+                        <span className="text-xs text-slate-500">
+                          Сургалтын төрөл
+                        </span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Input size="small" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "organiser"]}
+                      label={
+                        <span className="text-xs text-slate-500">
+                          Зохион байгуулагч
+                        </span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Input size="small" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "countryId"]}
+                      label={
+                        <span className="text-xs text-slate-500">Улс</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={countryData}
+                        onSearch={onSearch}
+                        filterOption={filterOption}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "cityId"]}
+                      label={
+                        <span className="text-xs text-slate-500">Аймаг</span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        options={cityData}
+                        onSearch={onSearch}
+                        filterOption={filterOption}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "serNumber"]}
+                      label={
+                        <span className="text-xs text-slate-500">
+                          Үнэмлэх №
                         </span>
                       }
                       className="custom-form-item"
                     >
                       <InputNumber
-                        min={1900}
-                        max={2100}
                         className="hide-input-arrow"
                         style={{
                           width: "100%",
@@ -139,79 +227,37 @@ function TrainingUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "whoIs"]}
+                      name={[name, "startDate"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Таны хэн болох
+                          Эхэлсэн огноо
                         </span>
                       }
                       className="custom-form-item"
                     >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={familyPersons}
+                      <DatePicker
+                        onChange={onChange}
+                        className="custom-datepicker"
+                        format={dateFormat}
+                        locale={mn_MN}
                       />
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "jobType"]}
+                      name={[name, "endDate"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Ажил эрхлэлт
+                          Дууссан огноо
                         </span>
                       }
                       className="custom-form-item"
                     >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={jobType}
+                      <DatePicker
+                        onChange={onChange}
+                        className="custom-datepicker"
+                        format={dateFormat}
+                        locale={mn_MN}
                       />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "workplace"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Ажлын газар
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "work"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Албан тушаал
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "profession"]}
-                      label={
-                        <span className="text-xs text-slate-500">Мэргэжил</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "phone"]}
-                      label={
-                        <span className="text-xs text-slate-500">Утас</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
                     </Form.Item>
                   </div>
                   {fields.length > 1 ? (
@@ -255,7 +301,7 @@ function TrainingUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
-                  updateContact(values);
+                  updateTraining(values);
                 })
                 .catch((error) => {
                   console.log(error);

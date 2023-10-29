@@ -1,33 +1,36 @@
-import { Button, Divider, Input, Form, Space, Select, InputNumber } from "antd";
-import React, { useState, useEffect } from "react";
+import { Button, Divider, Input, Form, Space, InputNumber, Select } from "antd";
+import React, { useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import familyPersons from "../../../../../references/familyPersons.json";
-import jobType from "../../../../../references/jobType.json";
+import CountryServices from "../../../../../services/settings/country";
+import { useEffect } from "react";
 
 function SportUpdate(props) {
+  const [countryData, setCountryData] = useState("");
   const [loading, setLoading] = useState(false);
-
   const onFinish = (values) => {
-    // console.log("Received values of form:", values);
+    console.log("Received values of form:", values);
+  };
+
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const onSearch = (value) => {
+    console.log("search:", value);
   };
 
   const [form] = Form.useForm();
-  const updateContact = async (values) => {
+  const updateSport = async (values) => {
     setLoading(true);
     values.userId = props?.selectedUserData?.id;
-    // values?.contacts?.map((el) => {
-    //   el.birthDate = dayjs(el.birthDate).format(dateFormat);
-    // });
 
-    await UpdateWorkerData.postContact(values)
+    await UpdateWorkerData.postAptitude(values)
       .then((response) => {
-        console.log("res", response);
         if (response.status === 201) {
           setTimeout(() => {
             //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
-            props.getContact();
+            props.getSport();
           }, 1000);
         }
       })
@@ -43,17 +46,23 @@ function SportUpdate(props) {
 
   const strDataFnc = () => {
     form.setFieldsValue({
-      ...(props.contactData?.length !== 0 && {
-        contacts: props.contactData?.map((data) => ({
-          ...data,
-          // birthDate: dayjs(data.birthDate, dateFormat),
-        })),
+      ...(props.aptData?.length !== 0 && {
+        aptitudes: props.aptData,
       }),
     });
   };
 
+  const getCountries = async () => {
+    await CountryServices.get({ type: 1 })
+      .then((res) => {
+        setCountryData(res.data.response.data);
+      })
+      .catch((c) => {})
+      .finally(() => {});
+  };
   useEffect(() => {
     strDataFnc();
+    getCountries();
   }, []);
   return (
     <div>
@@ -64,23 +73,19 @@ function SportUpdate(props) {
         autoComplete="off"
         layout="vertical"
         initialValues={{
-          contacts: [
+          aptitudes: [
             {
-              lastName: null,
-              firstName: null,
-              birthDate: null,
-              whoIs: null,
-              jobType: null,
-              workplace: null,
-              work: null,
-              profession: null,
-              phone: null,
+              sName: null,
+              sYear: null,
+              level: null,
+              userId: props?.selectedUserData?.id,
             },
           ],
         }}
       >
+        <span className="main-color font-semibold">Урлага спортын авьяас</span>
         <Divider className="my-1" />
-        <Form.List name="contacts">
+        <Form.List name="aptitudes">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -88,49 +93,36 @@ function SportUpdate(props) {
                   <div className="grid grid-cols-3 gap-x-4">
                     <Form.Item
                       {...restField}
-                      name={[name, "lastName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Овог</span>
-                      }
+                      hidden
+                      name={[name, "userId"]}
+                      label={null}
                       className="custom-form-item"
-                      rules={[
-                        {
-                          required: true,
-                          message: "",
-                        },
-                      ]}
-                    >
-                      <Input size="small" />
-                    </Form.Item>
+                      initialValue={props?.selectedUserData?.id}
+                    ></Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "firstName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Нэр</span>
-                      }
-                      className="custom-form-item"
-                      rules={[
-                        {
-                          required: true,
-                          message: "",
-                        },
-                      ]}
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "birthDate"]}
+                      name={[name, "sName"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Төрсөн он
+                          Хичээллэдэг урлаг, спорт
+                        </span>
+                      }
+                      className="custom-form-item"
+                    >
+                      <Input size="small" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "sYear"]}
+                      label={
+                        <span className="text-xs text-slate-500">
+                          Хичэллэсэн жил
                         </span>
                       }
                       className="custom-form-item"
                     >
                       <InputNumber
-                        min={1900}
-                        max={2100}
+                        min={0}
                         className="hide-input-arrow"
                         style={{
                           width: "100%",
@@ -139,75 +131,11 @@ function SportUpdate(props) {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "whoIs"]}
+                      name={[name, "level"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Таны хэн болох
+                          Зэрэг цол
                         </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={familyPersons}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "jobType"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Ажил эрхлэлт
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={jobType}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "workplace"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Ажлын газар
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "work"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Албан тушаал
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "profession"]}
-                      label={
-                        <span className="text-xs text-slate-500">Мэргэжил</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "phone"]}
-                      label={
-                        <span className="text-xs text-slate-500">Утас</span>
                       }
                       className="custom-form-item"
                     >
@@ -255,7 +183,7 @@ function SportUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
-                  updateContact(values);
+                  updateSport(values);
                 })
                 .catch((error) => {
                   console.log(error);
