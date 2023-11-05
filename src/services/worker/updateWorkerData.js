@@ -64,5 +64,21 @@ class UpdateWorkerData {
       params: param,
     });
   }
+  async postTech(data) {
+    return await jwtInterceptor.post("human-resource/itech", data);
+  }
+  async getTech(param) {
+    return await jwtInterceptor.get("human-resource/itech", {
+      params: param,
+    });
+  }
+  async postTechItems(data) {
+    return await jwtInterceptor.post("human-resource/itech-items", data);
+  }
+  async getTechItems(param) {
+    return await jwtInterceptor.get("human-resource/itech-items", {
+      params: param,
+    });
+  }
 }
 export default new UpdateWorkerData();

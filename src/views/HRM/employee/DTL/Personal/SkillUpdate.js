@@ -1,36 +1,27 @@
-import { Button, Divider, Input, Form, Space, InputNumber, Select } from "antd";
-import React, { useState } from "react";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Button, Divider, Form, Space, Segmented } from "antd";
+import React, { useState, useEffect } from "react";
 import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import CountryServices from "../../../../../services/settings/country";
-import { useEffect } from "react";
+import techType from "../../../../../references/techType.json";
 
 function SkillUpdate(props) {
-  const [countryData, setCountryData] = useState("");
   const [loading, setLoading] = useState(false);
+  const [itemData, setItemData] = useState([]);
+
   const onFinish = (values) => {
     console.log("Received values of form:", values);
   };
 
-  const filterOption = (input, option) =>
-    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-
-  const onSearch = (value) => {
-    console.log("search:", value);
-  };
-
   const [form] = Form.useForm();
-  const updateSkill = async (values) => {
+  const updateTech = async (values) => {
     setLoading(true);
-    values.userId = props?.selectedUserData?.id;
-
-    await UpdateWorkerData.postAptitude(values)
+    await UpdateWorkerData.postTechItems(itemData)
       .then((response) => {
+        // console.log("res", response);
         if (response.status === 201) {
           setTimeout(() => {
             //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
-            props.getSkill();
+            props.getTechItems();
           }, 1000);
         }
       })
@@ -45,125 +36,170 @@ function SkillUpdate(props) {
   };
 
   const strDataFnc = () => {
-    form.setFieldsValue({
-      ...(props.aptData?.length !== 0 && {
-        aptitudes: props.aptData,
-      }),
-    });
+    let array = [];
+    props.skillData?.map((data, i) =>
+      array.push({
+        userId: props?.selectedUserData?.id,
+        itechId: data.id,
+        value: 2,
+      })
+    );
+    setItemData(array);
   };
 
-  const getCountries = async () => {
-    await CountryServices.get({ type: 1 })
-      .then((res) => {
-        setCountryData(res.data.response.data);
-      })
-      .catch((c) => {})
-      .finally(() => {});
-  };
   useEffect(() => {
     strDataFnc();
-    getCountries();
   }, []);
+
   return (
     <div>
       <Form
         form={form}
-        name="dynamic_form_nest_item"
+        name="itechItems"
         onFinish={onFinish}
         autoComplete="off"
         layout="vertical"
-        initialValues={{
-          aptitudes: [
-            {
-              sName: null,
-              sYear: null,
-              level: null,
-              userId: props?.selectedUserData?.id,
-            },
-          ],
-        }}
       >
-        <span className="main-color font-semibold">Урлага спортын авьяас</span>
+        <div className="mt-2">
+          <span className="main-color font-bold">Хувийн ур чадвар</span>
+        </div>
         <Divider className="my-1" />
-        <Form.List name="aptitudes">
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map(({ key, name, ...restField }) => (
-                <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-4">
-                    <Form.Item
-                      {...restField}
-                      hidden
-                      name={[name, "userId"]}
-                      label={null}
-                      className="custom-form-item"
-                      initialValue={props?.selectedUserData?.id}
-                    ></Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "sName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Төрөл</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "sYear"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Хичэллэсэн жил
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <InputNumber
-                        min={0}
-                        className="hide-input-arrow"
-                        style={{
-                          width: "100%",
-                        }}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "level"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Зэрэг цол
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                  </div>
-                  {fields.length > 1 ? (
-                    <DeleteOutlined
-                      onClick={() => {
-                        remove(name);
+        {props.skillData
+          ?.filter((obj) => obj.itechType === 2)
+          ?.map((el, index) => {
+            return (
+              <Space key={index} className="block" align="baseline">
+                <div className="grid grid-cols-3 gap-x-4">
+                  <Form.Item
+                    name={el.id}
+                    label={
+                      <span className="text-xs text-slate-500">{el.name}</span>
+                    }
+                    className="custom-form-item"
+                  >
+                    <Segmented
+                      options={techType}
+                      onChange={(e) => {
+                        const newState = itemData.map((obj) => {
+                          if (obj.itechId === parseInt(el.id)) {
+                            return { ...obj, value: e };
+                          }
+                          return obj;
+                        });
+
+                        setItemData(newState);
                       }}
-                      className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
-                      style={{ marginTop: 15 }}
                     />
-                  ) : null}
-                </Space>
-              ))}
-              <Form.Item className="text-right">
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  className="!w-2/12 mt-2"
-                >
-                  Мөр нэмэх
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
+                  </Form.Item>
+                </div>
+              </Space>
+            );
+          })}
+        <div className="mt-2">
+          <span className="main-color font-bold">Харилцааны ур чадвар</span>
+        </div>
+        <Divider className="my-1" />
+        {props.skillData
+          ?.filter((obj) => obj.itechType === 3)
+          ?.map((el, index) => {
+            return (
+              <Space key={index} className="block" align="baseline">
+                <div className="grid grid-cols-3 gap-x-4">
+                  <Form.Item
+                    name={el.id}
+                    label={
+                      <span className="text-xs text-slate-500">{el.name}</span>
+                    }
+                    className="custom-form-item"
+                  >
+                    <Segmented
+                      options={techType}
+                      onChange={(e) => {
+                        const newState = itemData.map((obj) => {
+                          if (obj.itechId === parseInt(el.id)) {
+                            return { ...obj, value: e };
+                          }
+                          return obj;
+                        });
+
+                        setItemData(newState);
+                      }}
+                    />
+                  </Form.Item>
+                </div>
+              </Space>
+            );
+          })}
+        <div className="mt-2">
+          <span className="main-color font-bold">Бүлгээр ажиллах чадвар</span>
+        </div>
+        <Divider className="my-1" />
+        {props.skillData
+          ?.filter((obj) => obj.itechType === 4)
+          ?.map((el, index) => {
+            return (
+              <Space key={index} className="block" align="baseline">
+                <div className="grid grid-cols-3 gap-x-4">
+                  <Form.Item
+                    name={el.id}
+                    label={
+                      <span className="text-xs text-slate-500">{el.name}</span>
+                    }
+                    className="custom-form-item"
+                  >
+                    <Segmented
+                      options={techType}
+                      onChange={(e) => {
+                        const newState = itemData.map((obj) => {
+                          if (obj.itechId === parseInt(el.id)) {
+                            return { ...obj, value: e };
+                          }
+                          return obj;
+                        });
+
+                        setItemData(newState);
+                      }}
+                    />
+                  </Form.Item>
+                </div>
+              </Space>
+            );
+          })}
+        <div className="mt-2">
+          <span className="main-color font-bold">Бусад</span>
+        </div>
+        <Divider className="my-1" />
+        {props.skillData
+          ?.filter((obj) => obj.itechType === 5)
+          ?.map((el, index) => {
+            return (
+              <Space key={index} className="block" align="baseline">
+                <div className="grid grid-cols-3 gap-x-4">
+                  <Form.Item
+                    name={el.id}
+                    label={
+                      <span className="text-xs text-slate-500">{el.name}</span>
+                    }
+                    className="custom-form-item"
+                  >
+                    <Segmented
+                      options={techType}
+                      onChange={(e) => {
+                        const newState = itemData.map((obj) => {
+                          if (obj.itechId === parseInt(el.id)) {
+                            return { ...obj, value: e };
+                          }
+                          return obj;
+                        });
+
+                        setItemData(newState);
+                      }}
+                    />
+                  </Form.Item>
+                </div>
+              </Space>
+            );
+          })}
         <Form.Item>
           <Button
             htmlType="submit"
@@ -181,7 +217,7 @@ function SkillUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
-                  updateSkill(values);
+                  updateTech(values);
                 })
                 .catch((error) => {
                   console.log(error);

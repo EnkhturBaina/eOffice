@@ -1,24 +1,31 @@
-import { Button, Divider, Spin } from "antd";
+import { Button, Spin } from "antd";
 import React, { useState, useEffect } from "react";
-import ContactUpdate from "./ContactUpdate";
+import ItUpdate from "./ItUpdate";
 import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import familyPersons from "../../../../../references/familyPersons.json";
-import jobType from "../../../../../references/jobType.json";
+import techType from "../../../../../references/techType.json";
 
 function It(props) {
   const [isUpdate, setIsUpdate] = useState(false);
-  const [contactData, setContactData] = useState([]);
+  const [techData, setTechData] = useState([]);
+  const [techItemsData, setTechItemsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [itemData, setItemData] = useState([]);
+  const [testState, setTestState] = useState({});
 
-  const getContact = async () => {
-    setContactData([]);
+  const getTech = async () => {
+    setTechData([]);
     setIsLoading(true);
-    await UpdateWorkerData.getContact({ userId: props?.selectedUserData?.id })
+    await UpdateWorkerData.getTech({ userId: props?.selectedUserData?.id })
       .then((response) => {
-        console.log("getContact =======>", response);
+        // console.log("get Tech =======>", response);
         if (response.status === 200) {
-          setContactData(response.data?.response?.data);
+          setTechData(
+            response.data?.response?.data?.filter(
+              (obj) => obj.itechType === 0 || obj.itechType === 1
+            )
+          );
+          getTechItems();
         }
       })
       .catch((error) => {
@@ -31,19 +38,45 @@ function It(props) {
       });
   };
 
+  const getTechItems = async () => {
+    setTechItemsData([]);
+    setIsLoading(true);
+    await UpdateWorkerData.getTechItems({ userId: props?.selectedUserData?.id })
+      .then((response) => {
+        if (response.status === 200) {
+          setTechItemsData(response.data?.response?.data);
+          if (techData) {
+            const test = techData.map((techDataTest) => ({
+              id: techDataTest.id,
+              value: response.data?.response?.data.find(
+                (tt) => tt.itechId === techDataTest.id
+              )?.value,
+            }));
+            const initalValue = test.reduce(
+              (obj, item) => Object.assign(obj, { [item.id]: item.value }),
+              {}
+            );
+            setTestState(initalValue);
+          }
+        } else {
+          setTestState({});
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+        openNofi("warning", "Амжилтгүй", error?.response?.data?.message);
+      })
+      .finally(() => {
+        setIsUpdate(false);
+        setIsLoading(false);
+      });
+  };
   useEffect(() => {
-    getContact();
+    getTech();
   }, [props?.selectedUserData]);
 
   const getName = (val) => {
-    return familyPersons.map((item, index) => {
-      if (item.value === val) {
-        return <span key={index}>{item.label}</span>;
-      }
-    });
-  };
-  const getJobName = (val) => {
-    return jobType.map((item, index) => {
+    return techType.map((item, index) => {
       if (item.value === val) {
         return <span key={index}>{item.label}</span>;
       }
@@ -54,115 +87,91 @@ function It(props) {
       {isLoading ? (
         <Spin />
       ) : isUpdate ? (
-        <ContactUpdate
+        <ItUpdate
           selectedUserData={props.selectedUserData}
-          getContact={getContact}
-          contactData={contactData}
+          getTechItems={getTechItems}
+          techData={techData}
           setIsUpdate={setIsUpdate}
+          itemData={itemData}
+          techItemsData={techItemsData}
+          testState={testState}
         />
       ) : (
         <div>
           <div className="mt-2">
-            <span className="main-color font-bold">Шагнал урамшуулал</span>
+            <span className="main-color font-bold">
+              Эзэмшсэн оффисын тоног төхөөрөмж
+            </span>
           </div>
-          {contactData?.length !== 0 ? (
-            contactData?.map((el, index) => {
-              return (
-                <div key={index}>
-                  <div className="grid grid-cols-4 gap-2">
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Овог</span>
-                      <span className="text-xs font-bold">{el.lastName}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Нэр</span>
-                      <span className="text-xs font-bold">{el.firstName}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Төрсөн он</span>
-                      <span className="text-xs font-bold">{el.birthDate}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">
-                        Таны хэн болох
+          {techData?.length !== 0 ? (
+            techData
+              ?.filter((obj) => obj.itechType === 0)
+              ?.map((el, index) => {
+                return (
+                  <div key={index}>
+                    <div className="flex flex-row mb-1">
+                      <span className="text-xs text-slate-500">{el.name}:</span>
+                      <span className="text-xs font-bold ml-1">
+                        {techItemsData?.map((item, index) => {
+                          if (item.itechId == el.id)
+                            return (
+                              <span key={index}>
+                                {item.value ? getName(item.value) : "-"}
+                              </span>
+                            );
+                        })}
                       </span>
-                      <span className="text-xs font-bold">
-                        {getName(el.whoIs)}
-                      </span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">
-                        Ажил эрхлэлт
-                      </span>
-                      <span className="text-xs font-bold">
-                        {getJobName(el.jobType)}
-                      </span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">
-                        Ажлын газар
-                      </span>
-                      <span className="text-xs font-bold">{el.workplace}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">
-                        Албан тушаал
-                      </span>
-                      <span className="text-xs font-bold">{el.work}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Мэргэжил</span>
-                      <span className="text-xs font-bold">{el.profession}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Утас</span>
-                      <span className="text-xs font-bold">{el.phone}</span>
                     </div>
                   </div>
-                  <Divider className="mt-2 mb-1" />
-                </div>
-              );
-            })
+                );
+              })
           ) : (
             <div className="grid grid-cols-3 gap-2">
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Овог</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Нэр</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Төрсөн он</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Таны хэн болох</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Ажил эрхлэлт</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Ажлын газар</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Албан тушаал</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Мэргэжил</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Утас</span>
+                <span className="text-xs text-slate-500"></span>
                 <span className="text-xs font-bold">-</span>
               </div>
             </div>
           )}
+          <div className="mt-2">
+            <span className="main-color font-bold">
+              Эзэмшсэн програм хангамж
+            </span>
+          </div>
+          {techData?.length !== 0 ? (
+            techData
+              ?.filter((obj) => obj.itechType === 1)
+              ?.map((el, index) => {
+                return (
+                  <div key={index}>
+                    <div className="flex flex-row mb-1">
+                      <span className="text-xs text-slate-500">{el.name}:</span>
+                      <span className="text-xs font-bold ml-1">
+                        {techItemsData?.map((item, index) => {
+                          if (item.itechId == el.id) {
+                            return (
+                              <span key={index}>
+                                {item.value !== null
+                                  ? getName(item.value)
+                                  : "-"}
+                              </span>
+                            );
+                          }
+                        })}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })
+          ) : (
+            <div className="grid grid-cols-3 gap-2">
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">-</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+            </div>
+          )}
+
           <div className="flex justify-end !mt-12">
             <Button
               onClick={() => {
