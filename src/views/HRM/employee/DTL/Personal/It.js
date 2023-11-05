@@ -10,7 +10,6 @@ function It(props) {
   const [techData, setTechData] = useState([]);
   const [techItemsData, setTechItemsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [itemData, setItemData] = useState([]);
   const [testState, setTestState] = useState({});
 
   const getTech = async () => {
@@ -18,7 +17,7 @@ function It(props) {
     setIsLoading(true);
     await UpdateWorkerData.getTech({ userId: props?.selectedUserData?.id })
       .then((response) => {
-        // console.log("get Tech =======>", response);
+        console.log("get Tech =======>", response);
         if (response.status === 200) {
           setTechData(
             response.data?.response?.data?.filter(
@@ -44,6 +43,7 @@ function It(props) {
     await UpdateWorkerData.getTechItems({ userId: props?.selectedUserData?.id })
       .then((response) => {
         if (response.status === 200) {
+          console.log("getTech Items=======>", response);
           setTechItemsData(response.data?.response?.data);
           if (techData) {
             const test = techData.map((techDataTest) => ({
@@ -77,6 +77,7 @@ function It(props) {
 
   const getName = (val) => {
     return techType.map((item, index) => {
+      console.log("VAL", val);
       if (item.value === val) {
         return <span key={index}>{item.label}</span>;
       }
@@ -92,8 +93,6 @@ function It(props) {
           getTechItems={getTechItems}
           techData={techData}
           setIsUpdate={setIsUpdate}
-          itemData={itemData}
-          techItemsData={techItemsData}
           testState={testState}
         />
       ) : (
@@ -116,7 +115,9 @@ function It(props) {
                           if (item.itechId == el.id)
                             return (
                               <span key={index}>
-                                {item.value ? getName(item.value) : "-"}
+                                {item.value !== null
+                                  ? getName(item.value)
+                                  : "-"}
                               </span>
                             );
                         })}

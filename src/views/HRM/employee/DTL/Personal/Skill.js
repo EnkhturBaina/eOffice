@@ -7,18 +7,19 @@ import SkillUpdate from "./SkillUpdate";
 
 function Skill(props) {
   const [isUpdate, setIsUpdate] = useState(false);
-  const [skillData, setSkillData] = useState([]);
-  const [skillItemsData, setSkillItemsData] = useState([]);
+  const [techData, setTechData] = useState([]);
+  const [techItemsData, setTechItemsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [testState, setTestState] = useState({});
 
   const getTech = async () => {
-    setSkillData([]);
+    setTechData([]);
     setIsLoading(true);
     await UpdateWorkerData.getTech({ userId: props?.selectedUserData?.id })
       .then((response) => {
         console.log("get Tech =======>", response);
         if (response.status === 200) {
-          setSkillData(
+          setTechData(
             response.data?.response?.data?.filter(
               (obj) =>
                 obj.itechType === 2 ||
@@ -27,6 +28,7 @@ function Skill(props) {
                 obj.itechType === 5
             )
           );
+          getTechItems();
         }
       })
       .catch((error) => {
@@ -40,13 +42,28 @@ function Skill(props) {
   };
 
   const getTechItems = async () => {
-    setSkillItemsData([]);
+    setTechItemsData([]);
     setIsLoading(true);
     await UpdateWorkerData.getTechItems({ userId: props?.selectedUserData?.id })
       .then((response) => {
-        console.log("get TechItems =======>", response);
         if (response.status === 200) {
-          setSkillItemsData(response.data?.response?.data);
+          console.log("getTech Items=======>", response);
+          setTechItemsData(response.data?.response?.data);
+          if (techData) {
+            const test = techData.map((techDataTest) => ({
+              id: techDataTest.id,
+              value: response.data?.response?.data.find(
+                (tt) => tt.itechId === techDataTest.id
+              )?.value,
+            }));
+            const initalValue = test.reduce(
+              (obj, item) => Object.assign(obj, { [item.id]: item.value }),
+              {}
+            );
+            setTestState(initalValue);
+          }
+        } else {
+          setTestState({});
         }
       })
       .catch((error) => {
@@ -60,11 +77,11 @@ function Skill(props) {
   };
   useEffect(() => {
     getTech();
-    getTechItems();
   }, [props?.selectedUserData]);
 
   const getName = (val) => {
     return techType.map((item, index) => {
+      console.log("VAL", val);
       if (item.value === val) {
         return <span key={index}>{item.label}</span>;
       }
@@ -78,16 +95,17 @@ function Skill(props) {
         <SkillUpdate
           selectedUserData={props.selectedUserData}
           getTechItems={getTechItems}
-          skillData={skillData}
+          techData={techData}
           setIsUpdate={setIsUpdate}
+          testState={testState}
         />
       ) : (
         <div>
           <div className="mt-2">
             <span className="main-color font-bold">Хувийн ур чадвар</span>
           </div>
-          {skillData?.length !== 0 ? (
-            skillData
+          {techData?.length !== 0 ? (
+            techData
               ?.filter((obj) => obj.itechType === 2)
               ?.map((el, index) => {
                 return (
@@ -95,11 +113,13 @@ function Skill(props) {
                     <div className="flex flex-row mb-1">
                       <span className="text-xs text-slate-500">{el.name}:</span>
                       <span className="text-xs font-bold ml-1">
-                        {skillItemsData?.map((item, index) => {
+                        {techItemsData?.map((item, index) => {
                           if (item.itechId == el.id)
                             return (
                               <span key={index}>
-                                {item.value ? getName(item.value) : "-"}
+                                {item.value !== null
+                                  ? getName(item.value)
+                                  : "-"}
                               </span>
                             );
                         })}
@@ -119,8 +139,8 @@ function Skill(props) {
           <div className="mt-2">
             <span className="main-color font-bold">Харилцааны ур чадвар</span>
           </div>
-          {skillData?.length !== 0 ? (
-            skillData
+          {techData?.length !== 0 ? (
+            techData
               ?.filter((obj) => obj.itechType === 3)
               ?.map((el, index) => {
                 return (
@@ -128,13 +148,16 @@ function Skill(props) {
                     <div className="flex flex-row mb-1">
                       <span className="text-xs text-slate-500">{el.name}:</span>
                       <span className="text-xs font-bold ml-1">
-                        {skillItemsData?.map((item, index) => {
-                          if (item.itechId == el.id)
+                        {techItemsData?.map((item, index) => {
+                          if (item.itechId == el.id) {
                             return (
                               <span key={index}>
-                                {item.value ? getName(item.value) : "-"}
+                                {item.value !== null
+                                  ? getName(item.value)
+                                  : "-"}
                               </span>
                             );
+                          }
                         })}
                       </span>
                     </div>
@@ -152,8 +175,8 @@ function Skill(props) {
           <div className="mt-2">
             <span className="main-color font-bold">Бүлгээр ажиллах чадвар</span>
           </div>
-          {skillData?.length !== 0 ? (
-            skillData
+          {techData?.length !== 0 ? (
+            techData
               ?.filter((obj) => obj.itechType === 4)
               ?.map((el, index) => {
                 return (
@@ -161,13 +184,16 @@ function Skill(props) {
                     <div className="flex flex-row mb-1">
                       <span className="text-xs text-slate-500">{el.name}:</span>
                       <span className="text-xs font-bold ml-1">
-                        {skillItemsData?.map((item, index) => {
-                          if (item.itechId == el.id)
+                        {techItemsData?.map((item, index) => {
+                          if (item.itechId == el.id) {
                             return (
                               <span key={index}>
-                                {item.value ? getName(item.value) : "-"}
+                                {item.value !== null
+                                  ? getName(item.value)
+                                  : "-"}
                               </span>
                             );
+                          }
                         })}
                       </span>
                     </div>
@@ -185,8 +211,8 @@ function Skill(props) {
           <div className="mt-2">
             <span className="main-color font-bold">Бусад</span>
           </div>
-          {skillData?.length !== 0 ? (
-            skillData
+          {techData?.length !== 0 ? (
+            techData
               ?.filter((obj) => obj.itechType === 5)
               ?.map((el, index) => {
                 return (
@@ -194,13 +220,16 @@ function Skill(props) {
                     <div className="flex flex-row mb-1">
                       <span className="text-xs text-slate-500">{el.name}:</span>
                       <span className="text-xs font-bold ml-1">
-                        {skillItemsData?.map((item, index) => {
-                          if (item.itechId == el.id)
+                        {techItemsData?.map((item, index) => {
+                          if (item.itechId == el.id) {
                             return (
                               <span key={index}>
-                                {item.value ? getName(item.value) : "-"}
+                                {item.value !== null
+                                  ? getName(item.value)
+                                  : "-"}
                               </span>
                             );
+                          }
                         })}
                       </span>
                     </div>

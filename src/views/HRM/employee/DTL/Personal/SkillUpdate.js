@@ -1,4 +1,4 @@
-import { Button, Divider, Form, Space, Segmented } from "antd";
+import { Button, Divider, Form, Space, Segmented, Radio } from "antd";
 import React, { useState, useEffect } from "react";
 import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
@@ -6,7 +6,6 @@ import techType from "../../../../../references/techType.json";
 
 function SkillUpdate(props) {
   const [loading, setLoading] = useState(false);
-  const [itemData, setItemData] = useState([]);
 
   const onFinish = (values) => {
     console.log("Received values of form:", values);
@@ -15,7 +14,13 @@ function SkillUpdate(props) {
   const [form] = Form.useForm();
   const updateTech = async (values) => {
     setLoading(true);
-    await UpdateWorkerData.postTechItems(itemData)
+    await UpdateWorkerData.postTechItems({
+      itechItems: Object.entries(values).map(([key, value]) => ({
+        itechId: parseInt(key),
+        value: value,
+      })),
+      userId: props?.selectedUserData?.id,
+    })
       .then((response) => {
         // console.log("res", response);
         if (response.status === 201) {
@@ -35,22 +40,6 @@ function SkillUpdate(props) {
       });
   };
 
-  const strDataFnc = () => {
-    let array = [];
-    props.skillData?.map((data, i) =>
-      array.push({
-        userId: props?.selectedUserData?.id,
-        itechId: data.id,
-        value: 2,
-      })
-    );
-    setItemData(array);
-  };
-
-  useEffect(() => {
-    strDataFnc();
-  }, []);
-
   return (
     <div>
       <Form
@@ -59,12 +48,13 @@ function SkillUpdate(props) {
         onFinish={onFinish}
         autoComplete="off"
         layout="vertical"
+        initialValues={props.testState}
       >
         <div className="mt-2">
           <span className="main-color font-bold">Хувийн ур чадвар</span>
         </div>
         <Divider className="my-1" />
-        {props.skillData
+        {props.techData
           ?.filter((obj) => obj.itechType === 2)
           ?.map((el, index) => {
             return (
@@ -77,19 +67,7 @@ function SkillUpdate(props) {
                     }
                     className="custom-form-item"
                   >
-                    <Segmented
-                      options={techType}
-                      onChange={(e) => {
-                        const newState = itemData.map((obj) => {
-                          if (obj.itechId === parseInt(el.id)) {
-                            return { ...obj, value: e };
-                          }
-                          return obj;
-                        });
-
-                        setItemData(newState);
-                      }}
-                    />
+                    <Segmented options={techType} />
                   </Form.Item>
                 </div>
               </Space>
@@ -99,7 +77,7 @@ function SkillUpdate(props) {
           <span className="main-color font-bold">Харилцааны ур чадвар</span>
         </div>
         <Divider className="my-1" />
-        {props.skillData
+        {props.techData
           ?.filter((obj) => obj.itechType === 3)
           ?.map((el, index) => {
             return (
@@ -112,19 +90,7 @@ function SkillUpdate(props) {
                     }
                     className="custom-form-item"
                   >
-                    <Segmented
-                      options={techType}
-                      onChange={(e) => {
-                        const newState = itemData.map((obj) => {
-                          if (obj.itechId === parseInt(el.id)) {
-                            return { ...obj, value: e };
-                          }
-                          return obj;
-                        });
-
-                        setItemData(newState);
-                      }}
-                    />
+                    <Segmented options={techType} />
                   </Form.Item>
                 </div>
               </Space>
@@ -134,7 +100,7 @@ function SkillUpdate(props) {
           <span className="main-color font-bold">Бүлгээр ажиллах чадвар</span>
         </div>
         <Divider className="my-1" />
-        {props.skillData
+        {props.techData
           ?.filter((obj) => obj.itechType === 4)
           ?.map((el, index) => {
             return (
@@ -147,19 +113,7 @@ function SkillUpdate(props) {
                     }
                     className="custom-form-item"
                   >
-                    <Segmented
-                      options={techType}
-                      onChange={(e) => {
-                        const newState = itemData.map((obj) => {
-                          if (obj.itechId === parseInt(el.id)) {
-                            return { ...obj, value: e };
-                          }
-                          return obj;
-                        });
-
-                        setItemData(newState);
-                      }}
-                    />
+                    <Segmented options={techType} />
                   </Form.Item>
                 </div>
               </Space>
@@ -169,7 +123,7 @@ function SkillUpdate(props) {
           <span className="main-color font-bold">Бусад</span>
         </div>
         <Divider className="my-1" />
-        {props.skillData
+        {props.techData
           ?.filter((obj) => obj.itechType === 5)
           ?.map((el, index) => {
             return (
@@ -182,24 +136,13 @@ function SkillUpdate(props) {
                     }
                     className="custom-form-item"
                   >
-                    <Segmented
-                      options={techType}
-                      onChange={(e) => {
-                        const newState = itemData.map((obj) => {
-                          if (obj.itechId === parseInt(el.id)) {
-                            return { ...obj, value: e };
-                          }
-                          return obj;
-                        });
-
-                        setItemData(newState);
-                      }}
-                    />
+                    <Segmented options={techType} />
                   </Form.Item>
                 </div>
               </Space>
             );
           })}
+
         <Form.Item>
           <Button
             htmlType="submit"
@@ -217,6 +160,7 @@ function SkillUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
+                  console.log("values", values);
                   updateTech(values);
                 })
                 .catch((error) => {

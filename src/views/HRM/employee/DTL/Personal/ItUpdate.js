@@ -6,7 +6,6 @@ import techType from "../../../../../references/techType.json";
 
 function ItUpdate(props) {
   const [loading, setLoading] = useState(false);
-  const [itemData, setItemData] = useState(props.itemData);
 
   const onFinish = (values) => {
     console.log("Received values of form:", values);
@@ -16,7 +15,10 @@ function ItUpdate(props) {
   const updateTech = async (values) => {
     setLoading(true);
     await UpdateWorkerData.postTechItems({
-      itechItems: itemData,
+      itechItems: Object.entries(values).map(([key, value]) => ({
+        itechId: parseInt(key),
+        value: value,
+      })),
       userId: props?.selectedUserData?.id,
     })
       .then((response) => {
@@ -67,19 +69,7 @@ function ItUpdate(props) {
                     }
                     className="custom-form-item"
                   >
-                    <Segmented
-                      options={techType}
-                      onChange={(e) => {
-                        const newState = itemData.map((obj) => {
-                          if (obj.itechId === parseInt(el.id)) {
-                            return { ...obj, value: e };
-                          }
-                          return obj;
-                        });
-
-                        setItemData(newState);
-                      }}
-                    />
+                    <Segmented options={techType} />
                   </Form.Item>
                 </div>
               </Space>
@@ -102,19 +92,7 @@ function ItUpdate(props) {
                     }
                     className="custom-form-item"
                   >
-                    <Segmented
-                      options={techType}
-                      onChange={(e) => {
-                        const newState = itemData.map((obj) => {
-                          if (obj.itechId === parseInt(el.id)) {
-                            return { ...obj, value: e };
-                          }
-                          return obj;
-                        });
-
-                        setItemData(newState);
-                      }}
-                    />
+                    <Segmented options={techType} />
                   </Form.Item>
                 </div>
               </Space>
@@ -138,6 +116,7 @@ function ItUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
+                  console.log("values", values);
                   updateTech(values);
                 })
                 .catch((error) => {
