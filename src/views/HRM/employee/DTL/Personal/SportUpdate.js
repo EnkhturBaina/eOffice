@@ -83,7 +83,7 @@ function SportUpdate(props) {
           ],
         }}
       >
-        <span className="main-color font-semibold">Урлага спортын авьяас</span>
+        <span className="main-color font-semibold">Урлаг спортын мэдээлэл</span>
         <Divider className="my-1" />
         <Form.List name="aptitudes">
           {(fields, { add, remove }) => (

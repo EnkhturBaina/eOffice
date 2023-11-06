@@ -48,9 +48,7 @@ function Work(props) {
       ) : (
         <div>
           <div className="mt-2">
-            <span className="main-color font-bold">
-              Нийгмийн даатгалаар баталгаажсан хөдөлмөр эрхлэлт
-            </span>
+            <span className="main-color font-bold">Ажил эрхэлсэн байдал</span>
           </div>
           {workData?.length !== 0 ? (
             workData?.map((el, index) => {

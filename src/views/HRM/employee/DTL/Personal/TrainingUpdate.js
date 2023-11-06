@@ -121,6 +121,11 @@ function TrainingUpdate(props) {
           ],
         }}
       >
+        <div className="mt-2">
+          <span className="main-color font-bold">
+            Сургалтанд хамрагдсан байдал
+          </span>
+        </div>
         <Divider className="my-1" />
         <Form.List name="trainings">
           {(fields, { add, remove }) => (

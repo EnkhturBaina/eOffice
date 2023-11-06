@@ -91,6 +91,9 @@ function LanguageUpdate(props) {
           ],
         }}
       >
+        <div className="mt-2">
+          <span className="main-color font-bold">Гадаад хэлний мэдлэг</span>
+        </div>
         <Divider className="my-1" />
         <Form.List name="languages">
           {(fields, { add, remove }) => (

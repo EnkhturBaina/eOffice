@@ -87,6 +87,9 @@ function AwardUpdate(props) {
           ],
         }}
       >
+        <div className="mt-2">
+          <span className="main-color font-bold">Шагнал урамшуулал</span>
+        </div>
         <Divider className="my-1" />
         <Form.List name="awards">
           {(fields, { add, remove }) => (

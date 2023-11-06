@@ -85,9 +85,7 @@ function WorkUpdate(props) {
           ],
         }}
       >
-        <span className="main-color font-semibold">
-          Нийгмийн даатгалаар баталгаажсан хөдөлмөр эрхлэлт
-        </span>
+        <span className="main-color font-semibold">Ажил эрхэлсэн байдал</span>
         <Divider className="my-1" />
         <Form.List name="experiences">
           {(fields, { add, remove }) => (

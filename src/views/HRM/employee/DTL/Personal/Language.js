@@ -56,7 +56,7 @@ function Language(props) {
       ) : (
         <div>
           <div className="mt-2">
-            <span className="main-color font-bold">Садан төрлийн мэдээлэл</span>
+            <span className="main-color font-bold">Гадаад хэлний мэдлэг</span>
           </div>
           {languageData?.length !== 0 ? (
             languageData?.map((el, index) => {

@@ -79,6 +79,9 @@ function ContactUpdate(props) {
           ],
         }}
       >
+        <div className="mt-2">
+          <span className="main-color font-bold">Садан төрлийн мэдээлэл</span>
+        </div>
         <Divider className="my-1" />
         <Form.List name="contacts">
           {(fields, { add, remove }) => (

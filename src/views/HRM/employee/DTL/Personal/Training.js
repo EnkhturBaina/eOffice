@@ -64,7 +64,9 @@ function Training(props) {
       ) : (
         <div>
           <div className="mt-2">
-            <span className="main-color font-bold">Шагнал урамшуулал</span>
+            <span className="main-color font-bold">
+              Сургалтанд хамрагдсан байдал
+            </span>
           </div>
           {trainingData?.length !== 0 ? (
             trainingData?.map((el, index) => {

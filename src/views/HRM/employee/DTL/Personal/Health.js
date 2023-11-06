@@ -63,7 +63,9 @@ function Health(props) {
       ) : (
         <div>
           <div className="mt-2">
-            <span className="main-color font-bold">Шагнал урамшуулал</span>
+            <span className="main-color font-bold">
+              Сургалтанд хамрагдсан байдал
+            </span>
           </div>
           {contactData?.length !== 0 ? (
             contactData?.map((el, index) => {
