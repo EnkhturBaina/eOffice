@@ -10,7 +10,6 @@ function ItUpdate(props) {
   const onFinish = (values) => {
     console.log("Received values of form:", values);
   };
-
   const [form] = Form.useForm();
   const updateTech = async (values) => {
     setLoading(true);
@@ -68,6 +67,7 @@ function ItUpdate(props) {
                       <span className="text-xs text-slate-500">{el.name}</span>
                     }
                     className="custom-form-item"
+                    initialValue={null}
                   >
                     <Segmented options={techType} />
                   </Form.Item>
@@ -91,6 +91,7 @@ function ItUpdate(props) {
                       <span className="text-xs text-slate-500">{el.name}</span>
                     }
                     className="custom-form-item"
+                    initialValue={null}
                   >
                     <Segmented options={techType} />
                   </Form.Item>

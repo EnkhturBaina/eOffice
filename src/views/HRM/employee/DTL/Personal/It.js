@@ -11,10 +11,12 @@ function It(props) {
   const [techItemsData, setTechItemsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [testState, setTestState] = useState({});
+  const [loadingTech, setLoadingTech] = useState(true);
 
   const getTech = async () => {
     setTechData([]);
     setIsLoading(true);
+    setLoadingTech(true);
     await UpdateWorkerData.getTech({ userId: props?.selectedUserData?.id })
       .then((response) => {
         console.log("get Tech =======>", response);
@@ -24,7 +26,6 @@ function It(props) {
               (obj) => obj.itechType === 0 || obj.itechType === 1
             )
           );
-          getTechItems();
         }
       })
       .catch((error) => {
@@ -32,10 +33,14 @@ function It(props) {
         openNofi("warning", "Амжилтгүй", error?.response?.data?.message);
       })
       .finally(() => {
+        setLoadingTech(false);
         setIsUpdate(false);
         setIsLoading(false);
       });
   };
+  useEffect(() => {
+    !loadingTech && getTechItems();
+  }, [loadingTech]);
 
   const getTechItems = async () => {
     setTechItemsData([]);
@@ -43,7 +48,7 @@ function It(props) {
     await UpdateWorkerData.getTechItems({ userId: props?.selectedUserData?.id })
       .then((response) => {
         if (response.status === 200) {
-          console.log("getTech Items=======>", response);
+          // console.log("getTech Items=======>", response);
           setTechItemsData(response.data?.response?.data);
           if (techData) {
             const test = techData.map((techDataTest) => ({
@@ -52,10 +57,12 @@ function It(props) {
                 (tt) => tt.itechId === techDataTest.id
               )?.value,
             }));
+
             const initalValue = test.reduce(
               (obj, item) => Object.assign(obj, { [item.id]: item.value }),
               {}
             );
+
             setTestState(initalValue);
           }
         } else {
@@ -77,7 +84,6 @@ function It(props) {
 
   const getName = (val) => {
     return techType.map((item, index) => {
-      console.log("VAL", val);
       if (item.value === val) {
         return <span key={index}>{item.label}</span>;
       }
@@ -112,7 +118,7 @@ function It(props) {
                       <span className="text-xs text-slate-500">{el.name}:</span>
                       <span className="text-xs font-bold ml-1">
                         {techItemsData?.map((item, index) => {
-                          if (item.itechId == el.id)
+                          if (item.itechId == el.id) {
                             return (
                               <span key={index}>
                                 {item.value !== null
@@ -120,6 +126,7 @@ function It(props) {
                                   : "-"}
                               </span>
                             );
+                          }
                         })}
                       </span>
                     </div>

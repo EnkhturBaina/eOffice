@@ -66,6 +66,7 @@ function SkillUpdate(props) {
                       <span className="text-xs text-slate-500">{el.name}</span>
                     }
                     className="custom-form-item"
+                    initialValue={null}
                   >
                     <Segmented options={techType} />
                   </Form.Item>
@@ -89,6 +90,7 @@ function SkillUpdate(props) {
                       <span className="text-xs text-slate-500">{el.name}</span>
                     }
                     className="custom-form-item"
+                    initialValue={null}
                   >
                     <Segmented options={techType} />
                   </Form.Item>
@@ -112,6 +114,7 @@ function SkillUpdate(props) {
                       <span className="text-xs text-slate-500">{el.name}</span>
                     }
                     className="custom-form-item"
+                    initialValue={null}
                   >
                     <Segmented options={techType} />
                   </Form.Item>
@@ -135,6 +138,7 @@ function SkillUpdate(props) {
                       <span className="text-xs text-slate-500">{el.name}</span>
                     }
                     className="custom-form-item"
+                    initialValue={null}
                   >
                     <Segmented options={techType} />
                   </Form.Item>
