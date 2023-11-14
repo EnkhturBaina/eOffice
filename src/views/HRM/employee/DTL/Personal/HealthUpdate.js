@@ -1,10 +1,22 @@
-import { Button, Divider, Input, Form, Space, Select, InputNumber } from "antd";
+import {
+  Button,
+  Divider,
+  Input,
+  Form,
+  Space,
+  Select,
+  Checkbox,
+  DatePicker,
+} from "antd";
 import React, { useState, useEffect } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import familyPersons from "../../../../../references/familyPersons.json";
-import jobType from "../../../../../references/jobType.json";
+import doctorType from "../../../../../references/doctorType.json";
+import dayjs from "dayjs";
+import mn_MN from "antd/es/date-picker/locale/mn_MN";
+const dateFormat = "YYYY-MM-DD";
+const { TextArea } = Input;
 
 function HealthUpdate(props) {
   const [loading, setLoading] = useState(false);
@@ -14,20 +26,17 @@ function HealthUpdate(props) {
   };
 
   const [form] = Form.useForm();
-  const updateContact = async (values) => {
+  const updateDoctor = async (values) => {
     setLoading(true);
     values.userId = props?.selectedUserData?.id;
-    // values?.contacts?.map((el) => {
-    //   el.birthDate = dayjs(el.birthDate).format(dateFormat);
-    // });
 
-    await UpdateWorkerData.postContact(values)
+    await UpdateWorkerData.postDoctor(values)
       .then((response) => {
         console.log("res", response);
         if (response.status === 201) {
           setTimeout(() => {
             //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
-            props.getContact();
+            props.getDoctor();
           }, 1000);
         }
       })
@@ -41,12 +50,19 @@ function HealthUpdate(props) {
       });
   };
 
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
+  const onChangeCheck = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+  };
+
   const strDataFnc = () => {
     form.setFieldsValue({
-      ...(props.contactData?.length !== 0 && {
-        contacts: props.contactData?.map((data) => ({
+      ...(props.doctorData?.length !== 0 && {
+        doctors: props.doctorData?.map((data) => ({
           ...data,
-          // birthDate: dayjs(data.birthDate, dateFormat),
+          date: dayjs(data.date, dateFormat),
         })),
       }),
     });
@@ -55,6 +71,7 @@ function HealthUpdate(props) {
   useEffect(() => {
     strDataFnc();
   }, []);
+
   return (
     <div>
       <Form
@@ -64,154 +81,96 @@ function HealthUpdate(props) {
         autoComplete="off"
         layout="vertical"
         initialValues={{
-          contacts: [
+          doctors: [
             {
-              lastName: null,
-              firstName: null,
-              birthDate: null,
-              whoIs: null,
-              jobType: null,
-              workplace: null,
-              work: null,
-              profession: null,
-              phone: null,
+              info: null,
+              type: null,
+              date: null,
+              isDoctor: null,
             },
           ],
         }}
       >
+        <span className="main-color font-bold">Эрүүл мэндийн үзлэг</span>
         <Divider className="my-1" />
-        <Form.List name="contacts">
+        <Form.List name="doctors">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-4">
+                  <div className="grid grid-cols-1 gap-x-4">
+                    <div className="grid grid-cols-2 gap-x-4">
+                      <Form.Item
+                        {...restField}
+                        name={[name, "type"]}
+                        label={
+                          <span className="text-xs text-slate-500">
+                            Үзлэгийн төрөл
+                          </span>
+                        }
+                        className="custom-form-item"
+                        rules={[
+                          {
+                            required: true,
+                            message: "",
+                          },
+                        ]}
+                      >
+                        <Select
+                          showSearch
+                          optionFilterProp="children"
+                          options={doctorType}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        {...restField}
+                        name={[name, "date"]}
+                        label={
+                          <span className="text-xs text-slate-500">
+                            Үзлэгт орсон огноо
+                          </span>
+                        }
+                        className="custom-form-item"
+                        rules={[
+                          {
+                            required: true,
+                            message: "",
+                          },
+                        ]}
+                      >
+                        <DatePicker
+                          onChange={onChange}
+                          className="custom-datepicker"
+                          format={dateFormat}
+                          locale={mn_MN}
+                        />
+                      </Form.Item>
+                    </div>
+
                     <Form.Item
                       {...restField}
-                      name={[name, "lastName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Овог</span>
-                      }
-                      className="custom-form-item"
-                      rules={[
-                        {
-                          required: true,
-                          message: "",
-                        },
-                      ]}
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "firstName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Нэр</span>
-                      }
-                      className="custom-form-item"
-                      rules={[
-                        {
-                          required: true,
-                          message: "",
-                        },
-                      ]}
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "birthDate"]}
+                      name={[name, "info"]}
                       label={
                         <span className="text-xs text-slate-500">
-                          Төрсөн он
+                          Бусад тайлбар
                         </span>
                       }
                       className="custom-form-item"
                     >
-                      <InputNumber
-                        min={1900}
-                        max={2100}
-                        className="hide-input-arrow"
-                        style={{
-                          width: "100%",
-                        }}
-                      />
+                      <TextArea rows={3} />
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "whoIs"]}
-                      label={
+                      name={[name, "isDoctor"]}
+                      label={null}
+                      className="custom-form-item"
+                      valuePropName="checked"
+                    >
+                      <Checkbox onChange={onChangeCheck}>
                         <span className="text-xs text-slate-500">
-                          Таны хэн болох
+                          Эмчлүүлэх шаардлагтай эсэх
                         </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={familyPersons}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "jobType"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Ажил эрхлэлт
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={jobType}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "workplace"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Ажлын газар
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "work"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Албан тушаал
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "profession"]}
-                      label={
-                        <span className="text-xs text-slate-500">Мэргэжил</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "phone"]}
-                      label={
-                        <span className="text-xs text-slate-500">Утас</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
+                      </Checkbox>
                     </Form.Item>
                   </div>
                   {fields.length > 1 ? (
@@ -255,7 +214,7 @@ function HealthUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
-                  updateContact(values);
+                  updateDoctor(values);
                 })
                 .catch((error) => {
                   console.log(error);

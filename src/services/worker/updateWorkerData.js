@@ -80,5 +80,29 @@ class UpdateWorkerData {
       params: param,
     });
   }
+  async postDoctor(data) {
+    return await jwtInterceptor.post("human-resource/doctor", data);
+  }
+  async getDoctor(param) {
+    return await jwtInterceptor.get("human-resource/doctor", {
+      params: param,
+    });
+  }
+  async postContract(data) {
+    return await jwtInterceptor.post("human-resource/contract", data);
+  }
+  async getContract(param) {
+    return await jwtInterceptor.get("human-resource/contract", {
+      params: param,
+    });
+  }
+  async postDescription(data) {
+    return await jwtInterceptor.post("human-resource/description", data);
+  }
+  async getDescription(param) {
+    return await jwtInterceptor.get("human-resource/description", {
+      params: param,
+    });
+  }
 }
 export default new UpdateWorkerData();
