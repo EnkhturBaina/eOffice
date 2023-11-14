@@ -16,7 +16,7 @@ function WorkSchedule(props) {
     setIsLoading(true);
     await UpdateWorkerData.getDescription({
       userId: props?.selectedUserData?.id,
-      type: 1,
+      type: 0,
     })
       .then((response) => {
         console.log("getContact =======>", response);
