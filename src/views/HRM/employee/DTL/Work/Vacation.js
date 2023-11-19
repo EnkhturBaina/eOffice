@@ -1,25 +1,23 @@
 import { Button, Divider, Spin } from "antd";
 import React, { useState, useEffect } from "react";
-
 import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import familyPersons from "../../../../../references/familyPersons.json";
-import jobType from "../../../../../references/jobType.json";
 import VacationUpdate from "./VacationUpdate";
+import dayjs from "dayjs";
 
 function Vacation(props) {
   const [isUpdate, setIsUpdate] = useState(false);
-  const [contactData, setContactData] = useState([]);
+  const [vacationData, setVacationData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getContact = async () => {
-    setContactData([]);
+  const getVacation = async () => {
+    setVacationData([]);
     setIsLoading(true);
-    await UpdateWorkerData.getContact({ userId: props?.selectedUserData?.id })
+    await UpdateWorkerData.getVacation({ userId: props?.selectedUserData?.id })
       .then((response) => {
-        console.log("getContact =======>", response);
+        console.log("get Vacation =======>", response);
         if (response.status === 200) {
-          setContactData(response.data?.response?.data);
+          setVacationData(response.data?.response?.data);
         }
       })
       .catch((error) => {
@@ -33,23 +31,9 @@ function Vacation(props) {
   };
 
   useEffect(() => {
-    getContact();
+    getVacation();
   }, [props?.selectedUserData]);
 
-  const getName = (val) => {
-    return familyPersons.map((item, index) => {
-      if (item.value === val) {
-        return <span key={index}>{item.label}</span>;
-      }
-    });
-  };
-  const getJobName = (val) => {
-    return jobType.map((item, index) => {
-      if (item.value === val) {
-        return <span key={index}>{item.label}</span>;
-      }
-    });
-  };
   return (
     <>
       {isLoading ? (
@@ -57,67 +41,41 @@ function Vacation(props) {
       ) : isUpdate ? (
         <VacationUpdate
           selectedUserData={props.selectedUserData}
-          getContact={getContact}
-          contactData={contactData}
+          getVacation={getVacation}
+          vacationData={vacationData}
           setIsUpdate={setIsUpdate}
         />
       ) : (
         <div>
           <div className="mt-2">
-            <span className="main-color font-bold">Шагнал урамшуулал</span>
+            <span className="main-color font-bold">Ээлжийн амралт</span>
           </div>
-          {contactData?.length !== 0 ? (
-            contactData?.map((el, index) => {
+          {vacationData?.length !== 0 ? (
+            vacationData?.map((el, index) => {
               return (
                 <div key={index}>
-                  <div className="grid grid-cols-4 gap-2">
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Овог</span>
-                      <span className="text-xs font-bold">{el.lastName}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Нэр</span>
-                      <span className="text-xs font-bold">{el.firstName}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Төрсөн он</span>
-                      <span className="text-xs font-bold">{el.birthDate}</span>
-                    </div>
+                  <div className="grid grid-cols-2 gap-2">
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
-                        Таны хэн болох
+                        Тушаалын дугаар
                       </span>
+                      <span className="text-xs font-bold">{el.number}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Эхэлсэн</span>
                       <span className="text-xs font-bold">
-                        {getName(el.whoIs)}
+                        {dayjs(el.startDate).format("YYYY-MM-DD")}
                       </span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">
-                        Ажил эрхлэлт
-                      </span>
+                      <span className="text-xs text-slate-500">Дууссан</span>
                       <span className="text-xs font-bold">
-                        {getJobName(el.jobType)}
+                        {dayjs(el.endDate).format("YYYY-MM-DD")}
                       </span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">
-                        Ажлын газар
-                      </span>
-                      <span className="text-xs font-bold">{el.workplace}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">
-                        Албан тушаал
-                      </span>
-                      <span className="text-xs font-bold">{el.work}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Мэргэжил</span>
-                      <span className="text-xs font-bold">{el.profession}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Утас</span>
-                      <span className="text-xs font-bold">{el.phone}</span>
+                      <span className="text-xs text-slate-500">Тайлбар</span>
+                      <span className="text-xs font-bold">{el.comment}</span>
                     </div>
                   </div>
                   <Divider className="mt-2 mb-1" />
@@ -125,41 +83,21 @@ function Vacation(props) {
               );
             })
           ) : (
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Овог</span>
+                <span className="text-xs text-slate-500">Тушаалын дугаар</span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Нэр</span>
+                <span className="text-xs text-slate-500">Эхэлсэн</span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Төрсөн он</span>
+                <span className="text-xs text-slate-500">Дууссан</span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Таны хэн болох</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Ажил эрхлэлт</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Ажлын газар</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Албан тушаал</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Мэргэжил</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Утас</span>
+                <span className="text-xs text-slate-500">Тайлбар</span>
                 <span className="text-xs font-bold">-</span>
               </div>
             </div>
@@ -170,7 +108,7 @@ function Vacation(props) {
                 setIsUpdate(true);
               }}
             >
-              Засах
+              Нэмэх
             </Button>
           </div>
         </div>

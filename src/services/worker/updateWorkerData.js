@@ -120,5 +120,13 @@ class UpdateWorkerData {
       params: param,
     });
   }
+  async postVacation(data) {
+    return await jwtInterceptor.post("human-resource/vacation", data);
+  }
+  async getVacation(param) {
+    return await jwtInterceptor.get("human-resource/vacation", {
+      params: param,
+    });
+  }
 }
 export default new UpdateWorkerData();

@@ -1,10 +1,10 @@
-import { Button, Divider, Input, Form, Space, Select, InputNumber } from "antd";
-import React, { useState, useEffect } from "react";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Button, Divider, Input, Form, DatePicker } from "antd";
+import React, { useState } from "react";
 import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import familyPersons from "../../../../../references/familyPersons.json";
-import jobType from "../../../../../references/jobType.json";
+const { TextArea } = Input;
+import mn_MN from "antd/es/date-picker/locale/mn_MN";
+const dateFormat = "YYYY-MM-DD";
 
 function VacationUpdate(props) {
   const [loading, setLoading] = useState(false);
@@ -14,20 +14,17 @@ function VacationUpdate(props) {
   };
 
   const [form] = Form.useForm();
-  const updateContact = async (values) => {
+  const updateVacation = async (values) => {
     setLoading(true);
     values.userId = props?.selectedUserData?.id;
-    // values?.contacts?.map((el) => {
-    //   el.birthDate = dayjs(el.birthDate).format(dateFormat);
-    // });
 
-    await UpdateWorkerData.postContact(values)
+    await UpdateWorkerData.postVacation(values)
       .then((response) => {
         console.log("res", response);
         if (response.status === 201) {
           setTimeout(() => {
             //1sec ===> Устгаад нэмж байгаа учраас ШИНЭ датагаа авж амжхигүй байх шиг байгаан
-            props.getContact();
+            props.getVacation();
           }, 1000);
         }
       })
@@ -41,204 +38,60 @@ function VacationUpdate(props) {
       });
   };
 
-  const strDataFnc = () => {
-    form.setFieldsValue({
-      ...(props.contactData?.length !== 0 && {
-        contacts: props.contactData?.map((data) => ({
-          ...data,
-          // birthDate: dayjs(data.birthDate, dateFormat),
-        })),
-      }),
-    });
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
   };
-
-  useEffect(() => {
-    strDataFnc();
-  }, []);
   return (
     <div>
       <Form
         form={form}
-        name="dynamic_form_nest_item"
         onFinish={onFinish}
         autoComplete="off"
         layout="vertical"
-        initialValues={{
-          contacts: [
-            {
-              lastName: null,
-              firstName: null,
-              birthDate: null,
-              whoIs: null,
-              jobType: null,
-              workplace: null,
-              work: null,
-              profession: null,
-              phone: null,
-            },
-          ],
-        }}
       >
+        <span className="main-color font-semibold">Ээлжийн амралт</span>
         <Divider className="my-1" />
-        <Form.List name="contacts">
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map(({ key, name, ...restField }) => (
-                <Space key={key} className="block" align="baseline">
-                  <div className="grid grid-cols-3 gap-x-4">
-                    <Form.Item
-                      {...restField}
-                      name={[name, "lastName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Овог</span>
-                      }
-                      className="custom-form-item"
-                      rules={[
-                        {
-                          required: true,
-                          message: "",
-                        },
-                      ]}
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "firstName"]}
-                      label={
-                        <span className="text-xs text-slate-500">Нэр</span>
-                      }
-                      className="custom-form-item"
-                      rules={[
-                        {
-                          required: true,
-                          message: "",
-                        },
-                      ]}
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "birthDate"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Төрсөн он
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <InputNumber
-                        min={1900}
-                        max={2100}
-                        className="hide-input-arrow"
-                        style={{
-                          width: "100%",
-                        }}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "whoIs"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Таны хэн болох
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={familyPersons}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "jobType"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Ажил эрхлэлт
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Select
-                        showSearch
-                        optionFilterProp="children"
-                        options={jobType}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "workplace"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Ажлын газар
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "work"]}
-                      label={
-                        <span className="text-xs text-slate-500">
-                          Албан тушаал
-                        </span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "profession"]}
-                      label={
-                        <span className="text-xs text-slate-500">Мэргэжил</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, "phone"]}
-                      label={
-                        <span className="text-xs text-slate-500">Утас</span>
-                      }
-                      className="custom-form-item"
-                    >
-                      <Input size="small" />
-                    </Form.Item>
-                  </div>
-                  {fields.length > 1 ? (
-                    <DeleteOutlined
-                      onClick={() => {
-                        remove(name);
-                      }}
-                      className="text-xl text-rose-500 !px-2.5 leading-none cursor-pointer"
-                      style={{ marginTop: 15 }}
-                    />
-                  ) : null}
-                </Space>
-              ))}
-              <Form.Item className="text-right">
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  className="!w-2/12 mt-2"
-                >
-                  Мөр нэмэх
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
-        <Form.Item>
+        <div className="grid grid-cols-2 gap-x-4">
+          <Form.Item
+            name={"number"}
+            label={<span className="text-xs text-slate-500">Тушаалын №</span>}
+            className="custom-form-item"
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={"startDate"}
+            label={<span className="text-xs text-slate-500">Эхэлсэн</span>}
+            className="custom-form-item"
+          >
+            <DatePicker
+              onChange={onChange}
+              className="custom-datepicker"
+              format={dateFormat}
+              locale={mn_MN}
+            />
+          </Form.Item>
+          <Form.Item
+            name={"endDate"}
+            label={<span className="text-xs text-slate-500">Дууссан</span>}
+            className="custom-form-item"
+          >
+            <DatePicker
+              onChange={onChange}
+              className="custom-datepicker"
+              format={dateFormat}
+              locale={mn_MN}
+            />
+          </Form.Item>
+          <Form.Item
+            name={"comment"}
+            label={<span className="text-xs text-slate-500">Тайлбар</span>}
+            className="custom-form-item"
+          >
+            <TextArea rows={3} />
+          </Form.Item>
+        </div>
+        <Form.Item className="mt-2">
           <Button
             htmlType="submit"
             onClick={() => {
@@ -255,7 +108,7 @@ function VacationUpdate(props) {
               form
                 .validateFields()
                 .then((values) => {
-                  updateContact(values);
+                  updateVacation(values);
                 })
                 .catch((error) => {
                   console.log(error);
