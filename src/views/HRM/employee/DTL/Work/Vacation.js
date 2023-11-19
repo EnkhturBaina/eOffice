@@ -54,7 +54,7 @@ function Vacation(props) {
             vacationData?.map((el, index) => {
               return (
                 <div key={index}>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-3 gap-2">
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
                         Тушаалын дугаар
@@ -77,13 +77,19 @@ function Vacation(props) {
                       <span className="text-xs text-slate-500">Тайлбар</span>
                       <span className="text-xs font-bold">{el.comment}</span>
                     </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">
+                        Амралтын хоног
+                      </span>
+                      <span className="text-xs font-bold">{el.duration}</span>
+                    </div>
                   </div>
                   <Divider className="mt-2 mb-1" />
                 </div>
               );
             })
           ) : (
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Тушаалын дугаар</span>
                 <span className="text-xs font-bold">-</span>
@@ -98,6 +104,10 @@ function Vacation(props) {
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-slate-500">Тайлбар</span>
+                <span className="text-xs font-bold">-</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-slate-500">Амралтын хоног</span>
                 <span className="text-xs font-bold">-</span>
               </div>
             </div>
