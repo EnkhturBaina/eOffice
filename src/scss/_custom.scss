@@ -479,3 +479,39 @@
 .custom-employee-card > .ant-card-body {
   padding-top: 10px !important;
 }
+.custom-left-tree-menu {
+  .ant-tree-list {
+    .ant-tree-list-holder {
+      div {
+        .ant-tree-list-holder-inner {
+          .ant-tree-treenode {
+            .ant-tree-node-selected {
+              .ant-tree-title {
+                font-weight: bold !important;
+                color: #0095ff !important;
+              }
+            }
+            .ant-tree-switcher {
+              .anticon {
+                vertical-align: middle !important;
+              }
+            }
+            .ant-tree-node-content-wrapper {
+              .ant-tree-icon__customize {
+                font-size: 20px !important;
+                margin-right: 10px !important;
+              }
+            }
+          }
+          .ant-tree-treenode-selected {
+            &::before {
+              background-color: #e6f4ff !important;
+              border-radius: 6px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

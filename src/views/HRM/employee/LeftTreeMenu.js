@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { FolderOpenFilled, FolderFilled } from "@ant-design/icons";
-import { ConfigProvider, Menu } from "antd";
+import {
+  FolderOpenFilled,
+  FolderFilled,
+  DownOutlined,
+} from "@ant-design/icons";
+import { ConfigProvider, Tree } from "antd";
 import Company from "../../../services/company/company";
-import companyTreeIType from "../../../references/companyTreeIType.json";
 import { openNofi } from "src/features/comman";
 import { MAIN_COLOR } from "src/constant";
+const { DirectoryTree } = Tree;
 
 const LeftTreeMenu = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,27 +37,37 @@ const LeftTreeMenu = () => {
     getTreeList();
   }, []);
 
+  const onSelect = (selectedKeys, info) => {
+    console.log("selected", selectedKeys, info);
+  };
+
   return (
     <ConfigProvider
       theme={{
         components: {
-          Menu: {
-            // itemSelectedColor: "#ff4d4f",
+          Menu: {},
+          Tree: {
+            directoryNodeSelectedBg: "#bcc433",
+            nodeSelectedBg: "#bcc433",
           },
         },
       }}
     >
-      <Menu
-        mode="inline"
+      <DirectoryTree
+        showLine
         style={{
           width: 350,
           maxWidth: 400,
           margin: 10,
         }}
-        items={treeList}
-        expandIcon={(props) => {
-          const { isOpen } = props;
-          return isOpen ? (
+        switcherIcon={<DownOutlined style={{ color: "#0095ff" }} />}
+        onSelect={onSelect}
+        treeData={treeList}
+        fieldNames={{ title: "label", key: "id", children: "children" }}
+        className="h-max m-2 rounded bg-gray-50 custom-left-tree-menu"
+        icon={(props) => {
+          const { selected } = props;
+          return selected ? (
             <FolderOpenFilled style={{ fontSize: 20, color: MAIN_COLOR }} />
           ) : (
             <FolderFilled
@@ -62,7 +76,6 @@ const LeftTreeMenu = () => {
             />
           );
         }}
-        className="h-max rounded bg-gray-50"
       />
     </ConfigProvider>
   );
