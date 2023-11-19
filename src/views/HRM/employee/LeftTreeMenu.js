@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { FolderOpenOutlined, FolderOutlined } from "@ant-design/icons";
+import { FolderOpenFilled, FolderFilled } from "@ant-design/icons";
 import { ConfigProvider, Menu } from "antd";
 import Company from "../../../services/company/company";
 import companyTreeIType from "../../../references/companyTreeIType.json";
 import { openNofi } from "src/features/comman";
+import { MAIN_COLOR } from "src/constant";
 
 const LeftTreeMenu = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -53,11 +54,15 @@ const LeftTreeMenu = () => {
         expandIcon={(props) => {
           const { isOpen } = props;
           return isOpen ? (
-            <FolderOpenOutlined style={{ fontSize: 20, color: "" }} />
+            <FolderOpenFilled style={{ fontSize: 20, color: MAIN_COLOR }} />
           ) : (
-            <FolderOutlined style={{ fontSize: 20 }} />
+            <FolderFilled
+              style={{ fontSize: 20, color: MAIN_COLOR }}
+              className=""
+            />
           );
         }}
+        className="h-max rounded bg-gray-50"
       />
     </ConfigProvider>
   );

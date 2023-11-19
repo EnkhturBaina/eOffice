@@ -1,25 +1,23 @@
 import { Button, Divider, Spin } from "antd";
 import React, { useState, useEffect } from "react";
-
 import UpdateWorkerData from "../../../../../services/worker/updateWorkerData";
 import { openNofi } from "src/features/comman";
-import familyPersons from "../../../../../references/familyPersons.json";
-import jobType from "../../../../../references/jobType.json";
+import socialsType from "../../../../../references/socialsType.json";
 import SocialWelfareUpdate from "./SocialWelfareUpdate";
 
 function SocialWelfare(props) {
   const [isUpdate, setIsUpdate] = useState(false);
-  const [contactData, setContactData] = useState([]);
+  const [socialData, setSocialData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getContact = async () => {
-    setContactData([]);
+  const getSocials = async () => {
+    setSocialData([]);
     setIsLoading(true);
-    await UpdateWorkerData.getContact({ userId: props?.selectedUserData?.id })
+    await UpdateWorkerData.getSocials({ userId: props?.selectedUserData?.id })
       .then((response) => {
-        console.log("getContact =======>", response);
+        console.log("get Socials =======>", response);
         if (response.status === 200) {
-          setContactData(response.data?.response?.data);
+          setSocialData(response.data?.response?.data);
         }
       })
       .catch((error) => {
@@ -33,18 +31,11 @@ function SocialWelfare(props) {
   };
 
   useEffect(() => {
-    getContact();
+    getSocials();
   }, [props?.selectedUserData]);
 
   const getName = (val) => {
-    return familyPersons.map((item, index) => {
-      if (item.value === val) {
-        return <span key={index}>{item.label}</span>;
-      }
-    });
-  };
-  const getJobName = (val) => {
-    return jobType.map((item, index) => {
+    return socialsType.map((item, index) => {
       if (item.value === val) {
         return <span key={index}>{item.label}</span>;
       }
@@ -57,67 +48,47 @@ function SocialWelfare(props) {
       ) : isUpdate ? (
         <SocialWelfareUpdate
           selectedUserData={props.selectedUserData}
-          getContact={getContact}
-          contactData={contactData}
+          getSocials={getSocials}
+          socialData={socialData}
           setIsUpdate={setIsUpdate}
         />
       ) : (
         <div>
           <div className="mt-2">
-            <span className="main-color font-bold">Шагнал урамшуулал</span>
+            <span className="main-color font-bold">Нийгмийн халамж</span>
           </div>
-          {contactData?.length !== 0 ? (
-            contactData?.map((el, index) => {
+          {socialData?.length !== 0 ? (
+            socialData?.map((el, index) => {
               return (
                 <div key={index}>
-                  <div className="grid grid-cols-4 gap-2">
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Овог</span>
-                      <span className="text-xs font-bold">{el.lastName}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Нэр</span>
-                      <span className="text-xs font-bold">{el.firstName}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Төрсөн он</span>
-                      <span className="text-xs font-bold">{el.birthDate}</span>
-                    </div>
+                  <div className="grid grid-cols-3 gap-2">
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
-                        Таны хэн болох
+                        Мөнгөний төрөл
                       </span>
                       <span className="text-xs font-bold">
-                        {getName(el.whoIs)}
+                        {getName(el.unit)}
                       </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Тушаалын №</span>
+                      <span className="text-xs font-bold">{el.number}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
-                        Ажил эрхлэлт
+                        Халамжийн төрөл
                       </span>
-                      <span className="text-xs font-bold">
-                        {getJobName(el.jobType)}
-                      </span>
+                      <span className="text-xs font-bold">{el.type}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500">
-                        Ажлын газар
+                        Олгосон шалтгаан тайлбар
                       </span>
-                      <span className="text-xs font-bold">{el.workplace}</span>
+                      <span className="text-xs font-bold">{el.reason}</span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">
-                        Албан тушаал
-                      </span>
-                      <span className="text-xs font-bold">{el.work}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Мэргэжил</span>
-                      <span className="text-xs font-bold">{el.profession}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-slate-500">Утас</span>
-                      <span className="text-xs font-bold">{el.phone}</span>
+                      <span className="text-xs text-slate-500">Мөнгөн дүн</span>
+                      <span className="text-xs font-bold">{el.money}</span>
                     </div>
                   </div>
                   <Divider className="mt-2 mb-1" />
@@ -127,39 +98,25 @@ function SocialWelfare(props) {
           ) : (
             <div className="grid grid-cols-3 gap-2">
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Овог</span>
+                <span className="text-xs text-slate-500">Мөнгөний төрөл</span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Нэр</span>
+                <span className="text-xs text-slate-500">Тушаалын №</span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Төрсөн он</span>
+                <span className="text-xs text-slate-500">Халамжийн төрөл</span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Таны хэн болох</span>
+                <span className="text-xs text-slate-500">
+                  Олгосон шалтгаан тайлбар
+                </span>
                 <span className="text-xs font-bold">-</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Ажил эрхлэлт</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Ажлын газар</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Албан тушаал</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Мэргэжил</span>
-                <span className="text-xs font-bold">-</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-slate-500">Утас</span>
+                <span className="text-xs text-slate-500">Мөнгөн дүн</span>
                 <span className="text-xs font-bold">-</span>
               </div>
             </div>
@@ -170,7 +127,7 @@ function SocialWelfare(props) {
                 setIsUpdate(true);
               }}
             >
-              Засах
+              Нэмэх
             </Button>
           </div>
         </div>

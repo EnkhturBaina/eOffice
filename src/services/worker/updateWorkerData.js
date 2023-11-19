@@ -104,5 +104,21 @@ class UpdateWorkerData {
       params: param,
     });
   }
+  async postMistakes(data) {
+    return await jwtInterceptor.post("human-resource/mistakes", data);
+  }
+  async getMistakes(param) {
+    return await jwtInterceptor.get("human-resource/mistakes", {
+      params: param,
+    });
+  }
+  async postSocials(data) {
+    return await jwtInterceptor.post("human-resource/socials", data);
+  }
+  async getSocials(param) {
+    return await jwtInterceptor.get("human-resource/socials", {
+      params: param,
+    });
+  }
 }
 export default new UpdateWorkerData();

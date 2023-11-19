@@ -1,0 +1,32 @@
+[
+  {
+    "code": "0",
+    "label": "Доллар",
+    "value": 0
+  },
+  {
+    "code": "1",
+    "label": "Юань",
+    "value": 1
+  },
+  {
+    "code": "2",
+    "label": "Евро",
+    "value": 2
+  },
+  {
+    "code": "3",
+    "label": "Рубль",
+    "value": 3
+  },
+  {
+    "code": "4",
+    "label": "Вон",
+    "value": 4
+  },
+  {
+    "code": "4",
+    "label": "Төгрөг",
+    "value": 5
+  }
+]
